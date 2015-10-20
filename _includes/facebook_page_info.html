@@ -1,0 +1,23 @@
+<meta property="og:url"                content="{{ site.url }}{{ page.url }}" />
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{ page.title }}" />
+<meta property="og:description"        content="{{ page.description }}" />
+<meta property="fb:app_id"			   content="1658794294405529"/>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1658794294405529',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>

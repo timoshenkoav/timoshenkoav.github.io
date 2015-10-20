@@ -1,0 +1,14 @@
+# Site settings
+title: Alex's Blog
+email: thick.tav@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://blog.tunebrains.com" # the base hostname & protocol for your site
+twitter_username: timoshenko_av
+github_username:  timoshenkoav
+
+# Build settings
+markdown: redcarpet
+
+environment: production

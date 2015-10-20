@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "Welcome"
+date:   2015-10-02 11:11:34
+categories: welcome blog
+---
+<div class='avatar'>
+<img src='https://gravatar.com/userimage/18991598/d52e7a5def139e3df3b98ab9ccf2b261.jpeg?size=500'/>
+</div>
+
+Having a lot of fun with work, i always store list of my achievements and new topics i am interested in **Evernote** as a list, and information about them as notes. After almost a year using this technique i realized that is not so good way. Thats why i've created this blog on **GitHub Pages** to check if its convenient for me to write articles (and as additional way to get some level up, as i haven't wrote articles describing by life/work before) about my thoughts/work etc. 
+
+Main purpose of this is to describe some technical things i learn,faced up while developing Android/RoR applications. But sometimes i will also post something about living in Montenegro. 
+
+Lets have a fun!
