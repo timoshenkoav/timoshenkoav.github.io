@@ -3,6 +3,7 @@ layout: post
 title:  "Android UsageStatsManager sample"
 date:   2015-10-20 17:41:00
 tags: android
+meta_description: Sample of using UsageStatsManager on Android API >= 21
 ---
 
 Google has deprecated the function "getRecentTasks" of "ActivityManager" class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that "locks" access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.
