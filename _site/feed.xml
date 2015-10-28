@@ -5,9 +5,109 @@
     <description></description>
     <link>http://blog.tunebrains.com/</link>
     <atom:link href="http://blog.tunebrains.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 21 Oct 2015 16:15:51 +0200</pubDate>
-    <lastBuildDate>Wed, 21 Oct 2015 16:15:51 +0200</lastBuildDate>
+    <pubDate>Wed, 28 Oct 2015 15:18:56 +0100</pubDate>
+    <lastBuildDate>Wed, 28 Oct 2015 15:18:56 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Signing android app for secure content provider</title>
+        <description>&lt;p&gt;Always was curious how to manage android keystore sertificates for multiple apps, either generate separate keystore file each time, or just use multiple alias in the same keystore.&lt;/p&gt;
+
+&lt;p&gt;Now its time to make it clear.&lt;/p&gt;
+
+&lt;p&gt;To make it clear, i&lt;code&gt;ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i&lt;/code&gt;ll use secured content provider based on signature level verification&lt;/p&gt;
+
+&lt;p&gt;Flavors config:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
+    flavor2 {
+        applicationId &amp;#39;com.tunebrains.keystoresample2&amp;#39;
+        versionName &amp;#39;10&amp;#39;
+    }
+    flavor1 {
+        applicationId &amp;#39;com.tunebrains.keystoresample1&amp;#39;
+        versionName &amp;#39;10&amp;#39;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Generate our keystore with multiple aliases:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;keytool -genkey -v -keystore release_key.keystore -alias flavor1 -keyalg RSA -keysize 2048 -validity 10000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Add another alias to the keystore&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -keysize 2048 -validity 10000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Configure two signing configs:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;signingConfigs {
+    Flavor1 {
+        storeFile file(&amp;quot;release_key.keystore&amp;quot;)
+        storePassword &amp;quot;password&amp;quot;
+        keyAlias &amp;quot;flavor1&amp;quot;
+        keyPassword &amp;quot;password1&amp;quot;
+    }
+    Flavor2 {
+        storeFile file(&amp;quot;release_key.keystore&amp;quot;)
+        storePassword &amp;quot;password&amp;quot;
+        keyAlias &amp;quot;flavor2&amp;quot;
+        keyPassword &amp;quot;password2&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Configure release signing for both flavors:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
+    flavor1 {
+        applicationId &amp;#39;com.tunebrains.keystoresample1&amp;#39;
+        versionName &amp;#39;10&amp;#39;        
+        signingConfig signingConfigs.Flavor1
+    }
+    flavor2 {
+        applicationId &amp;#39;com.tunebrains.keystoresample2&amp;#39;
+        versionName &amp;#39;10&amp;#39;        
+        signingConfig signingConfigs.Flavor2
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Each flavor has its own content provider, which is secured by signature level permission&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;lt;permission android:name=&amp;quot;${applicationId}.permission&amp;quot;
+                android:protectionLevel=&amp;quot;signature&amp;quot;/&amp;gt;
+&amp;lt;provider
+    android:exported=&amp;quot;true&amp;quot;
+    android:authorities=&amp;quot;${applicationId}.provider&amp;quot;
+    android:name=&amp;quot;.ContentProviderSecured&amp;quot;
+    android:permission=&amp;quot;${applicationId}.permission&amp;quot;&amp;gt;
+&amp;lt;/provider&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Code for content provider is quite simple, it just return empty &lt;strong&gt;MatrixCursor&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{&amp;quot;key&amp;quot;});    
+    return lMatrixCursor;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Flavor2 will try to get access to Flavor1 content provider&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Cursor c = null;
+try {
+    c = getContentResolver().query(Uri.parse(&amp;quot;content://&amp;quot; + &amp;quot;com.tunebrains.keystoresample1&amp;quot; + &amp;quot;/query&amp;quot;), null, null, null, null);
+    Log.d(&amp;quot;Result&amp;quot;, &amp;quot;&amp;quot; + c.getCount());
+}catch (Exception e){
+    Log.d(&amp;quot;Result&amp;quot;, &amp;quot;Cannot access provider&amp;quot;);
+}finally {
+    if (c!=null){
+        c.close();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with &lt;strong&gt;Flavor2&lt;/strong&gt; signingConfig.&lt;/p&gt;
+
+&lt;p&gt;Code is available on &lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 28 Oct 2015 14:17:35 +0100</pubDate>
+        <link>http://blog.tunebrains.com/2015/10/28/make-clear-android-signing-and-content-provider.html</link>
+        <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/28/make-clear-android-signing-and-content-provider.html</guid>
+        
+        <category>android</category>
+        
+        <category>keystore</category>
+        
+        
+      </item>
     
       <item>
         <title>Android UsageStatsManager sample</title>
