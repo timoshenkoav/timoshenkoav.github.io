@@ -9,7 +9,7 @@ Always was curious how to manage android keystore sertificates for multiple apps
 
 Now its time to make it clear.
 
-To make it clear, i`ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i`ll use secured content provider based on signature level verification
+To make it clear, i've created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i'll use secured content provider based on signature level verification
 
 Flavors config:
 
