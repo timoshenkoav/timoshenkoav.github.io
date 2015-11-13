@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Alex's Blog</title>
+    <title>Track outpound links to GA on jekyll</title>
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://blog.tunebrains.com/">
+    <link rel="canonical" href="http://blog.tunebrains.com/2015/11/13/track-outbound-links-on-jekyll.html">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -47,9 +47,9 @@
 </script>
   
   
-  <meta property="og:url"                content="http://blog.tunebrains.com/index.html" />
+  <meta property="og:url"                content="http://blog.tunebrains.com/2015/11/13/track-outbound-links-on-jekyll.html" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="" />
+<meta property="og:title"              content="Track outpound links to GA on jekyll" />
 <meta property="og:description"        content="" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
@@ -113,72 +113,84 @@
 
       <div class="page-content col col-sm-12">
         <div class="wrapper">
-          <div class="home">
+          <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Track outpound links to GA on jekyll</h1>
+    <p class="post-meta">Nov 13, 2015</p>
+  </header>
 
-  <ul class="post-list">    
+  <article class="post-content">
+    <ol>
+<li>Add jQuery to your jekyll blog if its not there yet. I am adding it to <strong>_includes/head.html</strong></li>
+</ol>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;script</span> <span class="na">src=</span><span class="s">&quot;//code.jquery.com/jquery-1.11.3.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script</span> <span class="na">src=</span><span class="s">&quot;//code.jquery.com/jquery-migrate-1.2.1.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></div>
+
+<ol>
+<li>Create additional include where we will make our magick. I did this in <strong><em>includes/google</em>_analytics.html</strong>. </li>
+</ol>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.ga-link&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">ga</span><span class="p">)</span><span class="o">!==</span><span class="s2">&quot;undefined&quot;</span><span class="p">){</span>
+            <span class="nx">ga</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,{</span>
+                <span class="nx">hitType</span><span class="o">:</span> <span class="s1">&#39;event&#39;</span><span class="p">,</span>
+                <span class="nx">eventCategory</span><span class="o">:</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span>
+                <span class="nx">eventAction</span><span class="o">:</span> <span class="s1">&#39;outbound&#39;</span><span class="p">,</span>
+                <span class="nx">eventLabel</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+            <span class="p">});</span>          
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">)};</span></code></pre></div>
+
+<p>File with this code is included in <em>default.html</em> </p>
+
+<div class="highlight"><pre><code class="language-liquid" data-lang="liquid"><span class="p">{%</span><span class="w"> </span><span class="nt">include</span><span class="w"> </span>google_analytics.html<span class="w"> </span><span class="p">%}</span></code></pre></div>
+
+<ol>
+<li> Add <strong>class=&#39;ga-link&#39;</strong> to all links you want to track to google analytics.</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://github.com/timoshenkoav&quot;</span> <span class="na">class=</span><span class="s">&#39;ga-link&#39;</span> <span class="na">target=</span><span class="s">&#39;_blank&#39;</span><span class="nt">&gt;</span></code></pre></div>
+
+<p>I`ve created such include to help generate links tracked:</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span> <span class="na">class=</span><span class="s">&quot;ga-link&quot;</span> <span class="na">target=</span><span class="s">&#39;_blank&#39;</span><span class="nt">&gt;&lt;/a&gt;</span></code></pre></div>
+
+<p>Now if i want to have such link i can use:</p>
+
+<div class="highlight"><pre><code class="language-liquid" data-lang="liquid"><span class="p">{%</span><span class="w"> </span><span class="nt">include</span><span class="w"> </span>ga_link.html<span class="w"> </span>
+    title=&quot;GitHub&quot; 
+    url=&quot;https://github.com&quot; 
+%}</code></pre></div>
+
+  </article>
+  <tags>
+	  
+	  	<span class="label label-default">GA</span>  	
+	  
+	  	<span class="label label-default">jekyll</span>  	
+	  	
+  </tags>    
+  <comments>
     
-      <li>
-        <span class="post-meta">Nov 13, 2015</span>
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES * * */
+        var disqus_shortname = 'timoshenko-av';
+        
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
-        <h2>
-          <a class="post-link" href="/2015/11/13/track-outbound-links-on-jekyll.html">Track outpound links to GA on jekyll</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 10, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/11/10/block-domains-with-vpn.html">Block domains with vpn</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 28, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/28/make-clear-android-signing-and-content-provider.html">Signing android app for secure content provider</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 20, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/20/usage-stats-manager-sample.html">Android UsageStatsManager sample</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/02/android-encrypted-api-with-rails.html">Encrypted API from android to rails</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/02/gradle-multi-flavors-signing.html">Sign multiple flavors with different keystores</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/welcome/blog/2015/10/02/welcome.html">Welcome</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml" target="_blank" class='subscribe'>via RSS</a></p>
-
+  </comments>
 </div>
           
         </div>
