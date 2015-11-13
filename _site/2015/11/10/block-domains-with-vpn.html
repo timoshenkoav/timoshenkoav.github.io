@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Android UsageStatsManager sample</title>
+    <title>Block domains with vpn</title>
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://blog.tunebrains.com/2015/10/20/usage-stats-manager-sample.html">
+    <link rel="canonical" href="http://blog.tunebrains.com/2015/11/10/block-domains-with-vpn.html">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -38,10 +38,10 @@
 </script>
   
   
-  <meta property="og:url"                content="http://blog.tunebrains.com/2015/10/20/usage-stats-manager-sample.html" />
+  <meta property="og:url"                content="http://blog.tunebrains.com/2015/11/10/block-domains-with-vpn.html" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="Android UsageStatsManager sample" />
-<meta property="og:description"        content="Sample of using UsageStatsManager on Android API >= 21" />
+<meta property="og:title"              content="Block domains with vpn" />
+<meta property="og:description"        content="" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
 <script>
@@ -61,7 +61,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-  <meta property="description"                content="Sample of using UsageStatsManager on Android API >= 21" />
+  <meta property="description"                content="" />
 
   <script src="//load.sumome.com/" data-sumo-site-id="0b92bd58a0af51a51868377c6e12afea55f26e7b938fdb7a184f877671f26b35" async="async"></script>
   <body>  
@@ -107,73 +107,55 @@
           <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Android UsageStatsManager sample</h1>
-    <p class="post-meta">Oct 20, 2015</p>
+    <h1 class="post-title">Block domains with vpn</h1>
+    <p class="post-meta">Nov 10, 2015</p>
   </header>
 
   <article class="post-content">
-    <p>Google has deprecated the function &quot;getRecentTasks&quot; of &quot;ActivityManager&quot; class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that &quot;locks&quot; access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.</p>
+    <ol>
+<li>Create VpnService class</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">public class VpnConnectionBlocker extends VpnService {
 
-<p>Google introduces UsageStatsManager in api 21, which can replace &quot;getRecentTasks&quot; for new versions.</p>
-
-<p>I&#39;ve created sample project demonstrating how to use this api.</p>
-
-<p>First of all you need to declare permission in AndroidManifest.xml</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;uses-permission android:name=&quot;android.permission.PACKAGE_USAGE_STATS&quot;
-                     tools:ignore=&quot;ProtectedPermissions&quot;/&gt;
-</code></pre></div>
-<p>Adding  </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">tools:ignoe=&quot;ProtectedPermissions&quot;
-</code></pre></div>
-<p>will disable warning that permission is system level and will not be granted to third-party apps. However, declaring the permission implies intention to use the API and the user of the device can grant permission through the Settings application.</p>
-
-<p>So we need to check if our app was granted this permission</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">private boolean hasPermission() {
-    AppOpsManager appOps = (AppOpsManager)
-                getSystemService(Context.APP_OPS_SERVICE);
-    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-            android.os.Process.myUid(), getPackageName());
-    return mode == AppOpsManager.MODE_ALLOWED;
 }
 </code></pre></div>
-<p>and if no, ask user to enable it</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">startActivityForResult(
-    new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 
-        MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
+<ol>
+<li>Register it in AndroidManifest.xml</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;service android:name=&quot;.VpnConnectionBlocker&quot;
+         android:permission=&quot;android.permission.BIND_VPN_SERVICE&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.net.VpnService&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/service&gt;
 </code></pre></div>
-<p>We are launching settings activity to allow app to get usage stats, its not android M default way to deal with permissions, we need to check result in onActivityResult</p>
+<ol>
+<li>Request VPN service to start</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static final int REQUEST_VPN = 0x10;
+//...
+startActivityForResult(VpnConnectionBlocker.prepare(MainActivity.this), REQUEST_VPN);
+</code></pre></div>
+<ol>
+<li>Handle user action and start VPN service</li>
+</ol>
 <div class="highlight"><pre><code class="language-text" data-lang="text">@Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode){
-        case MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS:
-            if (hasPermission()){
-                getStats();
-            }else{
-                requestPermission();
+        case REQUEST_VPN:
+            if (resultCode == RESULT_OK) {
+                startService(new Intent(MainActivity.this, VpnConnectionBlocker.class));
             }
             break;
     }
 }
 </code></pre></div>
-<p>In this sample if user did not grant permission we will ask again while permission is not granted. In real application, its better to tell user why do we need this permission and turn off functionality if permission was not granted.</p>
-
-<p>After the permission was eventually granted, we can query information about last active packages</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">UsageStatsManager lUsageStatsManager = 
-    (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-List&lt;UsageStats&gt; lUsageStatsList = 
-    lUsageStatsManager.queryUsageStats(
-        UsageStatsManager.INTERVAL_DAILY, 
-        System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
-        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));
-</code></pre></div>
-<p>There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout <a href="https://developer.android.com/reference/android/app/usage/UsageStatsManager.html" class="ga-link" target='_blank'>official documentation</a></p>
-
-<p>Full source code for this article is available on <a href="https://github.com/timoshenkoav/USMSample" class="ga-link" target='_blank'>GitHub</a></p>
-
   </article>
   <tags>
 	  
 	  	<span class="label label-default">android</span>  	
+	  
+	  	<span class="label label-default">vpn</span>  	
 	  	
   </tags>    
   <comments>

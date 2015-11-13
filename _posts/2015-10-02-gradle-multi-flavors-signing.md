@@ -117,6 +117,6 @@ Build. Enjoy.
 
 ## References
 
-* [Squeezing your Gradle builds](http://saulmm.github.io/squeezing-gradle-builds)
-* [Building Multiple Editions of an Android App with Gradle](http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/)
-* [HOW TO SIGN RELEASE APK WITH GRADLE](http://zserge.com/blog/android-signing.html)
+* {% include ga_link.html title="Squeezing your Gradle builds" url="http://saulmm.github.io/squeezing-gradle-builds" %}
+* {% include ga_link.html title="Building Multiple Editions of an Android App with Gradle" url="http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/" %}
+* {% include ga_link.html title="HOW TO SIGN RELEASE APK WITH GRADLE" url="http://zserge.com/blog/android-signing.html" %}

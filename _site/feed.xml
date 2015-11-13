@@ -5,9 +5,60 @@
     <description></description>
     <link>http://blog.tunebrains.com/</link>
     <atom:link href="http://blog.tunebrains.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 28 Oct 2015 15:18:56 +0100</pubDate>
-    <lastBuildDate>Wed, 28 Oct 2015 15:18:56 +0100</lastBuildDate>
+    <pubDate>Fri, 13 Nov 2015 21:48:31 +0100</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2015 21:48:31 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Block domains with vpn</title>
+        <description>&lt;ol&gt;
+&lt;li&gt;Create VpnService class&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public class VpnConnectionBlocker extends VpnService {
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;Register it in AndroidManifest.xml&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;lt;service android:name=&amp;quot;.VpnConnectionBlocker&amp;quot;
+         android:permission=&amp;quot;android.permission.BIND_VPN_SERVICE&amp;quot;&amp;gt;
+    &amp;lt;intent-filter&amp;gt;
+        &amp;lt;action android:name=&amp;quot;android.net.VpnService&amp;quot;/&amp;gt;
+    &amp;lt;/intent-filter&amp;gt;
+&amp;lt;/service&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;Request VPN service to start&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private static final int REQUEST_VPN = 0x10;
+//...
+startActivityForResult(VpnConnectionBlocker.prepare(MainActivity.this), REQUEST_VPN);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;Handle user action and start VPN service&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode){
+        case REQUEST_VPN:
+            if (resultCode == RESULT_OK) {
+                startService(new Intent(MainActivity.this, VpnConnectionBlocker.class));
+            }
+            break;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Tue, 10 Nov 2015 17:48:00 +0100</pubDate>
+        <link>http://blog.tunebrains.com/2015/11/10/block-domains-with-vpn.html</link>
+        <guid isPermaLink="true">http://blog.tunebrains.com/2015/11/10/block-domains-with-vpn.html</guid>
+        
+        <category>android</category>
+        
+        <category>vpn</category>
+        
+        
+      </item>
     
       <item>
         <title>Signing android app for secure content provider</title>
@@ -15,7 +66,7 @@
 
 &lt;p&gt;Now its time to make it clear.&lt;/p&gt;
 
-&lt;p&gt;To make it clear, i&lt;code&gt;ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i&lt;/code&gt;ll use secured content provider based on signature level verification&lt;/p&gt;
+&lt;p&gt;To make it clear, i&amp;#39;ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i&amp;#39;ll use secured content provider based on signature level verification&lt;/p&gt;
 
 &lt;p&gt;Flavors config:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
@@ -96,7 +147,7 @@ try {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with &lt;strong&gt;Flavor2&lt;/strong&gt; signingConfig.&lt;/p&gt;
 
-&lt;p&gt;Code is available on &lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Code is available on &lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot; class=&quot;ga-link&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 28 Oct 2015 14:17:35 +0100</pubDate>
         <link>http://blog.tunebrains.com/2015/10/28/make-clear-android-signing-and-content-provider.html</link>
@@ -165,15 +216,135 @@ List&amp;lt;UsageStats&amp;gt; lUsageStatsList =
         System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
         System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout &lt;a href=&quot;https://developer.android.com/reference/android/app/usage/UsageStatsManager.html&quot;&gt;official documentation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout &lt;a href=&quot;https://developer.android.com/reference/android/app/usage/UsageStatsManager.html&quot; class=&quot;ga-link&quot; target=&#39;_blank&#39;&gt;official documentation&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Full source code for this article is available on &lt;a href=&quot;https://github.com/timoshenkoav/USMSample&quot;&gt;GitHub&lt;/a&gt; &lt;/p&gt;
+&lt;p&gt;Full source code for this article is available on &lt;a href=&quot;https://github.com/timoshenkoav/USMSample&quot; class=&quot;ga-link&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Oct 2015 19:41:00 +0200</pubDate>
         <link>http://blog.tunebrains.com/2015/10/20/usage-stats-manager-sample.html</link>
         <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/20/usage-stats-manager-sample.html</guid>
         
         <category>android</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Encrypted API from android to rails</title>
+        <description>&lt;p&gt;Working on remote logging system for android, I faced up with Google require not to send user information to remote system, as this violates section 4.3 of the Developer Distribution Agreement.&lt;/p&gt;
+
+&lt;p&gt;To solve this we need to send the data to our server encrypted.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#39;s nice to encrypt it so even if someone sniff the traffic they will not be able to decrypt contents.&lt;/p&gt;
+
+&lt;p&gt;To provide such encryption we can use asymmetric algorithm like RSA, public key is stored inside the android application and used to encrypt the data sent to remote server, private key is stored on servicer side and used to decrypt the data.&lt;/p&gt;
+
+&lt;p&gt;But the problem with asymmetric algorithm is that generaly they can encrypt data length up to key size, so for RSA its 4096 bits, which is not good in our case, as our logs can be much longer.&lt;/p&gt;
+
+&lt;p&gt;Symmetric algorithms, like AES can encrypt practically unlimited ammount of data, but as the same key is used to encrypt and decrypt information, it&amp;#39;s easy to stole data while transmissing to server if one has access to app code, which is true for Android applications. &lt;/p&gt;
+
+&lt;p&gt;The often used solution is:&lt;/p&gt;
+
+&lt;p&gt;On Client Side:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Generate random AES key ( e.g 256 bits long)&lt;/li&gt;
+&lt;li&gt;Encrypt body with AES using generated key&lt;/li&gt;
+&lt;li&gt;Encrypt key with RSA using stored public key&lt;/li&gt;
+&lt;li&gt;Send encrypted key along with encrypted body&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;On Server Side&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Decrypt key with RSA private key to get plain AES key&lt;/li&gt;
+&lt;li&gt;Decrypt body with plain AES key&lt;/li&gt;
+&lt;li&gt;Handle the request&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lets start from the client side:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Generate random AES key&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static final int AES_KEY_SIZE = 256 / 8;
+public static String randomKey(int len) {
+    Random generator = new Random();
+    StringBuilder randomStringBuilder = new StringBuilder();
+    int randomLength = len;
+    char tempChar;
+    for (int i = 0; i &amp;lt; randomLength; i++) {
+        tempChar = (char) (generator.nextInt(96) + 32);
+        randomStringBuilder.append(tempChar);
+    }
+    return randomStringBuilder.toString();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Encrypt data with AES&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
+            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+
+    SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), &amp;quot;AES&amp;quot;);
+    Cipher cipher = Cipher.getInstance(&amp;quot;AES&amp;quot;);
+    cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+    byte[] encrypted = cipher.doFinal(plain.getBytes());
+    return encrypted;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Encrypt key using RSA&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To generate RSA key-pair we can simply use great online service: &lt;a href=&quot;http://travistidwell.com/jsencrypt/demo/&quot;&gt;Generate Key Online&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We can store public key either in assets/resources/plain string&lt;/p&gt;
+
+&lt;p&gt;To unify reading key we can use InputStream as source, so it can be FileInputStream, ByteArrayInputStream or any other source:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
+    String lStringKey = read(pInputStream);
+    String lRawString = stripKeyHeaders(lStringKey);
+    return base64(lRawString);
+}
+public static String stripKeyHeaders(String key) {
+    StringBuilder strippedKey = new StringBuilder();
+    String lines[] = key.split(&amp;quot;\n&amp;quot;);
+    for (String line : lines) {
+        if (!line.contains(&amp;quot;PRIVATE KEY&amp;quot;) &amp;amp;&amp;amp; !line.contains(&amp;quot;PUBLIC KEY&amp;quot;) &amp;amp;&amp;amp; !TextUtils.isEmpty(line.trim())) {
+            strippedKey.append(line.trim());
+        }
+    }
+    return strippedKey.toString().trim();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Using public key, we can encrypt data&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
+    X509EncodedKeySpec spec = new X509EncodedKeySpec(pKey);
+    KeyFactory kf = KeyFactory.getInstance(&amp;quot;RSA&amp;quot;);
+    PublicKey publicKey = kf.generatePublic(spec);
+    Cipher cipher = Cipher.getInstance(&amp;quot;RSA/ECB/PKCS1Padding&amp;quot;);
+    cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+    byte []encryptedBytes = cipher.doFinal(plain);
+    return encryptedBytes;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now we have everything encrypted and we can send data to our API. Body will be send as base64 request body, encrypted key - as request header.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
+String lAESKey =  randomKey(AES_KEY_SIZE);      
+String lEncryptedKey = Base64.encode(RSAEncrypt(lAESKey, lAESKey), 0);
+String lEncryptedBody = Base64.encode(AESEncrypt(body, lAESKey), 0);
+post(&amp;quot;http://api-domain.com&amp;quot;, lEncryptedBody, lEncryptedKey);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To Be Continued...&lt;/p&gt;
+</description>
+        <pubDate>Fri, 02 Oct 2015 19:54:00 +0200</pubDate>
+        <link>http://blog.tunebrains.com/2015/10/02/android-encrypted-api-with-rails.html</link>
+        <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/02/android-encrypted-api-with-rails.html</guid>
+        
+        <category>android</category>
+        
+        <category>rails</category>
         
         
       </item>
@@ -396,9 +567,9 @@ keyPassword=&amp;#39;&amp;#39;
 &lt;h2&gt;References&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://saulmm.github.io/squeezing-gradle-builds&quot;&gt;Squeezing your Gradle builds&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/&quot;&gt;Building Multiple Editions of an Android App with Gradle&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://zserge.com/blog/android-signing.html&quot;&gt;HOW TO SIGN RELEASE APK WITH GRADLE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://saulmm.github.io/squeezing-gradle-builds&quot; class=&quot;ga-link&quot; target=&#39;_blank&#39;&gt;Squeezing your Gradle builds&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/&quot; class=&quot;ga-link&quot; target=&#39;_blank&#39;&gt;Building Multiple Editions of an Android App with Gradle&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://zserge.com/blog/android-signing.html&quot; class=&quot;ga-link&quot; target=&#39;_blank&#39;&gt;HOW TO SIGN RELEASE APK WITH GRADLE&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Fri, 02 Oct 2015 13:11:35 +0200</pubDate>

@@ -86,8 +86,8 @@ List<UsageStats> lUsageStatsList =
 ```
 
 
-There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout [official documentation](https://developer.android.com/reference/android/app/usage/UsageStatsManager.html)
+There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout {% include ga_link.html title="official documentation" url="https://developer.android.com/reference/android/app/usage/UsageStatsManager.html" %}
 
-Full source code for this article is available on [GitHub](https://github.com/timoshenkoav/USMSample) 
+Full source code for this article is available on {% include ga_link.html title="GitHub" url="https://github.com/timoshenkoav/USMSample" %} 
 
 

@@ -3,9 +3,9 @@
 
   {% include head.html %}
 
-  {% if site.environment == 'production' %}
-    {% include google_analytics.html %}
-  {% endif %}
+  
+  {% include google_analytics.html %}
+  
   
   {% include facebook_page_info.html %}
   {% include meta_description.html %}
@@ -17,13 +17,15 @@
 
       <div class="page-content col col-sm-12">
         <div class="wrapper">
-          {{ content }}
+          {{ content }}          
         </div>
+
       </div>      
 
       {% include footer.html %}
     </div>
     </div>
+    
   </body>
 
 </html>

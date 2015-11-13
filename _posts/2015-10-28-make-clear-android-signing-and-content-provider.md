@@ -114,7 +114,7 @@ try {
 
 Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with **Flavor2** signingConfig.
 
-Code is available on [GitHub](https://github.com/timoshenkoav/KeystoreSample)
+Code is available on {% include ga_link.html title="GitHub" url="https://github.com/timoshenkoav/KeystoreSample" %} 
 
 
 
