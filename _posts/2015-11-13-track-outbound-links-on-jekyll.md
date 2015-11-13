@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Track outpound links to GA on jekyll"
+title:  "Track outbound links to GA on jekyll"
 date:   2015-11-13 22:25:00
 tags: GA jekyll
 ---

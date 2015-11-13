@@ -5,12 +5,12 @@
     <description></description>
     <link>http://blog.tunebrains.com/</link>
     <atom:link href="http://blog.tunebrains.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 13 Nov 2015 22:25:42 +0100</pubDate>
-    <lastBuildDate>Fri, 13 Nov 2015 22:25:42 +0100</lastBuildDate>
+    <pubDate>Fri, 13 Nov 2015 22:27:24 +0100</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2015 22:27:24 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>Track outpound links to GA on jekyll</title>
+        <title>Track outbound links to GA on jekyll</title>
         <description>&lt;ol&gt;
 &lt;li&gt;Add jQuery to your jekyll blog if its not there yet. I am adding it to &lt;strong&gt;_includes/head.html&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
