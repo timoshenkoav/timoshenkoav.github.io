@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Alex's Blog</title>
+    <title>Read custom attributes from activity</title>
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://blog.tunebrains.com/">
+    <link rel="canonical" href="http://blog.tunebrains.com/2016/01/04/read-custom-attributes-from-activity.html">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -47,9 +47,9 @@
 </script>
   
   
-  <meta property="og:url"                content="http://blog.tunebrains.com/index.html" />
+  <meta property="og:url"                content="http://blog.tunebrains.com/2016/01/04/read-custom-attributes-from-activity.html" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="" />
+<meta property="og:title"              content="Read custom attributes from activity" />
 <meta property="og:description"        content="" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
@@ -113,88 +113,63 @@
 
       <div class="page-content col col-sm-12">
         <div class="wrapper">
-          <div class="home">
+          <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Read custom attributes from activity</h1>
+    <p class="post-meta">Jan 4, 2016</p>
+  </header>
 
-  <ul class="post-list">    
+  <article class="post-content">
+    <p>Its quite small article about reading custom attributes from theme in Activity code. </p>
+
+<p>First we need to define our custom attribute.</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;attr</span> <span class="na">name=</span><span class="s">&quot;TitleText&quot;</span> <span class="na">format=</span><span class="s">&quot;reference|string&quot;</span><span class="nt">/&gt;</span></code></pre></div>
+
+<p>Apply this attribute to Activity&#39;s theme</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&quot;AppTheme&quot;</span> <span class="na">parent=</span><span class="s">&quot;Theme.AppCompat.Light.DarkActionBar&quot;</span><span class="nt">&gt;</span>        
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&quot;TitleText&quot;</span><span class="nt">&gt;</span>@string/app_name<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span></code></pre></div>
+
+<p>Read this attribute in activity and set TextView text.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">TextView</span> <span class="n">text</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text</span><span class="o">);</span>
+<span class="n">TypedValue</span> <span class="n">lTypedText</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">TypedValue</span><span class="o">();</span>
+
+<span class="n">getTheme</span><span class="o">().</span><span class="na">resolveAttribute</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">attr</span><span class="o">.</span><span class="na">TitleText</span><span class="o">,</span> <span class="n">lTypedText</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+<span class="c1">//check if we have value set</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">lTypedText</span><span class="o">.</span><span class="na">resourceId</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">title</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getString</span><span class="o">(</span><span class="n">lTypedText</span><span class="o">.</span><span class="na">resourceId</span><span class="o">);</span>
+    <span class="n">text</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Full source code for this article is available on <a href="https://github.com/timoshenkoav/ActivityAttributes" class="ga-link" target='_blank'>GitHub</a></p>
+
+  </article>
+  <tags>
+	  
+	  	<span class="label label-default">android</span>  	
+	  	
+  </tags>    
+  <comments>
     
-      <li>
-        <span class="post-meta">Jan 4, 2016</span>
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES * * */
+        var disqus_shortname = 'timoshenko-av';
+        
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
-        <h2>
-          <a class="post-link" href="/2016/01/04/read-custom-attributes-from-activity.html">Read custom attributes from activity</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 11, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/12/11/recycler-view-sections-contacts-lollipop.html">Display RecyclerView sections like Android Lollipop contacts application</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 13, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/11/13/track-outbound-links-on-jekyll.html">Track outbound links to GA on jekyll</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 10, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/11/10/block-domains-with-vpn.html">Block domains with vpn</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 28, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/28/make-clear-android-signing-and-content-provider.html">Signing android app for secure content provider</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 20, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/20/usage-stats-manager-sample.html">Android UsageStatsManager sample</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/02/android-encrypted-api-with-rails.html">Encrypted API from android to rails</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/2015/10/02/gradle-multi-flavors-signing.html">Sign multiple flavors with different keystores</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/welcome/blog/2015/10/02/welcome.html">Welcome</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml" target="_blank" class='subscribe'>via RSS</a></p>
-
+  </comments>
 </div>
           
         </div>
