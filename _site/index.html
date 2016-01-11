@@ -27,7 +27,7 @@
 				ga('send',{
 					hitType: 'event',
 					eventCategory: 'click',
-					eventAction: 'outbound',
+					eventAction: $(this).data('link-type')||'outbound',
 					eventLabel: $(this).attr('href')
 				});
 		  		
@@ -120,6 +120,14 @@
   <ul class="post-list">    
     
       <li>
+        <span class="post-meta">Jan 11, 2016</span>
+
+        <h2>
+          <a class="post-link" href="/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html">Custom Chromecast Receiver App</a>
+        </h2>
+      </li>
+    
+      <li>
         <span class="post-meta">Jan 4, 2016</span>
 
         <h2>
@@ -196,7 +204,7 @@
   <p class="rss-subscribe">subscribe <a href="/feed.xml" target="_blank" class='subscribe'>via RSS</a></p>
 
 </div>
-          
+                  
         </div>
 
       </div>      

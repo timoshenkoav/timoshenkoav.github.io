@@ -20,7 +20,7 @@
 				ga('send',{
 					hitType: 'event',
 					eventCategory: 'click',
-					eventAction: 'outbound',
+					eventAction: $(this).data('link-type')||'outbound',
 					eventLabel: $(this).attr('href')
 				});
 		  		

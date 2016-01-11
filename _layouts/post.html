@@ -17,6 +17,14 @@ comments: true
 	  	<span class="label label-default">{{tag}}</span>  	
 	  {% endfor %}	
   </tags>    
+  <readmore>
+    Read More...
+    <br>
+    {% for post in site.related_posts %}
+      {% include ga_link.html title=post.title linktype="related" url=post.url %}      
+      <br>
+    {% endfor %}
+  </readmore>
   <comments>
     {% include disgus_comments.html %}
   </comments>

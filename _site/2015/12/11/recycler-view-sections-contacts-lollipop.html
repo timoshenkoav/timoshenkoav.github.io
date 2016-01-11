@@ -27,7 +27,7 @@
 				ga('send',{
 					hitType: 'event',
 					eventCategory: 'click',
-					eventAction: 'outbound',
+					eventAction: $(this).data('link-type')||'outbound',
 					eventLabel: $(this).attr('href')
 				});
 		  		
@@ -240,7 +240,7 @@
 The main logic is to have <strong>TextView</strong> with the same style as section title item in item list and show/hide appropriate TextView in the item and animate TextView in the Activity. 
 This solution is not fully completed, and may have some issues under some unexpected circumstances, but as its opensourced you can easily create issue or submit your pull request.</p>
 
-<p>You can find complete source code on <a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" target='_blank'>GitHub</a></p>
+<p>You can find complete source code on <a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" data-link-type="" target='_blank'>GitHub</a></p>
 
 <p>Enjoy!</p>
 
@@ -252,6 +252,65 @@ This solution is not fully completed, and may have some issues under some unexpe
 	  	<span class="label label-default">recyclerview</span>  	
 	  	
   </tags>    
+  <readmore>
+    Read More...
+    <br>
+    
+      <a href="/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html" class="ga-link" data-link-type="related" target='_blank'>Custom Chromecast Receiver App</a>
+
+
+      
+      <br>
+    
+      <a href="/2016/01/04/read-custom-attributes-from-activity.html" class="ga-link" data-link-type="related" target='_blank'>Read custom attributes from activity</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/11/13/track-outbound-links-on-jekyll.html" class="ga-link" data-link-type="related" target='_blank'>Track outbound links to GA on jekyll</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/11/10/block-domains-with-vpn.html" class="ga-link" data-link-type="related" target='_blank'>Block domains with vpn</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/28/make-clear-android-signing-and-content-provider.html" class="ga-link" data-link-type="related" target='_blank'>Signing android app for secure content provider</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/20/usage-stats-manager-sample.html" class="ga-link" data-link-type="related" target='_blank'>Android UsageStatsManager sample</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/02/android-encrypted-api-with-rails.html" class="ga-link" data-link-type="related" target='_blank'>Encrypted API from android to rails</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/02/gradle-multi-flavors-signing.html" class="ga-link" data-link-type="related" target='_blank'>Sign multiple flavors with different keystores</a>
+
+
+      
+      <br>
+    
+      <a href="/welcome/blog/2015/10/02/welcome.html" class="ga-link" data-link-type="related" target='_blank'>Welcome</a>
+
+
+      
+      <br>
+    
+  </readmore>
   <comments>
     
   <div id="disqus_thread"></div>
@@ -270,7 +329,7 @@ This solution is not fully completed, and may have some issues under some unexpe
 
   </comments>
 </div>
-          
+                  
         </div>
 
       </div>      

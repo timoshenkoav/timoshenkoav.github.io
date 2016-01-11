@@ -27,7 +27,7 @@
 				ga('send',{
 					hitType: 'event',
 					eventCategory: 'click',
-					eventAction: 'outbound',
+					eventAction: $(this).data('link-type')||'outbound',
 					eventLabel: $(this).attr('href')
 				});
 		  		
@@ -174,6 +174,65 @@
 	  	<span class="label label-default">jekyll</span>  	
 	  	
   </tags>    
+  <readmore>
+    Read More...
+    <br>
+    
+      <a href="/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html" class="ga-link" data-link-type="related" target='_blank'>Custom Chromecast Receiver App</a>
+
+
+      
+      <br>
+    
+      <a href="/2016/01/04/read-custom-attributes-from-activity.html" class="ga-link" data-link-type="related" target='_blank'>Read custom attributes from activity</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/12/11/recycler-view-sections-contacts-lollipop.html" class="ga-link" data-link-type="related" target='_blank'>Display RecyclerView sections like Android Lollipop contacts application</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/11/10/block-domains-with-vpn.html" class="ga-link" data-link-type="related" target='_blank'>Block domains with vpn</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/28/make-clear-android-signing-and-content-provider.html" class="ga-link" data-link-type="related" target='_blank'>Signing android app for secure content provider</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/20/usage-stats-manager-sample.html" class="ga-link" data-link-type="related" target='_blank'>Android UsageStatsManager sample</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/02/android-encrypted-api-with-rails.html" class="ga-link" data-link-type="related" target='_blank'>Encrypted API from android to rails</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/10/02/gradle-multi-flavors-signing.html" class="ga-link" data-link-type="related" target='_blank'>Sign multiple flavors with different keystores</a>
+
+
+      
+      <br>
+    
+      <a href="/welcome/blog/2015/10/02/welcome.html" class="ga-link" data-link-type="related" target='_blank'>Welcome</a>
+
+
+      
+      <br>
+    
+  </readmore>
   <comments>
     
   <div id="disqus_thread"></div>
@@ -192,7 +251,7 @@
 
   </comments>
 </div>
-          
+                  
         </div>
 
       </div>      

@@ -27,7 +27,7 @@
 				ga('send',{
 					hitType: 'event',
 					eventCategory: 'click',
-					eventAction: 'outbound',
+					eventAction: $(this).data('link-type')||'outbound',
 					eventLabel: $(this).attr('href')
 				});
 		  		
@@ -132,7 +132,7 @@ Live in Bar, Montenegro.</p>
   </article>
 
 </div>
-          
+                  
         </div>
 
       </div>      
