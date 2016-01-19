@@ -3,18 +3,441 @@
   <channel>
     <title>Alex&#39;s Blog</title>
     <description></description>
-    <link>http://blog.tunebrains.com/</link>
-    <atom:link href="http://blog.tunebrains.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 11 Jan 2016 13:55:56 +0100</pubDate>
-    <lastBuildDate>Mon, 11 Jan 2016 13:55:56 +0100</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Tue, 19 Jan 2016 23:59:00 +0100</pubDate>
+    <lastBuildDate>Tue, 19 Jan 2016 23:59:00 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Subscribe to Facebook groups with keywords</title>
+        <description>&lt;p&gt;&lt;a class=&quot;ga-link&quot; data-link-type=&quot;googleplay&quot; target=&#39;_blank&#39; href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blogstart&amp;pcampaignid=blogstart&quot;&gt;&lt;img alt=&quot;Get it on Google Play&quot; style=&quot;width:100px;&quot; src=&quot;https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;After i have moved to Montenegro, i became quite active user of Facebook. There are a lot of groups on Facebook connecting russian speaking people living in Montenegro.&lt;/p&gt;
+
+&lt;p&gt;They communicate on different parts of living in foreign country: selling goods, transfer between cities, renting a car and a lot more.&lt;/p&gt;
+
+&lt;p&gt;Quite fast i&amp;#39;ve tired constantly refreshing facebook page waiting for some interested post with goods and services i need, and thought about app to watch for some keywords that it can find in group and notify my.&lt;/p&gt;
+
+&lt;p&gt;Thats how &amp;quot;Watch My Groups&amp;quot; was born.&lt;/p&gt;
+
+&lt;p&gt;As i have a lot of tasks on my main job, application development was quite slow, before one guy in one of facebook groups asked if there is such app. If someone other need it, app was finished quite fast.&lt;/p&gt;
+
+&lt;p&gt;Its available on Google Play and you can find it using this &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blog&amp;pcampaignid=blog&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;link&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now it can search only through open facebook groups due to limitation on facebook API, but if there is some admins of closed groups, it will be technically possible to implement closed group search for other users.&lt;/p&gt;
+
+&lt;p&gt;App has quite simple UI.&lt;/p&gt;
+
+&lt;p&gt;First you need to login with facebook account. App does not request any publish permissions, only access to public profile.&lt;/p&gt;
+
+&lt;p&gt;Then touch action button to create search.&lt;/p&gt;
+
+&lt;p&gt;Start typing group name and select group from autocomplete dropdown:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen2.png&quot; style=&quot;width: 190px;&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;And fill the term you want to subscribe to&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen3.png&quot; style=&quot;width: 190px;&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;When app found some posts you are looking for you can see them on the &amp;quot;Founds&amp;quot; tab&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen4.png&quot; style=&quot;width: 190px;&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a class=&quot;ga-link&quot; data-link-type=&quot;googleplay&quot; target=&#39;_blank&#39; href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blog&amp;pcampaignid=blog&quot;&gt;&lt;img alt=&quot;Get it on Google Play&quot; style=&quot;width:100px;&quot; src=&quot;https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 19 Jan 2016 14:40:00 +0100</pubDate>
+        <link>http://localhost:4000/2016/01/19/watch-my-groups-uploaded.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/19/watch-my-groups-uploaded.html</guid>
+        
+        <category>android</category>
+        
+        <category>facebook</category>
+        
+        <category>sdk</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Android Gradle plugin sample</title>
+        <description>&lt;p&gt;Plugin will upload apk to distribution system after building release artifact.&lt;/p&gt;
+
+&lt;h3&gt;Create Project&lt;/h3&gt;
+
+&lt;p&gt;Create plugin project in IntelliJ IDEA. Go to &lt;strong&gt;File&lt;/strong&gt;-&amp;gt;&lt;strong&gt;New&lt;/strong&gt;-&amp;gt;&lt;strong&gt;Project&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Select Gradle and add Groovy Framework&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/new_project.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;Name your plugin:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/plugin_name.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;Select gradle settings:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/gradle_settings.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;And save your plugin:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/plugin_save.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;h3&gt;Add Groovy dependency&lt;/h3&gt;
+
+&lt;p&gt;Change &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;group &amp;#39;com.tunebrains.beta&amp;#39;
+version &amp;#39;1.0-SNAPSHOT&amp;#39;
+
+task wrapper(type: Wrapper) {
+  gradleVersion = &amp;#39;2.2&amp;#39;
+  distributionUrl = &amp;quot;https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip&amp;quot;
+}
+
+apply plugin: &amp;#39;java&amp;#39;
+apply plugin: &amp;#39;groovy&amp;#39;
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile &amp;#39;org.codehaus.groovy:groovy-all:2.3.11&amp;#39;
+
+    compile gradleApi()
+    compile localGroovy()
+    compile &amp;#39;com.android.tools.build:gradle:0.14.0&amp;#39;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Configure plugin and deploy to local folder&lt;/h3&gt;
+
+&lt;p&gt;Create folder structure&lt;/p&gt;
+
+&lt;p&gt;Project Root
+&lt;span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 10px;&quot;&gt;
+- src
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 20px;&quot;&gt;- main&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 40px;&quot;&gt;
+- groovy
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 40px;&quot;&gt;
+- resources
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 60px;&quot;&gt;
+- META-INF
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 80px;&quot;&gt;
+- gradle-plugins&lt;br&gt;
+&lt;/span&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Create plugin description file under &lt;strong&gt;gradle-plugins&lt;/strong&gt; folder&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;File Name:&lt;/strong&gt; &lt;em&gt;com.tunebrains.beta-gradle-beta-upload.properties&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Create groovy class &lt;strong&gt;com.tunebrains.beta.gradle.UploadApkPlugin&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;tunebrains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beta&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;gradle&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.gradle.api.Plugin&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.gradle.api.Project&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UploadApkPlugin&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Plugin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Apply maven plugin to &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;maven&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Specify folder to deploy plugin&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: &amp;quot;file:///Users/alex/Projects/Tutorials/repo&amp;quot;)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Execute gradle tast to upload archive. Refresh gradle task if required.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;h3&gt;Apply plugin in your Android project.&lt;/h3&gt;
+
+&lt;p&gt;In top level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;buildscript {
+    repositories {
+        //...
+        maven {
+            url uri(&amp;#39;file:///Users/alex/Projects/Tutorials/repo&amp;#39;)
+        }
+    }
+    dependencies {
+
+        classpath group: &amp;#39;com.tunebrains.beta&amp;#39;, name: &amp;#39;releaseupload&amp;#39;,
+                version: &amp;#39;1.0-SNAPSHOT&amp;#39;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In app level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Apply plugin:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;com.tunebrains.beta-release-upload&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Its time for write some code.&lt;/p&gt;
+
+&lt;p&gt;We will add custom tasks &lt;strong&gt;betaDebug&lt;/strong&gt; and &lt;strong&gt;betaRelease&lt;/strong&gt; to upload debug and release apks.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasProp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hasProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;android&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hasProp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;whenTaskAdded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;android&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;applicationVariants&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expectingTask&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;package${variant.name.capitalize()}&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expectingTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variantName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;
+
+                    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newTaskName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;beta${variantName.capitalize()}&amp;quot;&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newTaskName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                        &lt;span class=&quot;c1&quot;&gt;//write task code&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To perform multipart post add apache dependencies to &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;compile &amp;#39;org.apache.httpcomponents:httpmime:4.+&amp;#39;
+compile &amp;#39;commons-io:commons-io:2.+&amp;#39;
+compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To get resulting apk for upload we can use task field&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apkFilename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;outputFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 11 Jan 2016 14:40:00 +0100</pubDate>
+        <link>http://localhost:4000/2016/01/11/gradle-plugin-upload%20copy.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/11/gradle-plugin-upload%20copy.html</guid>
+        
+        <category>android</category>
+        
+        <category>gradle</category>
+        
+        <category>plugin</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Android Gradle plugin sample</title>
+        <description>&lt;p&gt;Plugin will upload apk to distribution system after building release artifact.&lt;/p&gt;
+
+&lt;h3&gt;Create Project&lt;/h3&gt;
+
+&lt;p&gt;Create plugin project in IntelliJ IDEA. Go to &lt;strong&gt;File&lt;/strong&gt;-&amp;gt;&lt;strong&gt;New&lt;/strong&gt;-&amp;gt;&lt;strong&gt;Project&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Select Gradle and add Groovy Framework&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/new_project.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;Name your plugin:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/plugin_name.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;Select gradle settings:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/gradle_settings.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;And save your plugin:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/plugin_save.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;h3&gt;Add Groovy dependency&lt;/h3&gt;
+
+&lt;p&gt;Change &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;group &amp;#39;com.tunebrains.beta&amp;#39;
+version &amp;#39;1.0-SNAPSHOT&amp;#39;
+
+task wrapper(type: Wrapper) {
+  gradleVersion = &amp;#39;2.2&amp;#39;
+  distributionUrl = &amp;quot;https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip&amp;quot;
+}
+
+apply plugin: &amp;#39;java&amp;#39;
+apply plugin: &amp;#39;groovy&amp;#39;
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile &amp;#39;org.codehaus.groovy:groovy-all:2.3.11&amp;#39;
+
+    compile gradleApi()
+    compile localGroovy()
+    compile &amp;#39;com.android.tools.build:gradle:0.14.0&amp;#39;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Configure plugin and deploy to local folder&lt;/h3&gt;
+
+&lt;p&gt;Create folder structure&lt;/p&gt;
+
+&lt;p&gt;Project Root
+&lt;span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 10px;&quot;&gt;
+- src
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 20px;&quot;&gt;- main&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 40px;&quot;&gt;
+- groovy
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 40px;&quot;&gt;
+- resources
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 60px;&quot;&gt;
+- META-INF
+&lt;/span&gt;
+&lt;br&gt;
+&lt;span style=&quot;margin-left: 80px;&quot;&gt;
+- gradle-plugins&lt;br&gt;
+&lt;/span&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Create plugin description file under &lt;strong&gt;gradle-plugins&lt;/strong&gt; folder&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;File Name:&lt;/strong&gt; &lt;em&gt;com.tunebrains.beta-gradle-beta-upload.properties&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Create groovy class &lt;strong&gt;com.tunebrains.beta.gradle.UploadApkPlugin&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;tunebrains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beta&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;gradle&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.gradle.api.Plugin&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.gradle.api.Project&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UploadApkPlugin&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Plugin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Apply maven plugin to &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;maven&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Specify folder to deploy plugin&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: &amp;quot;file:///Users/alex/Projects/Tutorials/repo&amp;quot;)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Execute gradle tast to upload archive. Refresh gradle task if required.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;h3&gt;Apply plugin in your Android project.&lt;/h3&gt;
+
+&lt;p&gt;In top level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;buildscript {
+    repositories {
+        //...
+        maven {
+            url uri(&amp;#39;file:///Users/alex/Projects/Tutorials/repo&amp;#39;)
+        }
+    }
+    dependencies {
+
+        classpath group: &amp;#39;com.tunebrains.beta&amp;#39;, name: &amp;#39;releaseupload&amp;#39;,
+                version: &amp;#39;1.0-SNAPSHOT&amp;#39;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In app level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Apply plugin:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;com.tunebrains.beta-release-upload&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Its time for write some code.&lt;/p&gt;
+
+&lt;p&gt;We will add custom tasks &lt;strong&gt;betaDebug&lt;/strong&gt; and &lt;strong&gt;betaRelease&lt;/strong&gt; to upload debug and release apks.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hasProp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hasProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;android&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hasProp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;whenTaskAdded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;android&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;applicationVariants&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expectingTask&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;package${variant.name.capitalize()}&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expectingTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variantName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;variant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;
+
+                    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newTaskName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;beta${variantName.capitalize()}&amp;quot;&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;pProject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newTaskName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                        &lt;span class=&quot;c1&quot;&gt;//write task code&lt;/span&gt;
+                    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To perform multipart post add apache dependencies to &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;compile &amp;#39;org.apache.httpcomponents:httpmime:4.+&amp;#39;
+compile &amp;#39;commons-io:commons-io:2.+&amp;#39;
+compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To get resulting apk for upload we can use task field&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apkFilename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;outputFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 11 Jan 2016 14:40:00 +0100</pubDate>
+        <link>http://localhost:4000/2016/01/11/gradle-plugin-upload.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/11/gradle-plugin-upload.html</guid>
+        
+        <category>android</category>
+        
+        <category>gradle</category>
+        
+        <category>plugin</category>
+        
+        
+      </item>
     
       <item>
         <title>Custom Chromecast Receiver App</title>
         <description></description>
         <pubDate>Mon, 11 Jan 2016 14:40:00 +0100</pubDate>
-        <link>http://blog.tunebrains.com/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html</guid>
+        <link>http://localhost:4000/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html</guid>
         
         <category>android</category>
         
@@ -52,8 +475,8 @@
 &lt;p&gt;Full source code for this article is available on &lt;a href=&quot;https://github.com/timoshenkoav/ActivityAttributes&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 04 Jan 2016 19:52:00 +0100</pubDate>
-        <link>http://blog.tunebrains.com/2016/01/04/read-custom-attributes-from-activity.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2016/01/04/read-custom-attributes-from-activity.html</guid>
+        <link>http://localhost:4000/2016/01/04/read-custom-attributes-from-activity.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/04/read-custom-attributes-from-activity.html</guid>
         
         <category>android</category>
         
@@ -186,8 +609,8 @@ This solution is not fully completed, and may have some issues under some unexpe
 &lt;p&gt;Enjoy!&lt;/p&gt;
 </description>
         <pubDate>Fri, 11 Dec 2015 17:30:00 +0100</pubDate>
-        <link>http://blog.tunebrains.com/2015/12/11/recycler-view-sections-contacts-lollipop.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/12/11/recycler-view-sections-contacts-lollipop.html</guid>
+        <link>http://localhost:4000/2015/12/11/recycler-view-sections-contacts-lollipop.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/12/11/recycler-view-sections-contacts-lollipop.html</guid>
         
         <category>android</category>
         
@@ -244,8 +667,8 @@ This solution is not fully completed, and may have some issues under some unexpe
 %}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
         <pubDate>Fri, 13 Nov 2015 23:25:00 +0100</pubDate>
-        <link>http://blog.tunebrains.com/2015/11/13/track-outbound-links-on-jekyll.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/11/13/track-outbound-links-on-jekyll.html</guid>
+        <link>http://localhost:4000/2015/11/13/track-outbound-links-on-jekyll.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/11/13/track-outbound-links-on-jekyll.html</guid>
         
         <category>GA</category>
         
@@ -295,8 +718,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         <pubDate>Tue, 10 Nov 2015 17:48:00 +0100</pubDate>
-        <link>http://blog.tunebrains.com/2015/11/10/block-domains-with-vpn.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/11/10/block-domains-with-vpn.html</guid>
+        <link>http://localhost:4000/2015/11/10/block-domains-with-vpn.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/11/10/block-domains-with-vpn.html</guid>
         
         <category>android</category>
         
@@ -395,8 +818,8 @@ try {
 &lt;p&gt;Code is available on &lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 28 Oct 2015 14:17:35 +0100</pubDate>
-        <link>http://blog.tunebrains.com/2015/10/28/make-clear-android-signing-and-content-provider.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/28/make-clear-android-signing-and-content-provider.html</guid>
+        <link>http://localhost:4000/2015/10/28/make-clear-android-signing-and-content-provider.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/10/28/make-clear-android-signing-and-content-provider.html</guid>
         
         <category>android</category>
         
@@ -466,268 +889,11 @@ List&amp;lt;UsageStats&amp;gt; lUsageStatsList =
 &lt;p&gt;Full source code for this article is available on &lt;a href=&quot;https://github.com/timoshenkoav/USMSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Oct 2015 19:41:00 +0200</pubDate>
-        <link>http://blog.tunebrains.com/2015/10/20/usage-stats-manager-sample.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/20/usage-stats-manager-sample.html</guid>
+        <link>http://localhost:4000/2015/10/20/usage-stats-manager-sample.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/10/20/usage-stats-manager-sample.html</guid>
         
         <category>android</category>
         
-        
-      </item>
-    
-      <item>
-        <title>Encrypted API from android to rails</title>
-        <description>&lt;p&gt;Working on remote logging system for android, I faced up with Google require not to send user information to remote system, as this violates section 4.3 of the Developer Distribution Agreement.&lt;/p&gt;
-
-&lt;p&gt;To solve this we need to send the data to our server encrypted.&lt;/p&gt;
-
-&lt;p&gt;It&amp;#39;s nice to encrypt it so even if someone sniff the traffic they will not be able to decrypt contents.&lt;/p&gt;
-
-&lt;p&gt;To provide such encryption we can use asymmetric algorithm like RSA, public key is stored inside the android application and used to encrypt the data sent to remote server, private key is stored on servicer side and used to decrypt the data.&lt;/p&gt;
-
-&lt;p&gt;But the problem with asymmetric algorithm is that generaly they can encrypt data length up to key size, so for RSA its 4096 bits, which is not good in our case, as our logs can be much longer.&lt;/p&gt;
-
-&lt;p&gt;Symmetric algorithms, like AES can encrypt practically unlimited ammount of data, but as the same key is used to encrypt and decrypt information, it&amp;#39;s easy to stole data while transmissing to server if one has access to app code, which is true for Android applications. &lt;/p&gt;
-
-&lt;p&gt;The often used solution is:&lt;/p&gt;
-
-&lt;p&gt;On Client Side:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Generate random AES key ( e.g 256 bits long)&lt;/li&gt;
-&lt;li&gt;Encrypt body with AES using generated key&lt;/li&gt;
-&lt;li&gt;Encrypt key with RSA using stored public key&lt;/li&gt;
-&lt;li&gt;Send encrypted key along with encrypted body&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;On Server Side&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Decrypt key with RSA private key to get plain AES key&lt;/li&gt;
-&lt;li&gt;Decrypt body with plain AES key&lt;/li&gt;
-&lt;li&gt;Handle the request&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Lets start from the client side:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Generate random AES key&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static final int AES_KEY_SIZE = 256 / 8;
-public static String randomKey(int len) {
-    Random generator = new Random();
-    StringBuilder randomStringBuilder = new StringBuilder();
-    int randomLength = len;
-    char tempChar;
-    for (int i = 0; i &amp;lt; randomLength; i++) {
-        tempChar = (char) (generator.nextInt(96) + 32);
-        randomStringBuilder.append(tempChar);
-    }
-    return randomStringBuilder.toString();
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;Encrypt data with AES&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
-
-    SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), &amp;quot;AES&amp;quot;);
-    Cipher cipher = Cipher.getInstance(&amp;quot;AES&amp;quot;);
-    cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-    byte[] encrypted = cipher.doFinal(plain.getBytes());
-    return encrypted;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;Encrypt key using RSA&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;To generate RSA key-pair we can simply use great online service: &lt;a href=&quot;http://travistidwell.com/jsencrypt/demo/&quot;&gt;Generate Key Online&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;We can store public key either in assets/resources/plain string&lt;/p&gt;
-
-&lt;p&gt;To unify reading key we can use InputStream as source, so it can be FileInputStream, ByteArrayInputStream or any other source:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
-    String lStringKey = read(pInputStream);
-    String lRawString = stripKeyHeaders(lStringKey);
-    return base64(lRawString);
-}
-public static String stripKeyHeaders(String key) {
-    StringBuilder strippedKey = new StringBuilder();
-    String lines[] = key.split(&amp;quot;\n&amp;quot;);
-    for (String line : lines) {
-        if (!line.contains(&amp;quot;PRIVATE KEY&amp;quot;) &amp;amp;&amp;amp; !line.contains(&amp;quot;PUBLIC KEY&amp;quot;) &amp;amp;&amp;amp; !TextUtils.isEmpty(line.trim())) {
-            strippedKey.append(line.trim());
-        }
-    }
-    return strippedKey.toString().trim();
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Using public key, we can encrypt data&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
-    X509EncodedKeySpec spec = new X509EncodedKeySpec(pKey);
-    KeyFactory kf = KeyFactory.getInstance(&amp;quot;RSA&amp;quot;);
-    PublicKey publicKey = kf.generatePublic(spec);
-    Cipher cipher = Cipher.getInstance(&amp;quot;RSA/ECB/PKCS1Padding&amp;quot;);
-    cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-    byte []encryptedBytes = cipher.doFinal(plain);
-    return encryptedBytes;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now we have everything encrypted and we can send data to our API. Body will be send as base64 request body, encrypted key - as request header.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
-String lAESKey =  randomKey(AES_KEY_SIZE);      
-String lEncryptedKey = Base64.encode(RSAEncrypt(lAESKey, lAESKey), 0);
-String lEncryptedBody = Base64.encode(AESEncrypt(body, lAESKey), 0);
-post(&amp;quot;http://api-domain.com&amp;quot;, lEncryptedBody, lEncryptedKey);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;To Be Continued...&lt;/p&gt;
-</description>
-        <pubDate>Fri, 02 Oct 2015 19:54:00 +0200</pubDate>
-        <link>http://blog.tunebrains.com/2015/10/02/android-encrypted-api-with-rails.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/02/android-encrypted-api-with-rails.html</guid>
-        
-        <category>android</category>
-        
-        <category>rails</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Sign multiple flavors with different keystores</title>
-        <description>&lt;p&gt;One of my projects has a lot of flavors, and each flavor has different keystore to sign with. As a result it has very long build.gradle project file. As each flavor need defining separate singningConfig and defining flavor signing on release buildType&lt;/p&gt;
-
-&lt;p&gt;After reading couple of articles, i end up with this solution:&lt;/p&gt;
-
-&lt;p&gt;Create &lt;code&gt;signs.gradle&lt;/code&gt; under project folder:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;def fillDefaults(signingConfig) {
-    signingConfig.storeFile = null
-    signingConfig.storePassword = &amp;#39;&amp;#39;
-    signingConfig.keyAlias = &amp;#39;&amp;#39;
-    signingConfig.keyPassword = &amp;#39;&amp;#39;
-}
-def setupSigning(name) {
-    def signingProperties = &amp;quot;${name}.info&amp;quot;
-    def signingKeys = [
-            storeFile    : { x -&amp;gt; file(x) },
-            storePassword: { x -&amp;gt; x },
-            keyAlias     : { x -&amp;gt; x },
-            keyPassword  : { x -&amp;gt; x },
-    ]
-    // Find signing.properties in project root, or in $HOME/.gradle
-    def f = [&amp;quot;${projectDir}/certs/${signingProperties}&amp;quot;].find { file(it).exists() }
-    if (f) {
-        println &amp;quot;Loading signing properties from ${f}&amp;quot;
-        def props = new Properties()
-        props.load(new FileInputStream(f))
-
-        // For each property apply it to the release signing config
-        signingKeys.any { k, fn -&amp;gt;
-            if (!props.containsKey(k)) {
-                println &amp;quot;Missing property ${k}&amp;quot;
-                fillDefaults(android.signingConfigs[name])
-                return true
-            } else {
-                android.signingConfigs[name][k] = fn(props[k]);
-            }
-            return
-        }
-        println android.signingConfigs[name]
-    } else {
-        println &amp;quot;Missing ${signingProperties} file&amp;quot;
-        fillDefaults(android.signingConfigs[name])
-    }
-}
-ext {
-    setupSigning = this.&amp;amp;setupSigning
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Apply it in project &lt;code&gt;build.gradle&lt;/code&gt; in the beggining of the file&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply from: &amp;#39;signs.gradle&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Add callbacks when &lt;code&gt;signingConfigs&lt;/code&gt; and &lt;code&gt;productFlavors&lt;/code&gt; is added:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;android.signingConfigs.whenObjectAdded { signing -&amp;gt;
-    setupSigning(signing.name)
-}
-
-android.productFlavors.whenObjectAdded { flavor -&amp;gt;
-    flavor.signingConfig = android.signingConfigs[flavor.name]
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The first will call our function with added signing name&lt;/p&gt;
-
-&lt;p&gt;The second will set &lt;code&gt;signingConfig&lt;/code&gt; for flavor based on loaded config&lt;/p&gt;
-
-&lt;p&gt;Keystore information is stored in files named &lt;code&gt;&amp;lt;flavor_name&amp;gt;.info&lt;/code&gt; under &lt;code&gt;certs&lt;/code&gt; folder under project subfolder. The format of this file is often used to storing `signed.properties&amp;#39;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;storeFile=certs/&amp;lt;filename&amp;gt;
-storePassword=&amp;#39;&amp;#39;
-keyAlias=&amp;#39;&amp;#39;
-keyPassword=&amp;#39;&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Usage&lt;/h2&gt;
-
-&lt;p&gt;Add flavor configuration&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
-    app1 {    
-        applicationId &amp;#39;com.sample.app1&amp;#39;   
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Register signing config with the same name as flavor&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;signingConfigs {
-    app1
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Create &lt;code&gt;app1.info&lt;/code&gt; file under &lt;code&gt;certs&lt;/code&gt; directory with information about the keystore.&lt;/p&gt;
-
-&lt;p&gt;Build. Enjoy.&lt;/p&gt;
-
-&lt;h2&gt;ToDo&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Remove requirement to put &lt;code&gt;signingConfig&lt;/code&gt; with flavor name. It should do this automatically when flavor is registered&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;References&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://saulmm.github.io/squeezing-gradle-builds&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;Squeezing your Gradle builds&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;Building Multiple Editions of an Android App with Gradle&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;http://zserge.com/blog/android-signing.html&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;HOW TO SIGN RELEASE APK WITH GRADLE&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 02 Oct 2015 13:11:35 +0200</pubDate>
-        <link>http://blog.tunebrains.com/2015/10/02/gradle-multi-flavors-signing.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/2015/10/02/gradle-multi-flavors-signing.html</guid>
-        
-        <category>android</category>
-        
-        <category>gradle</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Welcome</title>
-        <description>&lt;div class=&#39;avatar&#39;&gt;
-&lt;img src=&#39;https://gravatar.com/userimage/18991598/d52e7a5def139e3df3b98ab9ccf2b261.jpeg?size=500&#39;/&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Having a lot of fun with work, i always store list of my achievements and new topics i am interested in &lt;strong&gt;Evernote&lt;/strong&gt; as a list, and information about them as notes. After almost a year using this technique i realized that is not so good way. Thats why i&amp;#39;ve created this blog on &lt;strong&gt;GitHub Pages&lt;/strong&gt; to check if its convenient for me to write articles (and as additional way to get some level up, as i haven&amp;#39;t wrote articles describing by life/work before) about my thoughts/work etc. &lt;/p&gt;
-
-&lt;p&gt;Main purpose of this is to describe some technical things i learn,faced up while developing Android/RoR applications. But sometimes i will also post something about living in Montenegro. &lt;/p&gt;
-
-&lt;p&gt;Lets have a fun!&lt;/p&gt;
-</description>
-        <pubDate>Fri, 02 Oct 2015 13:11:34 +0200</pubDate>
-        <link>http://blog.tunebrains.com/welcome/blog/2015/10/02/welcome.html</link>
-        <guid isPermaLink="true">http://blog.tunebrains.com/welcome/blog/2015/10/02/welcome.html</guid>
-        
-        
-        <category>welcome</category>
-        
-        <category>blog</category>
         
       </item>
     

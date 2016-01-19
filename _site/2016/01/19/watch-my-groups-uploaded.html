@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Track outbound links to GA on jekyll</title>
+    <title>Subscribe to Facebook groups with keywords</title>
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/2015/11/13/track-outbound-links-on-jekyll.html">
+    <link rel="canonical" href="http://localhost:4000/2016/01/19/watch-my-groups-uploaded.html">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -47,10 +47,10 @@
 </script>
   
   
-  <meta property="og:url"                content="http://localhost:4000/2015/11/13/track-outbound-links-on-jekyll.html" />
+  <meta property="og:url"                content="http://localhost:4000/2016/01/19/watch-my-groups-uploaded.html" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="Track outbound links to GA on jekyll" />
-<meta property="og:description"        content="" />
+<meta property="og:title"              content="Subscribe to Facebook groups with keywords" />
+<meta property="og:description"        content="Subscribe to Facebook groups with keywords" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
 <script>
@@ -70,7 +70,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-  <meta property="description"                content="" />
+  <meta property="description"                content="Subscribe to Facebook groups with keywords" />
 
   <script src="//load.sumome.com/" data-sumo-site-id="0b92bd58a0af51a51868377c6e12afea55f26e7b938fdb7a184f877671f26b35" async="async"></script>
   <body>  
@@ -116,73 +116,60 @@
           <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Track outbound links to GA on jekyll</h1>
-    <p class="post-meta">Nov 13, 2015</p>
+    <h1 class="post-title">Subscribe to Facebook groups with keywords</h1>
+    <p class="post-meta">Jan 19, 2016</p>
   </header>
 
   <article class="post-content">
-    <ol>
-<li>Add jQuery to your jekyll blog if its not there yet. I am adding it to <strong>_includes/head.html</strong></li>
-</ol>
+    <p><a class="ga-link" data-link-type="googleplay" target='_blank' href="https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&utm_source=blog&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=blogstart&pcampaignid=blogstart"><img alt="Get it on Google Play" style="width:100px;" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a></p>
 
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;script</span> <span class="na">src=</span><span class="s">&quot;//code.jquery.com/jquery-1.11.3.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script</span> <span class="na">src=</span><span class="s">&quot;//code.jquery.com/jquery-migrate-1.2.1.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></div>
+<p>After i have moved to Montenegro, i became quite active user of Facebook. There are a lot of groups on Facebook connecting russian speaking people living in Montenegro.</p>
 
-<ol>
-<li>Create additional include where we will make our magick. I did this in <strong><em>includes/google</em>_analytics.html</strong>. </li>
-</ol>
+<p>They communicate on different parts of living in foreign country: selling goods, transfer between cities, renting a car and a lot more.</p>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.ga-link&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="nx">ga</span><span class="p">)</span><span class="o">!==</span><span class="s2">&quot;undefined&quot;</span><span class="p">){</span>
-            <span class="nx">ga</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,{</span>
-                <span class="nx">hitType</span><span class="o">:</span> <span class="s1">&#39;event&#39;</span><span class="p">,</span>
-                <span class="nx">eventCategory</span><span class="o">:</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span>
-                <span class="nx">eventAction</span><span class="o">:</span> <span class="s1">&#39;outbound&#39;</span><span class="p">,</span>
-                <span class="nx">eventLabel</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
-            <span class="p">});</span>          
-        <span class="p">}</span>
-    <span class="p">});</span>
-<span class="p">)};</span></code></pre></div>
+<p>Quite fast i&#39;ve tired constantly refreshing facebook page waiting for some interested post with goods and services i need, and thought about app to watch for some keywords that it can find in group and notify my.</p>
 
-<p>File with this code is included in <em>default.html</em> </p>
+<p>Thats how &quot;Watch My Groups&quot; was born.</p>
 
-<div class="highlight"><pre><code class="language-liquid" data-lang="liquid"><span class="p">{%</span><span class="w"> </span><span class="nt">include</span><span class="w"> </span>google_analytics.html<span class="w"> </span><span class="p">%}</span></code></pre></div>
+<p>As i have a lot of tasks on my main job, application development was quite slow, before one guy in one of facebook groups asked if there is such app. If someone other need it, app was finished quite fast.</p>
 
-<ol>
-<li> Add <strong>class=&#39;ga-link&#39;</strong> to all links you want to track to google analytics.</li>
-</ol>
+<p>Its available on Google Play and you can find it using this <a href="https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&utm_source=blog&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=blog&pcampaignid=blog" class="ga-link" data-link-type="" target='_blank'>link</a></p>
 
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;https://github.com/timoshenkoav&quot;</span> <span class="na">class=</span><span class="s">&#39;ga-link&#39;</span> <span class="na">target=</span><span class="s">&#39;_blank&#39;</span><span class="nt">&gt;</span></code></pre></div>
+<p>Now it can search only through open facebook groups due to limitation on facebook API, but if there is some admins of closed groups, it will be technically possible to implement closed group search for other users.</p>
 
-<p>I`ve created such include to help generate links tracked:</p>
+<p>App has quite simple UI.</p>
 
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span> <span class="na">class=</span><span class="s">&quot;ga-link&quot;</span> <span class="na">target=</span><span class="s">&#39;_blank&#39;</span><span class="nt">&gt;&lt;/a&gt;</span></code></pre></div>
+<p>First you need to login with facebook account. App does not request any publish permissions, only access to public profile.</p>
 
-<p>Now if i want to have such link i can use:</p>
+<p>Then touch action button to create search.</p>
 
-<div class="highlight"><pre><code class="language-liquid" data-lang="liquid"><span class="p">{%</span><span class="w"> </span><span class="nt">include</span><span class="w"> </span>ga_link.html<span class="w"> </span>
-    title=&quot;GitHub&quot; 
-    url=&quot;https://github.com&quot; 
-%}</code></pre></div>
+<p>Start typing group name and select group from autocomplete dropdown:</p>
+
+<p><img src="http://localhost:4000/assets/watchmygroups/Screen2.png" style="width: 190px;"/></p>
+
+<p>And fill the term you want to subscribe to</p>
+
+<p><img src="http://localhost:4000/assets/watchmygroups/Screen3.png" style="width: 190px;"/></p>
+
+<p>When app found some posts you are looking for you can see them on the &quot;Founds&quot; tab</p>
+
+<p><img src="http://localhost:4000/assets/watchmygroups/Screen4.png" style="width: 190px;"/></p>
+
+<p><a class="ga-link" data-link-type="googleplay" target='_blank' href="https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&utm_source=blog&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=blog&pcampaignid=blog"><img alt="Get it on Google Play" style="width:100px;" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a></p>
 
   </article>
   <tags>
 	  
-	  	<span class="label label-default">GA</span>  	
+	  	<span class="label label-default">android</span>  	
 	  
-	  	<span class="label label-default">jekyll</span>  	
+	  	<span class="label label-default">facebook</span>  	
+	  
+	  	<span class="label label-default">sdk</span>  	
 	  	
   </tags>    
   <readmore>
     Read More...
     <br>
-    
-      <a href="/2016/01/19/watch-my-groups-uploaded.html" class="ga-link" data-link-type="related" target='_blank'>Subscribe to Facebook groups with keywords</a>
-
-
-      
-      <br>
     
       <a href="/2016/01/11/gradle-plugin-upload%20copy.html" class="ga-link" data-link-type="related" target='_blank'>Android Gradle plugin sample</a>
 
@@ -209,6 +196,12 @@
       <br>
     
       <a href="/2015/12/11/recycler-view-sections-contacts-lollipop.html" class="ga-link" data-link-type="related" target='_blank'>Display RecyclerView sections like Android Lollipop contacts application</a>
+
+
+      
+      <br>
+    
+      <a href="/2015/11/13/track-outbound-links-on-jekyll.html" class="ga-link" data-link-type="related" target='_blank'>Track outbound links to GA on jekyll</a>
 
 
       
