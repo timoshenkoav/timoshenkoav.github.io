@@ -40,3 +40,5 @@ When app found some posts you are looking for you can see them on the "Founds" t
 <img src="{{ site.url }}/assets/watchmygroups/Screen4.png" style="width: 190px;"/>
 
 <a class="ga-link" data-link-type="googleplay" target='_blank' href="https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&utm_source=blog&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=blog&pcampaignid=blog"><img alt="Get it on Google Play" style="width:100px;" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a>
+
+Appreciate any feedback and propositions.
