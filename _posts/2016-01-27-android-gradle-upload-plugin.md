@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Android Gradle plugin sample"
-date:   2016-01-11 13:40:00
+date:   2016-01-27 17:04:00
 tags: android gradle plugin
 meta_description: Android Gradle plugin
 ---
@@ -10,88 +10,41 @@ Plugin will upload apk to distribution system after building release artifact.
 
 ### Create Project
 
-Create plugin project in IntelliJ IDEA. Go to **File**->**New**->**Project**.
+In the gradle folder, copy **samples**->**customPlugin**->**plugin** to your work directory. Gradle distribution can be downloaded {% include ga_link.html title="here" url="http://gradle.org/gradle-download/" %}
 
-Select Gradle and add Groovy Framework
+### build.gradle
 
-<img src="{{ site.url }}/assets/gradle_plugin_upload/new_project.jpg"/>
-
-Name your plugin:
-
-<img src="{{ site.url }}/assets/gradle_plugin_upload/plugin_name.jpg"/>
-
-Select gradle settings:
-
-<img src="{{ site.url }}/assets/gradle_plugin_upload/gradle_settings.jpg"/>
-
-And save your plugin:
-
-<img src="{{ site.url }}/assets/gradle_plugin_upload/plugin_save.jpg"/>
-
-### Add Groovy dependency
-
-Change **build.gradle**
+Change build.gradle to this strusture
 
 ```
-group 'com.tunebrains.beta'
-version '1.0-SNAPSHOT'
-
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.2'
-  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip"
-}
-
-apply plugin: 'java'
 apply plugin: 'groovy'
 
-sourceCompatibility = 1.7
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    compile 'com.android.tools.build:gradle:0.14.0'
+}
+
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
-
-    compile gradleApi()
-    compile localGroovy()
-    compile 'com.android.tools.build:gradle:0.14.0'
+    testCompile 'junit:junit:4.12'
 }
+
+group = 'com.tunebrains.beta'
+version = '1.0-SNAPSHOT'
+
 
 ```
 
 ### Configure plugin and deploy to local folder
 
-Create folder structure
-
-Project Root
-<span>
-<br>
-<span style="margin-left: 10px;">
-- src
-</span>
-<br>
-<span style="margin-left: 20px;">- main</span>
-<br>
-<span style="margin-left: 40px;">
-- groovy
-</span>
-<br>
-<span style="margin-left: 40px;">
-- resources
-</span>
-<br>
-<span style="margin-left: 60px;">
-- META-INF
-</span>
-<br>
-<span style="margin-left: 80px;">
-- gradle-plugins			
-</span>		
-<br>
-</span>
-
-Create plugin description file under **gradle-plugins** folder
+Rename and change plugin description file under **src**->**main**->**resources**->**META-INF**->**gradle-plugins** folder
 
 **File Name:** *com.tunebrains.beta-gradle-beta-upload.properties*
 
@@ -116,11 +69,6 @@ class UploadApkPlugin implements Plugin<Project> {
 
 {%endhighlight%}
 
-Apply maven plugin to **build.gradle**
-
-```
-apply plugin: 'maven'
-```
 
 Specify folder to deploy plugin
 
@@ -207,3 +155,41 @@ To get resulting apk for upload we can use task field
 {%highlight groovy%}
 String apkFilename = task.outputFile.toString()
 {%endhighlight%}
+
+Now we need to post our resulting apk to server endpoint.
+
+{%highlight groovy%}
+private Object uploadApk(Project project, String apkFilename, String mappingFilename) {
+    String serverEndpoint = "http://localhost:3000"
+    String url = "${serverEndpoint}/api/v3/uploads.json"
+    MultipartEntity entity = buildEntity(apkFilename, mappingFilename)
+    String via = ""
+
+    return post(url, entity, via)
+}
+private MultipartEntity buildEntity(String apkFilename, String mappingFilename) {
+    MultipartEntity entity = new MultipartEntity()
+    entity.addPart('upload[data_file_name]', new FileBody(new File(apkFilename)))
+    return entity
+}
+private Object post(String url, MultipartEntity entity, String via) {
+    DefaultHttpClient httpClient = buildHttpClient()
+    HttpPost post = new HttpPost(url)
+    post.setEntity(entity)
+    HttpResponse response = httpClient.execute(post)
+
+    String json = EntityUtils.toString(response.getEntity())
+    def parser = new JsonSlurper()
+    def parsed = parser.parseText(json)
+
+    return parsed
+}
+private DefaultHttpClient buildHttpClient() {
+    DefaultHttpClient httpClient = new DefaultHttpClient()
+    return httpClient
+}
+{%endhighlight%} 
+
+In result of evecution *uploadApk* we got the resulting json object of parsed server response. And can for example print to console url where you can find the build.
+
+Enjoy!
