@@ -9,6 +9,6 @@ twitter_username: timoshenko_av
 github_username:  timoshenkoav
 
 # Build settings
-markdown: redcarpet
+markdown: kramdown
 
 environment: production
