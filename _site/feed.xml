@@ -5,9 +5,55 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 27 Jan 2016 17:04:45 +0100</pubDate>
-    <lastBuildDate>Wed, 27 Jan 2016 17:04:45 +0100</lastBuildDate>
+    <pubDate>Thu, 04 Feb 2016 21:35:52 +0100</pubDate>
+    <lastBuildDate>Thu, 04 Feb 2016 21:35:52 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Load app hi-res icon</title>
+        <description>&lt;p&gt;Short snippet how to load hi-res icon of the app by its package name.&lt;/p&gt;
+
+&lt;p&gt;By default when you request some app icon from &lt;strong&gt;PackageManager&lt;/strong&gt; you get icon for device density, which is pretty obvious.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Drawable&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loadAppIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Context&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packageName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ApplicationInfo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApplicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packageName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;GET_META_DATA&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;loadIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;NameNotFoundException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;But if you want to display this icon larger then it is (46dp) you need to load higher resolution version of icon to prevent pixilisation.&lt;/p&gt;
+
+&lt;p&gt;If your min sdk is &amp;gt;= 15 you can use this code:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ApplicationInfo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getApplicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packageName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;GET_META_DATA&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Resources&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lResources&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getResourcesForApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lResources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getDrawableForDensity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DisplayMetrics&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;DENSITY_XXXHIGH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;applicationInfo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;loadIcon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PackageManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;NameNotFoundException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Enjoy!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 04 Feb 2016 23:00:00 +0100</pubDate>
+        <link>http://localhost:4000/2016/02/04/load-app-hires-icon.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/02/04/load-app-hires-icon.html</guid>
+        
+        <category>android</category>
+        
+        <category>icon</category>
+        
+        
+      </item>
     
       <item>
         <title>Android Gradle plugin sample</title>
@@ -169,8 +215,8 @@ compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
 &lt;p&gt;Enjoy!&lt;/p&gt;
 </description>
         <pubDate>Wed, 27 Jan 2016 18:04:00 +0100</pubDate>
-        <link>http://localhost:4000/2016/01/27/gradle-plugin-upload.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/01/27/gradle-plugin-upload.html</guid>
+        <link>http://localhost:4000/2016/01/27/android-gradle-upload-plugin.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/27/android-gradle-upload-plugin.html</guid>
         
         <category>android</category>
         
@@ -812,75 +858,6 @@ try {
         <category>android</category>
         
         <category>keystore</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Android UsageStatsManager sample</title>
-        <description>&lt;p&gt;Google has deprecated the function &amp;quot;getRecentTasks&amp;quot; of &amp;quot;ActivityManager&amp;quot; class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that &amp;quot;locks&amp;quot; access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.&lt;/p&gt;
-
-&lt;p&gt;Google introduces UsageStatsManager in api 21, which can replace &amp;quot;getRecentTasks&amp;quot; for new versions.&lt;/p&gt;
-
-&lt;p&gt;I&amp;#39;ve created sample project demonstrating how to use this api.&lt;/p&gt;
-
-&lt;p&gt;First of all you need to declare permission in AndroidManifest.xml&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;lt;uses-permission android:name=&amp;quot;android.permission.PACKAGE_USAGE_STATS&amp;quot;
-                     tools:ignore=&amp;quot;ProtectedPermissions&amp;quot;/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Adding  &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;tools:ignoe=&amp;quot;ProtectedPermissions&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;will disable warning that permission is system level and will not be granted to third-party apps. However, declaring the permission implies intention to use the API and the user of the device can grant permission through the Settings application.&lt;/p&gt;
-
-&lt;p&gt;So we need to check if our app was granted this permission&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private boolean hasPermission() {
-    AppOpsManager appOps = (AppOpsManager)
-                getSystemService(Context.APP_OPS_SERVICE);
-    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-            android.os.Process.myUid(), getPackageName());
-    return mode == AppOpsManager.MODE_ALLOWED;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and if no, ask user to enable it&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;startActivityForResult(
-    new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 
-        MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;We are launching settings activity to allow app to get usage stats, its not android M default way to deal with permissions, we need to check result in onActivityResult&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (requestCode){
-        case MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS:
-            if (hasPermission()){
-                getStats();
-            }else{
-                requestPermission();
-            }
-            break;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;In this sample if user did not grant permission we will ask again while permission is not granted. In real application, its better to tell user why do we need this permission and turn off functionality if permission was not granted.&lt;/p&gt;
-
-&lt;p&gt;After the permission was eventually granted, we can query information about last active packages&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;UsageStatsManager lUsageStatsManager = 
-    (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-List&amp;lt;UsageStats&amp;gt; lUsageStatsList = 
-    lUsageStatsManager.queryUsageStats(
-        UsageStatsManager.INTERVAL_DAILY, 
-        System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
-        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout &lt;a href=&quot;https://developer.android.com/reference/android/app/usage/UsageStatsManager.html&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;official documentation&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Full source code for this article is available on &lt;a href=&quot;https://github.com/timoshenkoav/USMSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 20 Oct 2015 19:41:00 +0200</pubDate>
-        <link>http://localhost:4000/2015/10/20/usage-stats-manager-sample.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/10/20/usage-stats-manager-sample.html</guid>
-        
-        <category>android</category>
         
         
       </item>
