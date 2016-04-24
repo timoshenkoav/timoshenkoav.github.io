@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Deep android project structure"
-date:   2016-04-24 20:30:00
+date:   2016-04-23 20:30:00
 tags: android gradle plugin
 meta_description: Android Gradle plugin
 ---
