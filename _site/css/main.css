@@ -481,20 +481,6 @@ tags {
   vertical-align: baseline;
   border-radius: .25em; }
 
-.col {
-  float: left;
-  position: relative;
-  min-height: 1px; }
-
-.col-sm-9 {
-  width: 75%; }
-
-.col-sm-3 {
-  width: 25%; }
-
-.col-sm-12 {
-  width: 100%; }
-
 .page-tags {
   background: red;
   height: 100px; }

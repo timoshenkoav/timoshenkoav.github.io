@@ -5,9 +5,59 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 04 Feb 2016 22:35:11 +0100</pubDate>
-    <lastBuildDate>Thu, 04 Feb 2016 22:35:11 +0100</lastBuildDate>
+    <pubDate>Sun, 24 Apr 2016 21:05:36 +0200</pubDate>
+    <lastBuildDate>Sun, 24 Apr 2016 21:05:36 +0200</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Deep android project structure</title>
+        <description>&lt;p&gt;Inspired by &lt;a href=&quot;https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0&quot; class=&quot;ga-link&quot; data-link-type=&quot;outbound&quot; target=&#39;_blank&#39;&gt;Dmytro Danylyk&lt;/a&gt; post about using sourceSets to have deep project structure in android, i&amp;#39;ve written small gradle plugin to automate this task.&lt;/p&gt;
+
+&lt;p&gt;To use it in you project add this to top level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;buildscript {
+    repositories {
+        ///...
+        maven {
+            url uri(&amp;#39;http://maven.tunebrains.com/content/repositories/android/&amp;#39;)
+        }
+    }
+    dependencies {
+        //...
+        classpath group: &amp;#39;com.tunebrains&amp;#39;, name: &amp;#39;sourcesetflattener&amp;#39;,
+                version: &amp;#39;0.0.1&amp;#39;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Apply plugin in project level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;com.tunebrains.sourcesetflattener&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Specify root directory to store screen related resources&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;flattener{
+    root &amp;#39;res-screen&amp;#39;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Sync Project with gradle files, and it will load directory structure to source set automatically.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_flattener/1461524521625.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;Also works for multiple flavours.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_flattener/1461524624236.jpg&quot;/&gt;&lt;/p&gt;
+
+&lt;p&gt;All source code available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/SourceSetFlattener&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 24 Apr 2016 22:30:00 +0200</pubDate>
+        <link>http://localhost:4000/2016/04/24/android-gradle-flattener.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/04/24/android-gradle-flattener.html</guid>
+        
+        <category>android</category>
+        
+        <category>gradle</category>
+        
+        <category>plugin</category>
+        
+        
+      </item>
     
       <item>
         <title>Load app hi-res icon</title>
@@ -61,7 +111,7 @@
 
 &lt;h3&gt;Create Project&lt;/h3&gt;
 
-&lt;p&gt;In the gradle folder, copy &lt;strong&gt;samples&lt;/strong&gt;-&amp;gt;&lt;strong&gt;customPlugin&lt;/strong&gt;-&amp;gt;&lt;strong&gt;plugin&lt;/strong&gt; to your work directory. Gradle distribution can be downloaded &lt;a href=&quot;http://gradle.org/gradle-download/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In the gradle folder, copy &lt;strong&gt;samples&lt;/strong&gt;-&amp;gt;&lt;strong&gt;customPlugin&lt;/strong&gt;-&amp;gt;&lt;strong&gt;plugin&lt;/strong&gt; to your work directory. Gradle distribution can be downloaded &lt;span&gt;&lt;a href=&quot;http://gradle.org/gradle-download/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;here&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 
 &lt;h3&gt;build.gradle&lt;/h3&gt;
 
@@ -241,7 +291,7 @@ compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
 
 &lt;p&gt;As i have a lot of tasks on my main job, application development was quite slow, before one guy in one of facebook groups asked if there is such app. If someone other need it, app was finished quite fast.&lt;/p&gt;
 
-&lt;p&gt;Its available on Google Play and you can find it using this &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blog&amp;pcampaignid=blog&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;link&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Its available on Google Play and you can find it using this &lt;span&gt;&lt;a href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blog&amp;pcampaignid=blog&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;link&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;Now it can search only through open facebook groups due to limitation on facebook API, but if there is some admins of closed groups, it will be technically possible to implement closed group search for other users.&lt;/p&gt;
 
@@ -506,7 +556,7 @@ compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
     &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Full source code for this article is available on &lt;a href=&quot;https://github.com/timoshenkoav/ActivityAttributes&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Full source code for this article is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/ActivityAttributes&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 04 Jan 2016 19:52:00 +0100</pubDate>
         <link>http://localhost:4000/2016/01/04/read-custom-attributes-from-activity.html</link>
@@ -638,7 +688,7 @@ compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
 The main logic is to have &lt;strong&gt;TextView&lt;/strong&gt; with the same style as section title item in item list and show/hide appropriate TextView in the item and animate TextView in the Activity. 
 This solution is not fully completed, and may have some issues under some unexpected circumstances, but as its opensourced you can easily create issue or submit your pull request.&lt;/p&gt;
 
-&lt;p&gt;You can find complete source code on &lt;a href=&quot;https://github.com/timoshenkoav/RecyclerViewSections&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can find complete source code on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/RecyclerViewSections&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;Enjoy!&lt;/p&gt;
 </description>
@@ -758,106 +808,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         <category>android</category>
         
         <category>vpn</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Signing android app for secure content provider</title>
-        <description>&lt;p&gt;Always was curious how to manage android keystore sertificates for multiple apps, either generate separate keystore file each time, or just use multiple alias in the same keystore.&lt;/p&gt;
-
-&lt;p&gt;Now its time to make it clear.&lt;/p&gt;
-
-&lt;p&gt;To make it clear, i&amp;#39;ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i&amp;#39;ll use secured content provider based on signature level verification&lt;/p&gt;
-
-&lt;p&gt;Flavors config:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
-    flavor2 {
-        applicationId &amp;#39;com.tunebrains.keystoresample2&amp;#39;
-        versionName &amp;#39;10&amp;#39;
-    }
-    flavor1 {
-        applicationId &amp;#39;com.tunebrains.keystoresample1&amp;#39;
-        versionName &amp;#39;10&amp;#39;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Generate our keystore with multiple aliases:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;keytool -genkey -v -keystore release_key.keystore -alias flavor1 -keyalg RSA -keysize 2048 -validity 10000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Add another alias to the keystore&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -keysize 2048 -validity 10000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Configure two signing configs:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;signingConfigs {
-    Flavor1 {
-        storeFile file(&amp;quot;release_key.keystore&amp;quot;)
-        storePassword &amp;quot;password&amp;quot;
-        keyAlias &amp;quot;flavor1&amp;quot;
-        keyPassword &amp;quot;password1&amp;quot;
-    }
-    Flavor2 {
-        storeFile file(&amp;quot;release_key.keystore&amp;quot;)
-        storePassword &amp;quot;password&amp;quot;
-        keyAlias &amp;quot;flavor2&amp;quot;
-        keyPassword &amp;quot;password2&amp;quot;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Configure release signing for both flavors:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
-    flavor1 {
-        applicationId &amp;#39;com.tunebrains.keystoresample1&amp;#39;
-        versionName &amp;#39;10&amp;#39;        
-        signingConfig signingConfigs.Flavor1
-    }
-    flavor2 {
-        applicationId &amp;#39;com.tunebrains.keystoresample2&amp;#39;
-        versionName &amp;#39;10&amp;#39;        
-        signingConfig signingConfigs.Flavor2
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Each flavor has its own content provider, which is secured by signature level permission&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;lt;permission android:name=&amp;quot;${applicationId}.permission&amp;quot;
-                android:protectionLevel=&amp;quot;signature&amp;quot;/&amp;gt;
-&amp;lt;provider
-    android:exported=&amp;quot;true&amp;quot;
-    android:authorities=&amp;quot;${applicationId}.provider&amp;quot;
-    android:name=&amp;quot;.ContentProviderSecured&amp;quot;
-    android:permission=&amp;quot;${applicationId}.permission&amp;quot;&amp;gt;
-&amp;lt;/provider&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Code for content provider is quite simple, it just return empty &lt;strong&gt;MatrixCursor&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{&amp;quot;key&amp;quot;});    
-    return lMatrixCursor;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Flavor2 will try to get access to Flavor1 content provider&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Cursor c = null;
-try {
-    c = getContentResolver().query(Uri.parse(&amp;quot;content://&amp;quot; + &amp;quot;com.tunebrains.keystoresample1&amp;quot; + &amp;quot;/query&amp;quot;), null, null, null, null);
-    Log.d(&amp;quot;Result&amp;quot;, &amp;quot;&amp;quot; + c.getCount());
-}catch (Exception e){
-    Log.d(&amp;quot;Result&amp;quot;, &amp;quot;Cannot access provider&amp;quot;);
-}finally {
-    if (c!=null){
-        c.close();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with &lt;strong&gt;Flavor2&lt;/strong&gt; signingConfig.&lt;/p&gt;
-
-&lt;p&gt;Code is available on &lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 28 Oct 2015 14:17:35 +0100</pubDate>
-        <link>http://localhost:4000/2015/10/28/make-clear-android-signing-and-content-provider.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/10/28/make-clear-android-signing-and-content-provider.html</guid>
-        
-        <category>android</category>
-        
-        <category>keystore</category>
         
         
       </item>
