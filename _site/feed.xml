@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 24 Apr 2016 21:08:20 +0200</pubDate>
-    <lastBuildDate>Sun, 24 Apr 2016 21:08:20 +0200</lastBuildDate>
+    <pubDate>Wed, 27 Apr 2016 11:58:27 +0200</pubDate>
+    <lastBuildDate>Wed, 27 Apr 2016 11:58:27 +0200</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -46,9 +46,9 @@
 
 &lt;p&gt;All source code available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/SourceSetFlattener&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 </description>
-        <pubDate>Sun, 24 Apr 2016 22:30:00 +0200</pubDate>
-        <link>http://localhost:4000/2016/04/24/android-gradle-flattener.html</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/04/24/android-gradle-flattener.html</guid>
+        <pubDate>Sat, 23 Apr 2016 22:30:00 +0200</pubDate>
+        <link>http://localhost:4000/2016/04/23/android-gradle-flattener.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/04/23/android-gradle-flattener.html</guid>
         
         <category>android</category>
         
@@ -279,9 +279,7 @@ compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
     
       <item>
         <title>Subscribe to Facebook groups with keywords</title>
-        <description>&lt;p&gt;&lt;a class=&quot;ga-link&quot; data-link-type=&quot;googleplay&quot; target=&#39;_blank&#39; href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blogstart&amp;pcampaignid=blogstart&quot;&gt;&lt;img alt=&quot;Get it on Google Play&quot; style=&quot;width:100px;&quot; src=&quot;https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;After i have moved to Montenegro, i became quite active user of Facebook. There are a lot of groups on Facebook connecting russian speaking people living in Montenegro.&lt;/p&gt;
+        <description>&lt;p&gt;After i have moved to Montenegro, i became quite active user of Facebook. There are a lot of groups on Facebook connecting russian speaking people living in Montenegro.&lt;/p&gt;
 
 &lt;p&gt;They communicate on different parts of living in foreign country: selling goods, transfer between cities, renting a car and a lot more.&lt;/p&gt;
 

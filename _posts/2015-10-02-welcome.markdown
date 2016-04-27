@@ -3,6 +3,7 @@ layout: post
 title:  "Welcome"
 date:   2015-10-02 11:11:34
 categories: welcome blog
+excerpt:  
 ---
 <div class='avatar'>
 <img src='https://gravatar.com/userimage/18991598/d52e7a5def139e3df3b98ab9ccf2b261.jpeg?size=500'/>

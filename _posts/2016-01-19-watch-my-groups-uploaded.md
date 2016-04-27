@@ -4,8 +4,8 @@ title:  "Subscribe to Facebook groups with keywords"
 date:   2016-01-19 13:40:00
 tags: android facebook sdk
 meta_description: Subscribe to Facebook groups with keywords
+excerpt: Android app that handle new posts in Facebook groups based on keywords
 ---
-<a class="ga-link" data-link-type="googleplay" target='_blank' href="https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&utm_source=blog&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=blogstart&pcampaignid=blogstart"><img alt="Get it on Google Play" style="width:100px;" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a>
 
 After i have moved to Montenegro, i became quite active user of Facebook. There are a lot of groups on Facebook connecting russian speaking people living in Montenegro.
 
