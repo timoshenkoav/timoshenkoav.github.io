@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/develop/2016-04-24-android-gradle-flattener/">
+    <link rel="canonical" href="http://blog.tunebrains.com/develop/2016-04-24-android-gradle-flattener/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -23,6 +23,18 @@
   
   <script>
 
+   
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-28832832-4', 'blog.tunebrains.com');
+  ga('send', 'pageview');
+  ga('set',{
+  	page: '/develop/2016-04-24-android-gradle-flattener/',
+  	title: 'Deep android project structure'
+  });
 
 
 	$(document).ready(function(){
@@ -51,7 +63,7 @@
 </script>
   
   
-  <meta property="og:url"                content="http://localhost:4000/develop/2016-04-24-android-gradle-flattener/" />
+  <meta property="og:url"                content="http://blog.tunebrains.com/develop/2016-04-24-android-gradle-flattener/" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="Deep android project structure" />
 <meta property="og:description"        content="Android Gradle plugin" />
@@ -123,40 +135,54 @@
   </header>
 
   <article class="post-content">
-    <p>Inspired by <a href="https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0" class="ga-link" data-link-type="outbound" target='_blank'>Dmytro Danylyk</a> post about using sourceSets to have deep project structure in android, i&#39;ve written small gradle plugin to automate this task.</p>
+    <p>Inspired by <a href="https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0" class="ga-link" data-link-type="outbound" target="_blank">Dmytro Danylyk</a> post about using sourceSets to have deep project structure in android, i’ve written small gradle plugin to automate this task.</p>
 
 <p>To use it in you project add this to top level <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">buildscript {
+
+<p>```</p>
+
+<p>buildscript {
     repositories {
-        ///...
+        ///…
         maven {
-            url uri(&#39;http://maven.tunebrains.com/content/repositories/android/&#39;)
+            url uri(‘http://maven.tunebrains.com/content/repositories/android/’)
         }
     }
     dependencies {
-        //...
-        classpath group: &#39;com.tunebrains&#39;, name: &#39;sourcesetflattener&#39;,
-                version: &#39;0.0.1&#39;
+        //…
+        classpath group: ‘com.tunebrains’, name: ‘sourcesetflattener’,
+                version: ‘0.0.1’
     }
-}
-</code></pre></div>
+}</p>
+
+<p>```</p>
+
 <p>Apply plugin in project level <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;com.tunebrains.sourcesetflattener&#39;
-</code></pre></div>
+
+<p>```</p>
+
+<p>apply plugin: ‘com.tunebrains.sourcesetflattener’</p>
+
+<p>```</p>
+
 <p>Specify root directory to store screen related resources</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">flattener{
-    root &#39;res-screen&#39;
+
+<p><code>
+flattener{
+    root 'res-screen'
 }
-</code></pre></div>
+</code></p>
+
 <p>Sync Project with gradle files, and it will load directory structure to source set automatically.</p>
 
-<p><img src="http://localhost:4000/assets/gradle_flattener/1461524521625.jpg"/></p>
+<p><img src="http://blog.tunebrains.com/assets/gradle_flattener/1461524521625.jpg" /></p>
 
 <p>Also works for multiple flavours.</p>
 
-<p><img src="http://localhost:4000/assets/gradle_flattener/1461524624236.jpg"/></p>
+<p><img src="http://blog.tunebrains.com/assets/gradle_flattener/1461524624236.jpg" /></p>
 
-<p>All source code available on <span><a href="https://github.com/timoshenkoav/SourceSetFlattener" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
+<p>All source code available on <span><a href="https://github.com/timoshenkoav/SourceSetFlattener" class="ga-link" data-link-type="" target="_blank">GitHub</a></span></p>
+
 
   </article>
   <tags>

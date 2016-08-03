@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/develop/2015-10-02-android-encrypted-api-with-rails/">
+    <link rel="canonical" href="http://blog.tunebrains.com/develop/2015-10-02-android-encrypted-api-with-rails/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -23,6 +23,18 @@
   
   <script>
 
+   
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-28832832-4', 'blog.tunebrains.com');
+  ga('send', 'pageview');
+  ga('set',{
+  	page: '/develop/2015-10-02-android-encrypted-api-with-rails/',
+  	title: 'Encrypted API from android to rails'
+  });
 
 
 	$(document).ready(function(){
@@ -51,7 +63,7 @@
 </script>
   
   
-  <meta property="og:url"                content="http://localhost:4000/develop/2015-10-02-android-encrypted-api-with-rails/" />
+  <meta property="og:url"                content="http://blog.tunebrains.com/develop/2015-10-02-android-encrypted-api-with-rails/" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="Encrypted API from android to rails" />
 <meta property="og:description"        content="" />
@@ -127,39 +139,41 @@
 
 <p>To solve this we need to send the data to our server encrypted.</p>
 
-<p>It&#39;s nice to encrypt it so even if someone sniff the traffic they will not be able to decrypt contents.</p>
+<p>It’s nice to encrypt it so even if someone sniff the traffic they will not be able to decrypt contents.</p>
 
 <p>To provide such encryption we can use asymmetric algorithm like RSA, public key is stored inside the android application and used to encrypt the data sent to remote server, private key is stored on servicer side and used to decrypt the data.</p>
 
 <p>But the problem with asymmetric algorithm is that generaly they can encrypt data length up to key size, so for RSA its 4096 bits, which is not good in our case, as our logs can be much longer.</p>
 
-<p>Symmetric algorithms, like AES can encrypt practically unlimited ammount of data, but as the same key is used to encrypt and decrypt information, it&#39;s easy to stole data while transmissing to server if one has access to app code, which is true for Android applications. </p>
+<p>Symmetric algorithms, like AES can encrypt practically unlimited ammount of data, but as the same key is used to encrypt and decrypt information, it’s easy to stole data while transmissing to server if one has access to app code, which is true for Android applications. </p>
 
 <p>The often used solution is:</p>
 
 <p>On Client Side:</p>
 
 <ul>
-<li>Generate random AES key ( e.g 256 bits long)</li>
-<li>Encrypt body with AES using generated key</li>
-<li>Encrypt key with RSA using stored public key</li>
-<li>Send encrypted key along with encrypted body</li>
+  <li>Generate random AES key ( e.g 256 bits long)</li>
+  <li>Encrypt body with AES using generated key</li>
+  <li>Encrypt key with RSA using stored public key</li>
+  <li>Send encrypted key along with encrypted body</li>
 </ul>
 
 <p>On Server Side</p>
 
 <ul>
-<li>Decrypt key with RSA private key to get plain AES key</li>
-<li>Decrypt body with plain AES key</li>
-<li>Handle the request</li>
+  <li>Decrypt key with RSA private key to get plain AES key</li>
+  <li>Decrypt body with plain AES key</li>
+  <li>Handle the request</li>
 </ul>
 
 <p>Lets start from the client side:</p>
 
 <ul>
-<li>Generate random AES key</li>
+  <li>Generate random AES key</li>
 </ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">public static final int AES_KEY_SIZE = 256 / 8;
+
+<p><code>
+public static final int AES_KEY_SIZE = 256 / 8;
 public static String randomKey(int len) {
     Random generator = new Random();
     StringBuilder randomStringBuilder = new StringBuilder();
@@ -171,22 +185,25 @@ public static String randomKey(int len) {
     }
     return randomStringBuilder.toString();
 }
-</code></pre></div>
-<ul>
-<li>Encrypt data with AES</li>
-</ul>
-<div class="highlight"><pre><code class="language-text" data-lang="text">public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+</code></p>
 
-    SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), &quot;AES&quot;);
-    Cipher cipher = Cipher.getInstance(&quot;AES&quot;);
-    cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-    byte[] encrypted = cipher.doFinal(plain.getBytes());
-    return encrypted;
-}
-</code></pre></div>
 <ul>
-<li>Encrypt key using RSA</li>
+  <li>Encrypt data with AES</li>
+</ul>
+
+<p>```
+public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
+            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {</p>
+
+<pre><code>SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), "AES");
+Cipher cipher = Cipher.getInstance("AES");
+cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+byte[] encrypted = cipher.doFinal(plain.getBytes());
+return encrypted; } ```
+</code></pre>
+
+<ul>
+  <li>Encrypt key using RSA</li>
 </ul>
 
 <p>To generate RSA key-pair we can simply use great online service: <a href="http://travistidwell.com/jsencrypt/demo/">Generate Key Online</a></p>
@@ -194,41 +211,51 @@ public static String randomKey(int len) {
 <p>We can store public key either in assets/resources/plain string</p>
 
 <p>To unify reading key we can use InputStream as source, so it can be FileInputStream, ByteArrayInputStream or any other source:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
+
+<p><code>
+public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
     String lStringKey = read(pInputStream);
     String lRawString = stripKeyHeaders(lStringKey);
     return base64(lRawString);
 }
 public static String stripKeyHeaders(String key) {
     StringBuilder strippedKey = new StringBuilder();
-    String lines[] = key.split(&quot;\n&quot;);
+    String lines[] = key.split("\n");
     for (String line : lines) {
-        if (!line.contains(&quot;PRIVATE KEY&quot;) &amp;&amp; !line.contains(&quot;PUBLIC KEY&quot;) &amp;&amp; !TextUtils.isEmpty(line.trim())) {
+        if (!line.contains("PRIVATE KEY") &amp;&amp; !line.contains("PUBLIC KEY") &amp;&amp; !TextUtils.isEmpty(line.trim())) {
             strippedKey.append(line.trim());
         }
     }
     return strippedKey.toString().trim();
 }
-</code></pre></div>
+</code></p>
+
 <p>Using public key, we can encrypt data</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
+
+<p><code>
+public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
     X509EncodedKeySpec spec = new X509EncodedKeySpec(pKey);
-    KeyFactory kf = KeyFactory.getInstance(&quot;RSA&quot;);
+    KeyFactory kf = KeyFactory.getInstance("RSA");
     PublicKey publicKey = kf.generatePublic(spec);
-    Cipher cipher = Cipher.getInstance(&quot;RSA/ECB/PKCS1Padding&quot;);
+    Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
     cipher.init(Cipher.ENCRYPT_MODE, publicKey);
     byte []encryptedBytes = cipher.doFinal(plain);
     return encryptedBytes;
 }
-</code></pre></div>
+</code></p>
+
 <p>Now we have everything encrypted and we can send data to our API. Body will be send as base64 request body, encrypted key - as request header.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
+
+<p><code>
+byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
 String lAESKey =  randomKey(AES_KEY_SIZE);      
 String lEncryptedKey = Base64.encode(RSAEncrypt(lAESKey, lAESKey), 0);
 String lEncryptedBody = Base64.encode(AESEncrypt(body, lAESKey), 0);
-post(&quot;http://api-domain.com&quot;, lEncryptedBody, lEncryptedKey);
-</code></pre></div>
-<p>To Be Continued...</p>
+post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
+</code></p>
+
+<p>To Be Continued…</p>
+
 
   </article>
   <tags>

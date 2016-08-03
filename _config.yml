@@ -12,3 +12,11 @@ github_username:  timoshenkoav
 markdown: kramdown
 
 environment: production
+collections:
+  develop:
+    output: true
+    permalink: /develop/:path/
+  poland:
+    output: true
+    permalink: /poland/:path/
+    
