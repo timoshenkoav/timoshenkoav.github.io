@@ -1,13 +1,13 @@
 ---
-layout: default
+layout: page
+title: Poland
+permalink: /poland/
 ---
 
-<div class="home">
-
-  <h1 class="page-heading">Posts</h1>
+<div class="home">  
 
   <ul class="post-list">    
-    {% assign items = site.documents | sort: 'date' | reverse %}
+  	{% assign items = site.poland | sort: 'date' | reverse %}
     {% for post in items %}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>

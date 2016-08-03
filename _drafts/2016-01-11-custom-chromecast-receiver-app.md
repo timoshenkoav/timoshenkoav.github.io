@@ -7,4 +7,8 @@ meta_description: Custom Chromecast Receiver App
 ---
 
 
+Simple tutorial how to create android application with Chromecast Custom Receiver that plays custom video url.
+
+1. Go to https://cast.google.com/publish and register new **Custom Receiver** app 
+
 

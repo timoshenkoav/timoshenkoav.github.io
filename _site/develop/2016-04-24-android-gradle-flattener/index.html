@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Alex's Blog</title>
+    <title>Deep android project structure</title>
 
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="canonical" href="http://localhost:4000/develop/2016-04-24-android-gradle-flattener/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -51,10 +51,10 @@
 </script>
   
   
-  <meta property="og:url"                content="http://localhost:4000/index.html" />
+  <meta property="og:url"                content="http://localhost:4000/develop/2016-04-24-android-gradle-flattener/" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="" />
-<meta property="og:description"        content="" />
+<meta property="og:title"              content="Deep android project structure" />
+<meta property="og:description"        content="Android Gradle plugin" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
 <script>
@@ -74,7 +74,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-  <meta property="description"                content="" />
+  <meta property="description"                content="Android Gradle plugin" />
 
   <script src="//load.sumome.com/" data-sumo-site-id="0b92bd58a0af51a51868377c6e12afea55f26e7b938fdb7a184f877671f26b35" async="async"></script>
   <body>  
@@ -115,160 +115,63 @@
     </div>
     <div class="page-content row">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Deep android project structure</h1>
+    <p class="post-meta">Apr 23, 2016</p>
+  </header>
 
-  <ul class="post-list">    
+  <article class="post-content">
+    <p>Inspired by <a href="https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0" class="ga-link" data-link-type="outbound" target='_blank'>Dmytro Danylyk</a> post about using sourceSets to have deep project structure in android, i&#39;ve written small gradle plugin to automate this task.</p>
+
+<p>To use it in you project add this to top level <strong>build.gradle</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">buildscript {
+    repositories {
+        ///...
+        maven {
+            url uri(&#39;http://maven.tunebrains.com/content/repositories/android/&#39;)
+        }
+    }
+    dependencies {
+        //...
+        classpath group: &#39;com.tunebrains&#39;, name: &#39;sourcesetflattener&#39;,
+                version: &#39;0.0.1&#39;
+    }
+}
+</code></pre></div>
+<p>Apply plugin in project level <strong>build.gradle</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;com.tunebrains.sourcesetflattener&#39;
+</code></pre></div>
+<p>Specify root directory to store screen related resources</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">flattener{
+    root &#39;res-screen&#39;
+}
+</code></pre></div>
+<p>Sync Project with gradle files, and it will load directory structure to source set automatically.</p>
+
+<p><img src="http://localhost:4000/assets/gradle_flattener/1461524521625.jpg"/></p>
+
+<p>Also works for multiple flavours.</p>
+
+<p><img src="http://localhost:4000/assets/gradle_flattener/1461524624236.jpg"/></p>
+
+<p>All source code available on <span><a href="https://github.com/timoshenkoav/SourceSetFlattener" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
+
+  </article>
+  <tags>
+	  
+	  	<span class="label label-default">android gradle plugin</span>  	
+	  	
+  </tags>    
+  <readmore>
+    Read More...
+    <br>
     
+  </readmore>
+  <comments>
     
-      <li>
-        <span class="post-meta">Aug 3, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/poland/2016-08-03-poland-welcome/">Про Польшу</a>
-        </h2>
-        <div class="excerpt">
-          Начинаем про жизнь в Польше
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Apr 23, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-04-24-android-gradle-flattener/">Deep android project structure</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Feb 4, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-02-04-load-app-hires-icon/">Load app hi-res icon</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 27, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-01-27-android-gradle-upload-plugin/">Android Gradle plugin sample</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 19, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-01-19-watch-my-groups-uploaded/">Subscribe to Facebook groups with keywords</a>
-        </h2>
-        <div class="excerpt">
-          Android app that handle new posts in Facebook groups based on keywords
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 4, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-01-04-read-custom-attributes-from-activity/">Read custom attributes from activity</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 11, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-12-11-recycler-view-sections-contacts-lollipop/">Display RecyclerView sections like Android Lollipop contacts application</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 13, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-11-13-track-outbound-links-on-jekyll/">Track outbound links to GA on jekyll</a>
-        </h2>
-        <div class="excerpt">
-          Tracking outbound links on Jekyll blog
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 28, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-28-make-clear-android-signing-and-content-provider/">Signing android app for secure content provider</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 20, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-20-usage-stats-manager-sample/">Android UsageStatsManager sample</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-02-android-encrypted-api-with-rails/">Encrypted API from android to rails</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-02-gradle-multi-flavors-signing/">Sign multiple flavors with different keystores</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-02-welcome/">Welcome</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml" target="_blank" class='subscribe'>via RSS</a></p>
-
+  </comments>
 </div>
                   
       </div>

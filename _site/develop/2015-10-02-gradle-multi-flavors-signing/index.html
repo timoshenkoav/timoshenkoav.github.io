@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Alex's Blog</title>
+    <title>Sign multiple flavors with different keystores</title>
 
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="canonical" href="http://localhost:4000/develop/2015-10-02-gradle-multi-flavors-signing/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -51,9 +51,9 @@
 </script>
   
   
-  <meta property="og:url"                content="http://localhost:4000/index.html" />
+  <meta property="og:url"                content="http://localhost:4000/develop/2015-10-02-gradle-multi-flavors-signing/" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="" />
+<meta property="og:title"              content="Sign multiple flavors with different keystores" />
 <meta property="og:description"        content="" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
@@ -115,160 +115,129 @@
     </div>
     <div class="page-content row">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Sign multiple flavors with different keystores</h1>
+    <p class="post-meta">Oct 2, 2015</p>
+  </header>
 
-  <ul class="post-list">    
+  <article class="post-content">
+    <p>One of my projects has a lot of flavors, and each flavor has different keystore to sign with. As a result it has very long build.gradle project file. As each flavor need defining separate singningConfig and defining flavor signing on release buildType</p>
+
+<p>After reading couple of articles, i end up with this solution:</p>
+
+<p>Create <code>signs.gradle</code> under project folder:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">def fillDefaults(signingConfig) {
+    signingConfig.storeFile = null
+    signingConfig.storePassword = &#39;&#39;
+    signingConfig.keyAlias = &#39;&#39;
+    signingConfig.keyPassword = &#39;&#39;
+}
+def setupSigning(name) {
+    def signingProperties = &quot;${name}.info&quot;
+    def signingKeys = [
+            storeFile    : { x -&gt; file(x) },
+            storePassword: { x -&gt; x },
+            keyAlias     : { x -&gt; x },
+            keyPassword  : { x -&gt; x },
+    ]
+    // Find signing.properties in project root, or in $HOME/.gradle
+    def f = [&quot;${projectDir}/certs/${signingProperties}&quot;].find { file(it).exists() }
+    if (f) {
+        println &quot;Loading signing properties from ${f}&quot;
+        def props = new Properties()
+        props.load(new FileInputStream(f))
+
+        // For each property apply it to the release signing config
+        signingKeys.any { k, fn -&gt;
+            if (!props.containsKey(k)) {
+                println &quot;Missing property ${k}&quot;
+                fillDefaults(android.signingConfigs[name])
+                return true
+            } else {
+                android.signingConfigs[name][k] = fn(props[k]);
+            }
+            return
+        }
+        println android.signingConfigs[name]
+    } else {
+        println &quot;Missing ${signingProperties} file&quot;
+        fillDefaults(android.signingConfigs[name])
+    }
+}
+ext {
+    setupSigning = this.&amp;setupSigning
+}
+</code></pre></div>
+<p>Apply it in project <code>build.gradle</code> in the beggining of the file</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">apply from: &#39;signs.gradle&#39;
+</code></pre></div>
+<p>Add callbacks when <code>signingConfigs</code> and <code>productFlavors</code> is added:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">android.signingConfigs.whenObjectAdded { signing -&gt;
+    setupSigning(signing.name)
+}
+
+android.productFlavors.whenObjectAdded { flavor -&gt;
+    flavor.signingConfig = android.signingConfigs[flavor.name]
+}
+</code></pre></div>
+<p>The first will call our function with added signing name</p>
+
+<p>The second will set <code>signingConfig</code> for flavor based on loaded config</p>
+
+<p>Keystore information is stored in files named <code>&lt;flavor_name&gt;.info</code> under <code>certs</code> folder under project subfolder. The format of this file is often used to storing `signed.properties&#39;</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">storeFile=certs/&lt;filename&gt;
+storePassword=&#39;&#39;
+keyAlias=&#39;&#39;
+keyPassword=&#39;&#39;
+</code></pre></div>
+<h2>Usage</h2>
+
+<p>Add flavor configuration</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">productFlavors {
+    app1 {    
+        applicationId &#39;com.sample.app1&#39;   
+    }
+}
+</code></pre></div>
+<p>Register signing config with the same name as flavor</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">signingConfigs {
+    app1
+}
+</code></pre></div>
+<p>Create <code>app1.info</code> file under <code>certs</code> directory with information about the keystore.</p>
+
+<p>Build. Enjoy.</p>
+
+<h2>ToDo</h2>
+
+<ul>
+<li>Remove requirement to put <code>signingConfig</code> with flavor name. It should do this automatically when flavor is registered</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li><p><span><a href="http://saulmm.github.io/squeezing-gradle-builds" class="ga-link" data-link-type="" target='_blank'>Squeezing your Gradle builds</a></span></p></li>
+<li><p><span><a href="http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/" class="ga-link" data-link-type="" target='_blank'>Building Multiple Editions of an Android App with Gradle</a></span></p></li>
+<li><p><span><a href="http://zserge.com/blog/android-signing.html" class="ga-link" data-link-type="" target='_blank'>HOW TO SIGN RELEASE APK WITH GRADLE</a></span></p></li>
+</ul>
+
+  </article>
+  <tags>
+	  
+	  	<span class="label label-default">android gradle</span>  	
+	  	
+  </tags>    
+  <readmore>
+    Read More...
+    <br>
     
+  </readmore>
+  <comments>
     
-      <li>
-        <span class="post-meta">Aug 3, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/poland/2016-08-03-poland-welcome/">Про Польшу</a>
-        </h2>
-        <div class="excerpt">
-          Начинаем про жизнь в Польше
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Apr 23, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-04-24-android-gradle-flattener/">Deep android project structure</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Feb 4, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-02-04-load-app-hires-icon/">Load app hi-res icon</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 27, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-01-27-android-gradle-upload-plugin/">Android Gradle plugin sample</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 19, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-01-19-watch-my-groups-uploaded/">Subscribe to Facebook groups with keywords</a>
-        </h2>
-        <div class="excerpt">
-          Android app that handle new posts in Facebook groups based on keywords
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 4, 2016</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2016-01-04-read-custom-attributes-from-activity/">Read custom attributes from activity</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 11, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-12-11-recycler-view-sections-contacts-lollipop/">Display RecyclerView sections like Android Lollipop contacts application</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 13, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-11-13-track-outbound-links-on-jekyll/">Track outbound links to GA on jekyll</a>
-        </h2>
-        <div class="excerpt">
-          Tracking outbound links on Jekyll blog
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 28, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-28-make-clear-android-signing-and-content-provider/">Signing android app for secure content provider</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 20, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-20-usage-stats-manager-sample/">Android UsageStatsManager sample</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-02-android-encrypted-api-with-rails/">Encrypted API from android to rails</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-02-gradle-multi-flavors-signing/">Sign multiple flavors with different keystores</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 2, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/develop/2015-10-02-welcome/">Welcome</a>
-        </h2>
-        <div class="excerpt">
-          
-        </div>
-      </li>
-    
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml" target="_blank" class='subscribe'>via RSS</a></p>
-
+  </comments>
 </div>
                   
       </div>

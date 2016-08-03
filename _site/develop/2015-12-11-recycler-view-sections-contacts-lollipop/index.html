@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Display RecyclerView sections like Android Lollipop contacts application</title>
+
+	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/develop/2015-12-11-recycler-view-sections-contacts-lollipop/">
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/assets/scripts/bootstrap/bootstrap.min.js"></script>
+
+</head>
+
+
+  
+  <script>
+
+
+
+	$(document).ready(function(){
+		$('.ga-link').on('click', function(){
+			if (typeof(ga)!=="undefined"){
+				ga('send',{
+					hitType: 'event',
+					eventCategory: 'click',
+					eventAction: $(this).data('link-type')||'outbound',
+					eventLabel: $(this).attr('href')
+				});
+		  		
+		  	}
+		});
+		$('.subscribe').on('click', function(){
+			if (typeof(ga)!=="undefined"){
+				ga('send',{
+					hitType: 'event',
+					eventCategory: 'click',
+					eventAction: 'subscribe'
+				});
+			}
+		});
+	});
+  
+</script>
+  
+  
+  <meta property="og:url"                content="http://localhost:4000/develop/2015-12-11-recycler-view-sections-contacts-lollipop/" />
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="Display RecyclerView sections like Android Lollipop contacts application" />
+<meta property="og:description"        content="" />
+<meta property="fb:app_id"			   content="1658794294405529"/>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1658794294405529',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+  <meta property="description"                content="" />
+
+  <script src="//load.sumome.com/" data-sumo-site-id="0b92bd58a0af51a51868377c6e12afea55f26e7b938fdb7a184f877671f26b35" async="async"></script>
+  <body>  
+    <div class="container">
+    <div class="row">
+      <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Alex's Blog</a>
+
+    <nav class="site-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="/develop/">Develop</a>
+          
+        
+          
+            <a class="page-link" href="/poland/">Poland</a>
+          
+        
+          
+            <a class="page-link" href="/about/">About</a>
+          
+        
+    </nav>
+
+  </div>
+
+</header>
+
+    </div>
+    <div class="page-content row">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Display RecyclerView sections like Android Lollipop contacts application</h1>
+    <p class="post-meta">Dec 11, 2015</p>
+  </header>
+
+  <article class="post-content">
+    <p>One of my projects require to display sticky headers like Android Contacts app do on Android Lollipop.</p>
+
+<p>After some time of investigation i&#39;ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.</p>
+
+<p>I&#39;ll start implementation from describing how to get sections index for loaded list of contacts.</p>
+
+<p>Here is simple model class to store contact information fetched from ContentProvider.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Contact</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">mName</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Contact</span><span class="o">(</span><span class="n">String</span> <span class="n">pName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mName</span> <span class="o">=</span> <span class="n">pName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// ... Getters and Setters</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Its quite simple, as everything we need to showcast is contact name.</p>
+
+<p>To build section index we need sort our list of contacts by name alphabetically. I&#39;ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.</p>
+
+<p>When we have our sorted contacts list, we can fill section index</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">mMapIndex</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;();</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">mContacts</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">x</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">contact</span> <span class="o">=</span> <span class="n">mContacts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="na">getName</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">contact</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">contact</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">mMapIndex</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">ch</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">mMapIndex</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ch</span><span class="o">,</span> <span class="n">x</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">sectionLetters</span> <span class="o">=</span> <span class="n">mMapIndex</span><span class="o">.</span><span class="na">keySet</span><span class="o">();</span>
+<span class="c1">// create a list from the set to sort</span>
+<span class="n">mSectionList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;(</span><span class="n">sectionLetters</span><span class="o">);</span>
+<span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">mSectionList</span><span class="o">);</span>
+
+<span class="n">mSections</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">[</span><span class="n">mSectionList</span><span class="o">.</span><span class="na">size</span><span class="o">()];</span>
+<span class="n">mSectionList</span><span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="n">mSections</span><span class="o">);</span></code></pre></div>
+
+<p>In result we got some variables that can be used for section headers</p>
+
+<ul>
+<li>mMapIndex - map of contact name uppercased first character and index of first contact in list</li>
+<li>mSectionList - list of all sections sorter alphabetically</li>
+</ul>
+
+<p>Now, when we have sections, we can start displaying contacts in Views. Item layout has TextView to display contact name, and section title to display section when required.</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;RelativeLayout</span> <span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+                <span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
+                <span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+                <span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
+                <span class="na">android:orientation=</span><span class="s">&quot;horizontal&quot;</span>
+                <span class="na">android:paddingBottom=</span><span class="s">&quot;20dp&quot;</span>
+                <span class="na">android:paddingRight=</span><span class="s">&quot;10dp&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/section_title&quot;</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:textAppearance=</span><span class="s">&quot;?android:textAppearanceMedium&quot;</span>
+        <span class="na">android:textColor=</span><span class="s">&quot;#000&quot;</span>
+        <span class="na">tools:text=</span><span class="s">&quot;A&quot;</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">&quot;@+id/name&quot;</span>
+        <span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+        <span class="na">android:layout_marginLeft=</span><span class="s">&quot;60dp&quot;</span>
+        <span class="na">android:textAppearance=</span><span class="s">&quot;?android:textAppearanceMedium&quot;</span>
+        <span class="na">android:textColor=</span><span class="s">&quot;#000&quot;</span>
+        <span class="na">tools:text=</span><span class="s">&quot;Contact Name&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/RelativeLayout&gt;</span></code></pre></div>
+
+<p>To detect if we need to display section, we have <strong>mMapIndex</strong> HashMap, if list position we want to bind to viewholder equals to section position we display section title <strong>TextView</strong>, or hide it otherwise.</p>
+
+<p>In simplest case ViewHolder gets such code:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">class</span> <span class="nc">ContactViewHolder</span> <span class="kd">extends</span> <span class="n">RecyclerView</span><span class="o">.</span><span class="na">ViewHolder</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">TextView</span> <span class="n">mName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">TextView</span> <span class="n">mSectionName</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ContactViewHolder</span><span class="o">(</span><span class="n">View</span> <span class="n">itemView</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">itemView</span><span class="o">);</span>
+        <span class="n">mName</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">name</span><span class="o">);</span>
+        <span class="n">mSectionName</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">itemView</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">section_title</span><span class="o">);</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bind</span><span class="o">(</span><span class="n">Contact</span> <span class="n">pItem</span><span class="o">,</span> <span class="n">String</span> <span class="n">pSection</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">bShowSection</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mName</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">pItem</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="n">mSectionName</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">pSection</span><span class="o">);</span>
+        <span class="n">mSectionName</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">bShowSection</span> <span class="o">?</span> <span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span> <span class="o">:</span> <span class="n">View</span><span class="o">.</span><span class="na">GONE</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Binding ViewHolder is also straightforward:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="n">ContactViewHolder</span> <span class="n">holder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Contact</span> <span class="n">lContact</span> <span class="o">=</span> <span class="n">getItem</span><span class="o">(</span><span class="n">position</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">section</span> <span class="o">=</span> <span class="n">getSection</span><span class="o">(</span><span class="n">lContact</span><span class="o">);</span>
+    <span class="n">holder</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">lContact</span><span class="o">,</span> <span class="n">section</span><span class="o">,</span> <span class="n">mMapIndex</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">section</span><span class="o">)</span> <span class="o">==</span> <span class="n">position</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="kd">private</span> <span class="n">String</span> <span class="nf">getSection</span><span class="o">(</span><span class="n">Contact</span> <span class="n">pContact</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">pContact</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">).</span><span class="na">toUpperCase</span><span class="o">();</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Now we can load and display contact list with section titles displayed on the first section item. Now we need to handle <strong>RecyclerView</strong> scrolling to get sticky headers behavior.</p>
+
+<p>I will not put all code for this logic here, you can find it in GitHub project listed in the end of this article.
+The main logic is to have <strong>TextView</strong> with the same style as section title item in item list and show/hide appropriate TextView in the item and animate TextView in the Activity. 
+This solution is not fully completed, and may have some issues under some unexpected circumstances, but as its opensourced you can easily create issue or submit your pull request.</p>
+
+<p>You can find complete source code on <span><a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
+
+<p>Enjoy!</p>
+
+  </article>
+  <tags>
+	  
+	  	<span class="label label-default">android recyclerview</span>  	
+	  	
+  </tags>    
+  <readmore>
+    Read More...
+    <br>
+    
+  </readmore>
+  <comments>
+    
+  </comments>
+</div>
+                  
+      </div>
+
+    </div>      
+    <div class="row">
+      <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Alex's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Alex's Blog</li>
+          <li><a href="mailto:thick.tav@gmail.com">thick.tav@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/timoshenkoav" class='ga-link' target='_blank'>
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">timoshenkoav</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/timoshenko_av" class='ga-link' target='_blank'>
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">timoshenko_av</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text"></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+    </div>
+    </div>
+    
+  </body>
+
+</html>
