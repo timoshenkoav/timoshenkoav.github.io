@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Deep android project structure</title>
+    <title>Block domains with vpn</title>
 
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/develop/2016-04-24-android-gradle-flattener/">
+    <link rel="canonical" href="http://localhost:4000/2015/11/10/block-domains-with-vpn.html">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -51,10 +51,10 @@
 </script>
   
   
-  <meta property="og:url"                content="http://localhost:4000/develop/2016-04-24-android-gradle-flattener/" />
+  <meta property="og:url"                content="http://localhost:4000/2015/11/10/block-domains-with-vpn.html" />
 <meta property="og:type"               content="article" />
-<meta property="og:title"              content="Deep android project structure" />
-<meta property="og:description"        content="Android Gradle plugin" />
+<meta property="og:title"              content="Block domains with vpn" />
+<meta property="og:description"        content="" />
 <meta property="fb:app_id"			   content="1658794294405529"/>
 
 <script>
@@ -74,7 +74,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-  <meta property="description"                content="Android Gradle plugin" />
+  <meta property="description"                content="" />
 
   <script src="//load.sumome.com/" data-sumo-site-id="0b92bd58a0af51a51868377c6e12afea55f26e7b938fdb7a184f877671f26b35" async="async"></script>
   <body>  
@@ -118,59 +118,93 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Deep android project structure</h1>
-    <p class="post-meta">Apr 23, 2016</p>
+    <h1 class="post-title">Block domains with vpn</h1>
+    <p class="post-meta">Nov 10, 2015</p>
   </header>
 
   <article class="post-content">
-    <p>Inspired by <a href="https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0" class="ga-link" data-link-type="outbound" target='_blank'>Dmytro Danylyk</a> post about using sourceSets to have deep project structure in android, i&#39;ve written small gradle plugin to automate this task.</p>
+    <ol>
+<li>Create VpnService class</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">public class VpnConnectionBlocker extends VpnService {
 
-<p>To use it in you project add this to top level <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">buildscript {
-    repositories {
-        ///...
-        maven {
-            url uri(&#39;http://maven.tunebrains.com/content/repositories/android/&#39;)
-        }
-    }
-    dependencies {
-        //...
-        classpath group: &#39;com.tunebrains&#39;, name: &#39;sourcesetflattener&#39;,
-                version: &#39;0.0.1&#39;
+}
+</code></pre></div>
+<ol>
+<li>Register it in AndroidManifest.xml</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;service android:name=&quot;.VpnConnectionBlocker&quot;
+         android:permission=&quot;android.permission.BIND_VPN_SERVICE&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.net.VpnService&quot;/&gt;
+    &lt;/intent-filter&gt;
+&lt;/service&gt;
+</code></pre></div>
+<ol>
+<li>Request VPN service to start</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static final int REQUEST_VPN = 0x10;
+//...
+startActivityForResult(VpnConnectionBlocker.prepare(MainActivity.this), REQUEST_VPN);
+</code></pre></div>
+<ol>
+<li>Handle user action and start VPN service</li>
+</ol>
+<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode){
+        case REQUEST_VPN:
+            if (resultCode == RESULT_OK) {
+                startService(new Intent(MainActivity.this, VpnConnectionBlocker.class));
+            }
+            break;
     }
 }
 </code></pre></div>
-<p>Apply plugin in project level <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;com.tunebrains.sourcesetflattener&#39;
-</code></pre></div>
-<p>Specify root directory to store screen related resources</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">flattener{
-    root &#39;res-screen&#39;
-}
-</code></pre></div>
-<p>Sync Project with gradle files, and it will load directory structure to source set automatically.</p>
-
-<p><img src="http://localhost:4000/assets/gradle_flattener/1461524521625.jpg"/></p>
-
-<p>Also works for multiple flavours.</p>
-
-<p><img src="http://localhost:4000/assets/gradle_flattener/1461524624236.jpg"/></p>
-
-<p>All source code available on <span><a href="https://github.com/timoshenkoav/SourceSetFlattener" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
-
   </article>
   <tags>
 	  
-	  	<span class="label label-default">android gradle plugin</span>  	
+	  	<span class="label label-default">android</span>  	
+	  
+	  	<span class="label label-default">vpn</span>  	
 	  	
   </tags>    
   <readmore>
     Read More...
     <br>
     
+      <span><a href="/2016/07/18/docker_rails_app.html" class="ga-link" data-link-type="related" target='_blank'>Use docker to deploy rails app</a></span>
+
+      
+      <br>
+    
+      <span><a href="/2016/01/11/gradle-plugin-upload%20copy.html" class="ga-link" data-link-type="related" target='_blank'>Android Gradle plugin sample</a></span>
+
+      
+      <br>
+    
+      <span><a href="/2016/01/11/2016-01-11-custom-chromecast-receiver-app.html" class="ga-link" data-link-type="related" target='_blank'>Custom Chromecast Receiver App</a></span>
+
+      
+      <br>
+    
   </readmore>
   <comments>
     
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES * * */
+        var disqus_shortname = 'timoshenko-av';
+        
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
   </comments>
 </div>
                   

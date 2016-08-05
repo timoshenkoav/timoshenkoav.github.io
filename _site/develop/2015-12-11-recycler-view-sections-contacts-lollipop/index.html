@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://blog.tunebrains.com/develop/2015-12-11-recycler-view-sections-contacts-lollipop/">
+    <link rel="canonical" href="http://localhost:4000/develop/2015-12-11-recycler-view-sections-contacts-lollipop/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -23,18 +23,6 @@
   
   <script>
 
-   
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-28832832-4', 'blog.tunebrains.com');
-  ga('send', 'pageview');
-  ga('set',{
-  	page: '/develop/2015-12-11-recycler-view-sections-contacts-lollipop/',
-  	title: 'Display RecyclerView sections like Android Lollipop contacts application'
-  });
 
 
 	$(document).ready(function(){
@@ -63,7 +51,7 @@
 </script>
   
   
-  <meta property="og:url"                content="http://blog.tunebrains.com/develop/2015-12-11-recycler-view-sections-contacts-lollipop/" />
+  <meta property="og:url"                content="http://localhost:4000/develop/2015-12-11-recycler-view-sections-contacts-lollipop/" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="Display RecyclerView sections like Android Lollipop contacts application" />
 <meta property="og:description"        content="" />
@@ -137,9 +125,9 @@
   <article class="post-content">
     <p>One of my projects require to display sticky headers like Android Contacts app do on Android Lollipop.</p>
 
-<p>After some time of investigation i’ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.</p>
+<p>After some time of investigation i&#39;ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.</p>
 
-<p>I’ll start implementation from describing how to get sections index for loaded list of contacts.</p>
+<p>I&#39;ll start implementation from describing how to get sections index for loaded list of contacts.</p>
 
 <p>Here is simple model class to store contact information fetched from ContentProvider.</p>
 
@@ -155,7 +143,7 @@
 
 <p>Its quite simple, as everything we need to showcast is contact name.</p>
 
-<p>To build section index we need sort our list of contacts by name alphabetically. I’ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.</p>
+<p>To build section index we need sort our list of contacts by name alphabetically. I&#39;ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.</p>
 
 <p>When we have our sorted contacts list, we can fill section index</p>
 
@@ -181,8 +169,8 @@
 <p>In result we got some variables that can be used for section headers</p>
 
 <ul>
-  <li>mMapIndex - map of contact name uppercased first character and index of first contact in list</li>
-  <li>mSectionList - list of all sections sorter alphabetically</li>
+<li>mMapIndex - map of contact name uppercased first character and index of first contact in list</li>
+<li>mSectionList - list of all sections sorter alphabetically</li>
 </ul>
 
 <p>Now, when we have sections, we can start displaying contacts in Views. Item layout has TextView to display contact name, and section title to display section when required.</p>
@@ -254,10 +242,9 @@
 The main logic is to have <strong>TextView</strong> with the same style as section title item in item list and show/hide appropriate TextView in the item and animate TextView in the Activity. 
 This solution is not fully completed, and may have some issues under some unexpected circumstances, but as its opensourced you can easily create issue or submit your pull request.</p>
 
-<p>You can find complete source code on <span><a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" data-link-type="" target="_blank">GitHub</a></span></p>
+<p>You can find complete source code on <span><a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
 
 <p>Enjoy!</p>
-
 
   </article>
   <tags>

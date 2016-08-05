@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://blog.tunebrains.com/develop/2016-01-04-read-custom-attributes-from-activity/">
+    <link rel="canonical" href="http://localhost:4000/develop/2016-01-04-read-custom-attributes-from-activity/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -23,18 +23,6 @@
   
   <script>
 
-   
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-28832832-4', 'blog.tunebrains.com');
-  ga('send', 'pageview');
-  ga('set',{
-  	page: '/develop/2016-01-04-read-custom-attributes-from-activity/',
-  	title: 'Read custom attributes from activity'
-  });
 
 
 	$(document).ready(function(){
@@ -63,7 +51,7 @@
 </script>
   
   
-  <meta property="og:url"                content="http://blog.tunebrains.com/develop/2016-01-04-read-custom-attributes-from-activity/" />
+  <meta property="og:url"                content="http://localhost:4000/develop/2016-01-04-read-custom-attributes-from-activity/" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="Read custom attributes from activity" />
 <meta property="og:description"        content="" />
@@ -141,10 +129,10 @@
 
 <div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;attr</span> <span class="na">name=</span><span class="s">&quot;TitleText&quot;</span> <span class="na">format=</span><span class="s">&quot;reference|string&quot;</span><span class="nt">/&gt;</span></code></pre></div>
 
-<p>Apply this attribute to Activity’s theme</p>
+<p>Apply this attribute to Activity&#39;s theme</p>
 
 <div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&quot;AppTheme&quot;</span> <span class="na">parent=</span><span class="s">&quot;Theme.AppCompat.Light.DarkActionBar&quot;</span><span class="nt">&gt;</span>        
-	<span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&quot;TitleText&quot;</span><span class="nt">&gt;</span>@string/app_name<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&quot;TitleText&quot;</span><span class="nt">&gt;</span>@string/app_name<span class="nt">&lt;/item&gt;</span>
 <span class="nt">&lt;/style&gt;</span></code></pre></div>
 
 <p>Read this attribute in activity and set TextView text.</p>
@@ -159,8 +147,7 @@
     <span class="n">text</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">title</span><span class="o">);</span>
 <span class="o">}</span></code></pre></div>
 
-<p>Full source code for this article is available on <span><a href="https://github.com/timoshenkoav/ActivityAttributes" class="ga-link" data-link-type="" target="_blank">GitHub</a></span></p>
-
+<p>Full source code for this article is available on <span><a href="https://github.com/timoshenkoav/ActivityAttributes" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
 
   </article>
   <tags>

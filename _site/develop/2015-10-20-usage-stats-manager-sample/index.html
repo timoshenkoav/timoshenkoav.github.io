@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://blog.tunebrains.com/develop/2015-10-20-usage-stats-manager-sample/">
+    <link rel="canonical" href="http://localhost:4000/develop/2015-10-20-usage-stats-manager-sample/">
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -23,18 +23,6 @@
   
   <script>
 
-   
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-28832832-4', 'blog.tunebrains.com');
-  ga('send', 'pageview');
-  ga('set',{
-  	page: '/develop/2015-10-20-usage-stats-manager-sample/',
-  	title: 'Android UsageStatsManager sample'
-  });
 
 
 	$(document).ready(function(){
@@ -63,7 +51,7 @@
 </script>
   
   
-  <meta property="og:url"                content="http://blog.tunebrains.com/develop/2015-10-20-usage-stats-manager-sample/" />
+  <meta property="og:url"                content="http://localhost:4000/develop/2015-10-20-usage-stats-manager-sample/" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="Android UsageStatsManager sample" />
 <meta property="og:description"        content="Sample of using UsageStatsManager on Android API >= 21" />
@@ -135,55 +123,37 @@
   </header>
 
   <article class="post-content">
-    <p>Google has deprecated the function “getRecentTasks” of “ActivityManager” class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that “locks” access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.</p>
+    <p>Google has deprecated the function &quot;getRecentTasks&quot; of &quot;ActivityManager&quot; class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that &quot;locks&quot; access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.</p>
 
-<p>Google introduces UsageStatsManager in api 21, which can replace “getRecentTasks” for new versions.</p>
+<p>Google introduces UsageStatsManager in api 21, which can replace &quot;getRecentTasks&quot; for new versions.</p>
 
-<p>I’ve created sample project demonstrating how to use this api.</p>
+<p>I&#39;ve created sample project demonstrating how to use this api.</p>
 
 <p>First of all you need to declare permission in AndroidManifest.xml</p>
-
-<p>```</p>
-
-<uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
-
-<p>```</p>
-
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;uses-permission android:name=&quot;android.permission.PACKAGE_USAGE_STATS&quot;
+                     tools:ignore=&quot;ProtectedPermissions&quot;/&gt;
+</code></pre></div>
 <p>Adding  </p>
-
-<p>```
-tools:ignoe=”ProtectedPermissions”</p>
-
-<p>```</p>
-
+<div class="highlight"><pre><code class="language-text" data-lang="text">tools:ignoe=&quot;ProtectedPermissions&quot;
+</code></pre></div>
 <p>will disable warning that permission is system level and will not be granted to third-party apps. However, declaring the permission implies intention to use the API and the user of the device can grant permission through the Settings application.</p>
 
 <p>So we need to check if our app was granted this permission</p>
-
-<p>```</p>
-
-<p>private boolean hasPermission() {
+<div class="highlight"><pre><code class="language-text" data-lang="text">private boolean hasPermission() {
     AppOpsManager appOps = (AppOpsManager)
                 getSystemService(Context.APP_OPS_SERVICE);
     int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
             android.os.Process.myUid(), getPackageName());
     return mode == AppOpsManager.MODE_ALLOWED;
-}</p>
-
-<p>```</p>
-
+}
+</code></pre></div>
 <p>and if no, ask user to enable it</p>
-
-<p><code>
-startActivityForResult(
+<div class="highlight"><pre><code class="language-text" data-lang="text">startActivityForResult(
     new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 
         MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
-</code></p>
-
+</code></pre></div>
 <p>We are launching settings activity to allow app to get usage stats, its not android M default way to deal with permissions, we need to check result in onActivityResult</p>
-
-<p><code>
-@Override
+<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode){
         case MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS:
@@ -195,28 +165,21 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             break;
     }
 }
-</code></p>
-
+</code></pre></div>
 <p>In this sample if user did not grant permission we will ask again while permission is not granted. In real application, its better to tell user why do we need this permission and turn off functionality if permission was not granted.</p>
 
 <p>After the permission was eventually granted, we can query information about last active packages</p>
-
-<p>```</p>
-
-<p>UsageStatsManager lUsageStatsManager = 
+<div class="highlight"><pre><code class="language-text" data-lang="text">UsageStatsManager lUsageStatsManager = 
     (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-List<usagestats> lUsageStatsList = 
+List&lt;UsageStats&gt; lUsageStatsList = 
     lUsageStatsManager.queryUsageStats(
         UsageStatsManager.INTERVAL_DAILY, 
         System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
-        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));</usagestats></p>
+        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));
+</code></pre></div>
+<p>There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout <span><a href="https://developer.android.com/reference/android/app/usage/UsageStatsManager.html" class="ga-link" data-link-type="" target='_blank'>official documentation</a></span></p>
 
-<p>```</p>
-
-<p>There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout <span><a href="https://developer.android.com/reference/android/app/usage/UsageStatsManager.html" class="ga-link" data-link-type="" target="_blank">official documentation</a></span></p>
-
-<p>Full source code for this article is available on <span><a href="https://github.com/timoshenkoav/USMSample" class="ga-link" data-link-type="" target="_blank">GitHub</a></span></p>
-
+<p>Full source code for this article is available on <span><a href="https://github.com/timoshenkoav/USMSample" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
 
   </article>
   <tags>
