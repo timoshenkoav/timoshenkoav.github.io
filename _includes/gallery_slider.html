@@ -82,11 +82,11 @@ var openPhotoSwipe = function() {
     var items = [        
     
         {% for image in include.files %}
-            {% assign fullurl = {{image | prepend: include.imagesFolder | prepend: '/assets' | prepend: site.url}} %}
+            {% assign fullurl = {{image.url | prepend: include.imagesFolder | prepend: '/assets' | prepend: site.url}} %}
             {
                 src: '{{fullurl}}',
-                w: 1024,
-                h: 768
+                w: {{image.width}},
+                h: {{image.height}}
             },    
         {% endfor %}  
         

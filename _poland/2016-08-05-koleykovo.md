@@ -4,8 +4,12 @@ title:  "Kolejkowo с сыном"
 date:   2016-08-05 14:40:00
 related_id: 1474573345
 images:
-- IMG_20160805_100810.jpg
-- IMG_20160805_100814.jpg
+- url: IMG_20160805_100810.jpg
+  width: 4032
+  height: 3024
+- url: IMG_20160805_100814.jpg
+  width: 4032
+  height: 3024
 tags: польша
 excerpt: Крутая железная дорога в Польше
 ---

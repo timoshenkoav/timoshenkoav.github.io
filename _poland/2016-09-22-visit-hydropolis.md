@@ -3,40 +3,105 @@ layout: post
 title:  Посещение музея воды "Hydropolis"
 date:   2016-09-22 21:42:26
 images:
-- i00001.jpg
-- i00002.jpg
-- i00003.jpg
-- i00004.jpg
-- i00005.jpg
-- i00006.jpg
-- i00007.jpg
-- i00008.jpg
-- i00009.jpg
-- i00010.jpg
-- i00011.jpg
-- i00012.jpg
-- i00013.jpg
-- i00014.png
-- i00015.jpg
-- i00016.jpg
-- i00017.jpg
-- i00018.jpg
-- i00019.jpg
-- i00020.jpg
-- i00021.jpg
-- i00022.jpg
-- i00023.jpg
-- i00024.jpg
-- i00025.jpg
-- i00026.jpg
-- i00027.jpg
-- i00028.jpg
-- i00029.jpg
-- i00030.jpg
-- i00031.jpg
-- i00032.jpg
-- i00033.jpg
-- i00034.jpg
+- url: i00001.jpg
+  width: 768
+  height: 432
+- url: i00002.jpg
+  width: 768
+  height: 432
+- url: i00003.jpg
+  width: 768
+  height: 432
+- url: i00004.jpg
+  width: 768
+  height: 432
+- url: i00005.jpg
+  width: 768
+  height: 432
+- url: i00006.jpg
+  width: 768
+  height: 432
+- url: i00007.jpg
+  width: 768
+  height: 432
+- url: i00008.jpg
+  width: 768
+  height: 432
+- url: i00009.jpg
+  width: 432
+  height: 768
+- url: i00010.jpg
+  width: 806
+  height: 605
+- url: i00011.jpg
+  width: 605
+  height: 806
+- url: i00012.jpg
+  width: 605
+  height: 806
+- url: i00013.jpg
+  width: 806
+  height: 605
+- url: i00015.jpg
+  width: 806
+  height: 605
+- url: i00016.jpg
+  width: 806
+  height: 605
+- url: i00017.jpg
+  width: 806
+  height: 605
+- url: i00018.jpg
+  width: 806
+  height: 605
+- url: i00019.jpg
+  width: 806
+  height: 605
+- url: i00020.jpg
+  width: 806
+  height: 605
+- url: i00021.jpg
+  width: 806
+  height: 605
+- url: i00022.jpg
+  width: 806
+  height: 605
+- url: i00023.jpg
+  width: 806
+  height: 605
+- url: i00024.jpg
+  width: 806
+  height: 605
+- url: i00025.jpg
+  width: 806
+  height: 605
+- url: i00026.jpg
+  width: 806
+  height: 605
+- url: i00027.jpg
+  width: 806
+  height: 605
+- url: i00028.jpg
+  width: 806
+  height: 605
+- url: i00029.jpg
+  width: 806
+  height: 605
+- url: i00030.jpg
+  width: 806
+  height: 605
+- url: i00031.jpg
+  width: 806
+  height: 605
+- url: i00032.jpg
+  width: 806
+  height: 605
+- url: i00033.jpg
+  width: 806
+  height: 605
+- url: i00034.jpg
+  width: 806
+  height: 605
 tags: 
 - польша 
 - hydropolis
