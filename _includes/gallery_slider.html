@@ -1,0 +1,24 @@
+<div id="galleria">
+{% for image in include.files %}
+{% assign fullurl = {{image | prepend: include.imagesFolder | prepend: '/assets' | prepend: site.baseurl}} %}
+        <a href="{{fullurl}}">
+            <img 
+                src="{{fullurl}}",
+                data-big="{{fullurl}}"
+            >
+        </a>
+    
+{% endfor %}  
+</div>
+
+
+
+<script>
+    $(function() {
+        // Load the classic theme
+        Galleria.loadTheme("{{"/assets/scripts/galleria.classic.min.js" | prepend: site.baseurl}}");
+
+        // Initialize Galleria
+        Galleria.run('#galleria');
+    });
+</script>

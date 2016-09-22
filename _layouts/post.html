@@ -24,8 +24,9 @@ comments: true
       {%assign test = site.documents | where: 'related_id', post | first%}
         {% if test %}  
           {% include ga_link.html title=test.title linktype="related" url=test.url %}                            
+          <br>
         {% endif %}
-      <br>
+      
     {% endfor %}
     {% for tag in page.tags %}
       {% for doc in site.documents %}
@@ -37,8 +38,9 @@ comments: true
             {% else %}
             {% if page != test %}
             {% include ga_link.html title=test.title linktype="related" url=test.url %}                            
-            {%endif%}
             <br/>
+            {%endif%}
+            
             {% endif %}
             
           {% endif %}  

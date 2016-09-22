@@ -16,7 +16,7 @@
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script src="/assets/scripts/bootstrap/bootstrap.min.js"></script>
-
+    <script src="/assets/scripts/galleria-1.4.7.min.js"></script>
 </head>
 
 
@@ -209,14 +209,42 @@
   <article class="post-content">
     <p>2-х летний ребенок знает город лучше чем я. Катались сегодня с ним на велосипеде, приехали на фонтан на прощаде Яна Павла 2 погулять. Ребенок отказался там играть и показал куда папе нужно ехать и привел меня на прекраную инсталяцию польской железной дороги. <a href="http://www.kolejkowo.pl/" class="ga-link" data-link-type="outbound" target='_blank'>Kolejkowo</a>. Красота. </p>
 
-<p><img src="http://localhost:4000/assets/poland/kolejkowo/IMG_20160805_100810.jpg"/>
-<br/>
-<img src="http://localhost:4000/assets/poland/kolejkowo/IMG_20160805_100814.jpg"/></p>
+<div id="galleria">
+
+
+        <a href="/assets/poland/kolejkowo/IMG_20160805_100810.jpg">
+            <img 
+                src="/assets/poland/kolejkowo/IMG_20160805_100810.jpg",
+                data-big="/assets/poland/kolejkowo/IMG_20160805_100810.jpg"
+            >
+        </a>
+    
+
+
+        <a href="/assets/poland/kolejkowo/IMG_20160805_100814.jpg">
+            <img 
+                src="/assets/poland/kolejkowo/IMG_20160805_100814.jpg",
+                data-big="/assets/poland/kolejkowo/IMG_20160805_100814.jpg"
+            >
+        </a>
+    
+  
+</div>
+
+<script>
+    $(function() {
+        // Load the classic theme
+        Galleria.loadTheme("/assets/scripts/galleria.classic.min.js");
+
+        // Initialize Galleria
+        Galleria.run('#galleria');
+    });
+</script>                            
 
   </article>
   <tags>
 	  
-	  	<span class="label label-default">Польша</span>  	
+	  	<span class="label label-default">польша</span>  	
 	  	
   </tags>    
   <readmore>
@@ -323,15 +351,17 @@
       
         
                   
+            
+        
+        
+      
+        
+                  
                       
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
-
-                            
             
-            <br/>
             
             
             
@@ -344,13 +374,16 @@
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/poland/2016-09-22-visit-hydropolis/" class="ga-link" data-link-type="related" target='_blank'>Посещение музея воды "Hydropolis"</a></span>
 
                             
-            
             <br/>
             
             
+            
+            
+            
+                  
             
         
         

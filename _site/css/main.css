@@ -488,3 +488,6 @@ tags {
 .page-tags {
   background: red;
   height: 100px; }
+
+#galleria {
+  height: 320px; }
