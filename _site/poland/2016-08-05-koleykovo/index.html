@@ -16,7 +16,13 @@
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script src="/assets/scripts/bootstrap/bootstrap.min.js"></script>
-    <script src="/assets/scripts/galleria-1.4.7.min.js"></script>
+
+    <!--PhotoSwipe -->
+    <link rel="stylesheet" href="/assets/scripts/photoswipe/photoswipe.css"></script>
+    <link rel="stylesheet" href="/assets/scripts/photoswipe/default-skin/default-skin.css"></script>
+    <script src="/assets/scripts/photoswipe/photoswipe.min.js"></script>
+    <script src="/assets/scripts/photoswipe/photoswipe-ui-default.min.js"></script>
+
 </head>
 
 
@@ -209,36 +215,125 @@
   <article class="post-content">
     <p>2-х летний ребенок знает город лучше чем я. Катались сегодня с ним на велосипеде, приехали на фонтан на прощаде Яна Павла 2 погулять. Ребенок отказался там играть и показал куда папе нужно ехать и привел меня на прекраную инсталяцию польской железной дороги. <a href="http://www.kolejkowo.pl/" class="ga-link" data-link-type="outbound" target='_blank'>Kolejkowo</a>. Красота. </p>
 
-<div id="galleria">
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
 
+<p><a href="#" id="btn" class="show-photos">Photos</a></p>
 
-        <a href="/assets/poland/kolejkowo/IMG_20160805_100810.jpg">
-            <img 
-                src="/assets/poland/kolejkowo/IMG_20160805_100810.jpg",
-                data-big="/assets/poland/kolejkowo/IMG_20160805_100810.jpg"
-            >
-        </a>
-    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
+    <!-- Background of PhotoSwipe. 
+         It's a separate element, as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
 
-        <a href="/assets/poland/kolejkowo/IMG_20160805_100814.jpg">
-            <img 
-                src="/assets/poland/kolejkowo/IMG_20160805_100814.jpg",
-                data-big="/assets/poland/kolejkowo/IMG_20160805_100814.jpg"
-            >
-        </a>
-    
-  
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+        <div class="pswp__container">
+            <!-- don't modify these 3 pswp__item elements, data is added later on -->
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+          </div>
+
+        </div>
+
 </div>
 
-<script>
-    $(function() {
-        // Load the classic theme
-        Galleria.loadTheme("/assets/scripts/galleria.classic.min.js");
+<!-- 
+            
+            {
+                src: '/assets/poland/kolejkowo/IMG_20160805_100810.jpg',
+                width: 768,
+                height: 432
+            },    
+        
+            
+            {
+                src: '/assets/poland/kolejkowo/IMG_20160805_100814.jpg',
+                width: 768,
+                height: 432
+            },    
+          -->
 
-        // Initialize Galleria
-        Galleria.run('#galleria');
-    });
+<script>
+var openPhotoSwipe = function() {
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+
+    // build items array
+    var items = [        
+    
+        
+            
+            {
+                src: 'http://localhost:4000/assets/poland/kolejkowo/IMG_20160805_100810.jpg',
+                w: 1024,
+                h: 768
+            },    
+        
+            
+            {
+                src: 'http://localhost:4000/assets/poland/kolejkowo/IMG_20160805_100814.jpg',
+                w: 1024,
+                h: 768
+            },    
+          
+        
+    ];
+    
+    // define options (if needed)
+    var options = {        
+    };
+    
+    var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.init();
+};
+    document.getElementById('btn').onclick = openPhotoSwipe;
+    
 </script>                            
 
   </article>
