@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+show_in_navigation: true
 ---
 
 * Android/RoR developer

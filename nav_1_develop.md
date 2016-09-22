@@ -2,6 +2,7 @@
 layout: default
 title: Develop
 permalink: /develop/
+show_in_navigation: true
 ---
 
 <div class="home">  

@@ -2,6 +2,7 @@
 layout: page
 title: Poland
 permalink: /poland/
+show_in_navigation: true
 ---
 
 <div class="home">  
