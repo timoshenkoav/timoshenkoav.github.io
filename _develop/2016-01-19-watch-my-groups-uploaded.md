@@ -2,7 +2,10 @@
 layout: post
 title:  "Subscribe to Facebook groups with keywords"
 date:   2016-01-19 13:40:00
-tags: android facebook sdk
+tags: 
+- android 
+- facebook sdk
+related_id: 8
 meta_description: Subscribe to Facebook groups with keywords
 excerpt: Android app that handle new posts in Facebook groups based on keywords
 redirect_from:

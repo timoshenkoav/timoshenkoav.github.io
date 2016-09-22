@@ -2,7 +2,10 @@
 layout: post
 title:  "Signing android app for secure content provider"
 date:   2015-10-28 13:17:35
-tags: android keystore
+tags: 
+- android 
+- keystore
+related_id: 4
 redirect_from:
   - /2015/10/28/make-clear-android-signing-and-content-provider.html
   - /2015/10/28/make-clear-android-signing-and-content-provider/

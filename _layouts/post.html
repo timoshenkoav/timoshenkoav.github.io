@@ -19,10 +19,33 @@ comments: true
   </tags>    
   <readmore>
     Read More...
-    <br>
-    {% for post in site.related_posts %}
-      {% include ga_link.html title=post.title linktype="related" url=post.url %}      
+    <br>        
+    {% for post in page.read_more %}                
+      {%assign test = site.documents | where: 'related_id', post | first%}
+        {% if test %}  
+          {% include ga_link.html title=test.title linktype="related" url=test.url %}                            
+        {% endif %}
       <br>
+    {% endfor %}
+    {% for tag in page.tags %}
+      {% for doc in site.documents %}
+        
+        {% for tt in doc.tags %}          
+          {% if tt contains tag %}            
+            {%assign test = site.documents | where: 'related_id', doc.related_id | first%}
+            {% if page.read_more contains doc.related_id %}
+            {% else %}
+            {% if page != test %}
+            {% include ga_link.html title=test.title linktype="related" url=test.url %}                            
+            {%endif%}
+            <br/>
+            {% endif %}
+            
+          {% endif %}  
+        {% endfor %}
+        
+      {% endfor %}
+    
     {% endfor %}
   </readmore>
   <comments>

@@ -2,8 +2,13 @@
 layout: post
 title:  "Display RecyclerView sections like Android Lollipop contacts application"
 date:   2015-12-11 16:30:00
-tags: android recyclerview
-related_posts: 2 3
+tags: 
+- android 
+- recyclerview
+read_more: 
+- 2 
+- 3
+related_id: 6
 redirect_from:
   - /2015/12/11/recycler-view-sections-contacts-lollipop.html
   - /2015/12/11/recycler-view-sections-contacts-lollipop/

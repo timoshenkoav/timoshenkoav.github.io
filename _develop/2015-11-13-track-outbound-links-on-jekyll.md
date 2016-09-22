@@ -2,8 +2,11 @@
 layout: post
 title:  "Track outbound links to GA on jekyll"
 date:   2015-11-13 22:25:00
-tags: GA jekyll
+tags: 
+- GA 
+- jekyll
 excerpt: Tracking outbound links on Jekyll blog
+related_id: 5
 redirect_from:
   - /2015/11/13/track-outbound-links-on-jekyll.html
   - /2015/11/13/track-outbound-links-on-jekyll/

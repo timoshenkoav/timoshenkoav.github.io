@@ -12,6 +12,11 @@ github_username:  timoshenkoav
 markdown: redcarpet
 
 environment: development
+page_collections:
+develop:  
+  permalink: develop
+poland:  
+  permalink: poland
 collections:
   develop:
     output: true

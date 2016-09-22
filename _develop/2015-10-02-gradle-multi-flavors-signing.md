@@ -2,8 +2,10 @@
 layout: post
 title:  "Sign multiple flavors with different keystores"
 date:   2015-10-02 11:11:35
-tags: android gradle
-id: 2
+tags: 
+- android 
+- gradle
+related_id: 2
 redirect_from:
   - /2015/10/02/gradle-multi-flavors-signing.html
   - /2015/10/02/gradle-multi-flavors-signing/

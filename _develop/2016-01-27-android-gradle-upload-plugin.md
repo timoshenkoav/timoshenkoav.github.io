@@ -2,7 +2,10 @@
 layout: post
 title:  "Android Gradle plugin sample"
 date:   2016-01-27 17:04:00
-tags: android gradle plugin
+tags: 
+- android 
+- gradle plugin
+related_id: 9
 meta_description: Android Gradle plugin
 redirect_from:
   - /2016/01/27/android-gradle-upload-plugin.html

@@ -2,8 +2,10 @@
 layout: post
 title:  "Encrypted API from android to rails"
 date:   2015-10-02 17:54:00
-tags: android rails
-id: 1
+tags: 
+- android 
+- rails
+related_id: 1
 redirect_from:
   - /2015-10-02-android-encrypted-api-with-rails/
 ---
@@ -122,5 +124,5 @@ post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
 ```
 
 
-To Be Continued...
+<a href="/develop/2016-09-22-encrypted-api-from-android-to-rails-part-2/">Part 2</a>
 

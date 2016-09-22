@@ -2,7 +2,9 @@
 layout: post
 title:  "Android UsageStatsManager sample"
 date:   2015-10-20 17:41:00
-tags: android
+tags: 
+- android
+related_id: 3
 meta_description: Sample of using UsageStatsManager on Android API >= 21
 redirect_from:
   - /2015/10/20/usage-stats-manager-sample.html

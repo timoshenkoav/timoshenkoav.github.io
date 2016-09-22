@@ -2,7 +2,10 @@
 layout: post
 title:  "Deep android project structure"
 date:   2016-04-23 20:30:00
-tags: android gradle plugin
+tags: 
+- android 
+- gradle plugin
+related_id: 11
 meta_description: Android Gradle plugin
 redirect_from:
   - /2016/04/23/android-gradle-flattener.html

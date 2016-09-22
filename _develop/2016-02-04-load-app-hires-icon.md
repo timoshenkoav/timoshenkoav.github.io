@@ -2,7 +2,10 @@
 layout: post
 title:  "Load app hi-res icon"
 date:   2016-02-04 22:00:00
-tags: android icon
+tags: 
+- android 
+- icon
+related_id: 10
 meta_description: Load hi-res icon for app
 redirect_from:
   - /2016/02/04/load-app-hires-icon.html

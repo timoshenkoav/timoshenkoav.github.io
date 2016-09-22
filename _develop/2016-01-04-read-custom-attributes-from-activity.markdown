@@ -2,7 +2,9 @@
 layout: post
 title:  "Read custom attributes from activity"
 date:   2016-01-04 18:52:00
-tags: android
+tags: 
+- android
+related_id: 7
 redirect_from:
   - /2016/01/04/read-custom-attributes-from-activity.html
   - /2016/01/04/read-custom-attributes-from-activity/
