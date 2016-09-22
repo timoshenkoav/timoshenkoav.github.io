@@ -3,6 +3,9 @@ layout: post
 title:  "Welcome"
 date:   2015-10-02 11:11:34
 categories: welcome blog
+redirect_from:
+  - /2015/10/02/welcome.html
+  - /2015/10/02/welcome/
 excerpt:  
 ---
 <div class='avatar'>

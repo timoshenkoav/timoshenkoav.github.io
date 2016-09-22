@@ -3,6 +3,9 @@ layout: post
 title:  "Read custom attributes from activity"
 date:   2016-01-04 18:52:00
 tags: android
+redirect_from:
+  - /2016/01/04/read-custom-attributes-from-activity.html
+  - /2016/01/04/read-custom-attributes-from-activity/
 ---
 
 Its quite small article about reading custom attributes from theme in Activity code. 

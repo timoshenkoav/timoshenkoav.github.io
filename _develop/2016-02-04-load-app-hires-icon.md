@@ -4,6 +4,9 @@ title:  "Load app hi-res icon"
 date:   2016-02-04 22:00:00
 tags: android icon
 meta_description: Load hi-res icon for app
+redirect_from:
+  - /2016/02/04/load-app-hires-icon.html
+  - /2016/02/04/load-app-hires-icon/
 ---
 
 Short snippet how to load hi-res icon of the app by its package name.

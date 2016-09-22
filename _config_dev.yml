@@ -19,4 +19,7 @@ collections:
   poland:
     output: true
     permalink: /poland/:path/
-    
+gems:
+  - jekyll-redirect-from
+whitelist:
+  - jekyll-redirect-from         

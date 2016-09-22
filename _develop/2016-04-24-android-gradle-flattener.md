@@ -4,6 +4,9 @@ title:  "Deep android project structure"
 date:   2016-04-23 20:30:00
 tags: android gradle plugin
 meta_description: Android Gradle plugin
+redirect_from:
+  - /2016/04/23/android-gradle-flattener.html
+  - /2016/04/23/android-gradle-flattener/
 ---
 
 Inspired by <a href="https://medium.com/google-developer-experts/android-project-structure-alternative-way-29ce766682f0" class="ga-link" data-link-type="outbound" target='_blank'>Dmytro Danylyk</a> post about using sourceSets to have deep project structure in android, i've written small gradle plugin to automate this task.

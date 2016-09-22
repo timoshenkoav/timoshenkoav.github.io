@@ -4,6 +4,9 @@ title:  "Android Gradle plugin sample"
 date:   2016-01-27 17:04:00
 tags: android gradle plugin
 meta_description: Android Gradle plugin
+redirect_from:
+  - /2016/01/27/android-gradle-upload-plugin.html
+  - /2016/01/27/android-gradle-upload-plugin/
 ---
 
 Plugin will upload apk to distribution system after building release artifact.

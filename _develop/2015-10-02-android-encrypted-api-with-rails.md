@@ -4,6 +4,8 @@ title:  "Encrypted API from android to rails"
 date:   2015-10-02 17:54:00
 tags: android rails
 id: 1
+redirect_from:
+  - /2015-10-02-android-encrypted-api-with-rails/
 ---
 
 Working on remote logging system for android, I faced up with Google require not to send user information to remote system, as this violates section 4.3 of the Developer Distribution Agreement.

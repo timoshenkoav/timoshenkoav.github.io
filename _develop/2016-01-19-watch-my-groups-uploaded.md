@@ -5,6 +5,9 @@ date:   2016-01-19 13:40:00
 tags: android facebook sdk
 meta_description: Subscribe to Facebook groups with keywords
 excerpt: Android app that handle new posts in Facebook groups based on keywords
+redirect_from:
+  - /2016/01/19/watch-my-groups-uploaded.html
+  - /2016/01/19/watch-my-groups-uploaded/
 ---
 
 After i have moved to Montenegro, i became quite active user of Facebook. There are a lot of groups on Facebook connecting russian speaking people living in Montenegro.

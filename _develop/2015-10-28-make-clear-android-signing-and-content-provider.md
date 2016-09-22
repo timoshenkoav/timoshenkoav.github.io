@@ -3,6 +3,9 @@ layout: post
 title:  "Signing android app for secure content provider"
 date:   2015-10-28 13:17:35
 tags: android keystore
+redirect_from:
+  - /2015/10/28/make-clear-android-signing-and-content-provider.html
+  - /2015/10/28/make-clear-android-signing-and-content-provider/
 ---
 
 Always was curious how to manage android keystore sertificates for multiple apps, either generate separate keystore file each time, or just use multiple alias in the same keystore.

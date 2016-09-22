@@ -4,6 +4,9 @@ title:  "Sign multiple flavors with different keystores"
 date:   2015-10-02 11:11:35
 tags: android gradle
 id: 2
+redirect_from:
+  - /2015/10/02/gradle-multi-flavors-signing.html
+  - /2015/10/02/gradle-multi-flavors-signing/
 ---
 
 One of my projects has a lot of flavors, and each flavor has different keystore to sign with. As a result it has very long build.gradle project file. As each flavor need defining separate singningConfig and defining flavor signing on release buildType
