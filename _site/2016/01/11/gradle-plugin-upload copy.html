@@ -215,90 +215,97 @@
   <article class="post-content">
     <p>Plugin will upload apk to distribution system after building release artifact.</p>
 
-<h3>Create Project</h3>
+<h3 id="create-project">Create Project</h3>
 
 <p>Create plugin project in IntelliJ IDEA. Go to <strong>File</strong>-&gt;<strong>New</strong>-&gt;<strong>Project</strong>.</p>
 
 <p>Select Gradle and add Groovy Framework</p>
 
-<p><img src="http://localhost:4000/assets/gradle_plugin_upload/new_project.jpg"/></p>
+<p><img src="http://localhost:4000/assets/gradle_plugin_upload/new_project.jpg" /></p>
 
 <p>Name your plugin:</p>
 
-<p><img src="http://localhost:4000/assets/gradle_plugin_upload/plugin_name.jpg"/></p>
+<p><img src="http://localhost:4000/assets/gradle_plugin_upload/plugin_name.jpg" /></p>
 
 <p>Select gradle settings:</p>
 
-<p><img src="http://localhost:4000/assets/gradle_plugin_upload/gradle_settings.jpg"/></p>
+<p><img src="http://localhost:4000/assets/gradle_plugin_upload/gradle_settings.jpg" /></p>
 
 <p>And save your plugin:</p>
 
-<p><img src="http://localhost:4000/assets/gradle_plugin_upload/plugin_save.jpg"/></p>
+<p><img src="http://localhost:4000/assets/gradle_plugin_upload/plugin_save.jpg" /></p>
 
-<h3>Add Groovy dependency</h3>
+<h3 id="add-groovy-dependency">Add Groovy dependency</h3>
 
 <p>Change <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">group &#39;com.tunebrains.beta&#39;
-version &#39;1.0-SNAPSHOT&#39;
 
-task wrapper(type: Wrapper) {
-  gradleVersion = &#39;2.2&#39;
-  distributionUrl = &quot;https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip&quot;
-}
+<p>```
+group ‘com.tunebrains.beta’
+version ‘1.0-SNAPSHOT’</p>
 
-apply plugin: &#39;java&#39;
-apply plugin: &#39;groovy&#39;
+<p>task wrapper(type: Wrapper) {
+  gradleVersion = ‘2.2’
+  distributionUrl = “https://services.gradle.org/distributions/gradle-$gradleVersion-bin.zip”
+}</p>
 
-sourceCompatibility = 1.7
+<p>apply plugin: ‘java’
+apply plugin: ‘groovy’</p>
 
-repositories {
+<p>sourceCompatibility = 1.7</p>
+
+<p>repositories {
     mavenCentral()
-}
+}</p>
 
-dependencies {
-    compile &#39;org.codehaus.groovy:groovy-all:2.3.11&#39;
+<p>dependencies {
+    compile ‘org.codehaus.groovy:groovy-all:2.3.11’</p>
 
-    compile gradleApi()
-    compile localGroovy()
-    compile &#39;com.android.tools.build:gradle:0.14.0&#39;
-}
-</code></pre></div>
-<h3>Configure plugin and deploy to local folder</h3>
+<pre><code>compile gradleApi()
+compile localGroovy()
+compile 'com.android.tools.build:gradle:0.14.0' }
+</code></pre>
+
+<p>```</p>
+
+<h3 id="configure-plugin-and-deploy-to-local-folder">Configure plugin and deploy to local folder</h3>
 
 <p>Create folder structure</p>
 
 <p>Project Root
 <span>
-<br>
+<br />
 <span style="margin-left: 10px;">
 - src
 </span>
-<br>
+<br />
 <span style="margin-left: 20px;">- main</span>
-<br>
+<br />
 <span style="margin-left: 40px;">
 - groovy
 </span>
-<br>
+<br />
 <span style="margin-left: 40px;">
 - resources
 </span>
-<br>
+<br />
 <span style="margin-left: 60px;">
 - META-INF
 </span>
-<br>
+<br />
 <span style="margin-left: 80px;">
-- gradle-plugins<br>
-</span><br>
-<br>
+- gradle-plugins			
+</span>		
+<br />
 </span></p>
 
 <p>Create plugin description file under <strong>gradle-plugins</strong> folder</p>
 
 <p><strong>File Name:</strong> <em>com.tunebrains.beta-gradle-beta-upload.properties</em></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
-</code></pre></div>
+
+<p><code>
+implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
+</code></p>
+
 <p>Create groovy class <strong>com.tunebrains.beta.gradle.UploadApkPlugin</strong></p>
 
 <div class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">tunebrains</span><span class="o">.</span><span class="na">beta</span><span class="o">.</span><span class="na">gradle</span>
@@ -314,43 +321,56 @@ dependencies {
 <span class="o">}</span></code></pre></div>
 
 <p>Apply maven plugin to <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;maven&#39;
-</code></pre></div>
+
+<p><code>
+apply plugin: 'maven'
+</code></p>
+
 <p>Specify folder to deploy plugin</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">uploadArchives {
+
+<p><code>
+uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: &quot;file:///Users/alex/Projects/Tutorials/repo&quot;)
+            repository(url: "file:///Users/alex/Projects/Tutorials/repo")
         }
     }
 }
-</code></pre></div>
+</code></p>
+
 <p>Execute gradle tast to upload archive. Refresh gradle task if required.</p>
 
-<p><img src="http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg"/></p>
+<p><img src="http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg" /></p>
 
-<h3>Apply plugin in your Android project.</h3>
+<h3 id="apply-plugin-in-your-android-project">Apply plugin in your Android project.</h3>
 
 <p>In top level <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">buildscript {
+
+<p>```
+buildscript {
     repositories {
-        //...
+        //…
         maven {
-            url uri(&#39;file:///Users/alex/Projects/Tutorials/repo&#39;)
+            url uri(‘file:///Users/alex/Projects/Tutorials/repo’)
         }
     }
-    dependencies {
+    dependencies {</p>
 
-        classpath group: &#39;com.tunebrains.beta&#39;, name: &#39;releaseupload&#39;,
-                version: &#39;1.0-SNAPSHOT&#39;
-    }
-}
-</code></pre></div>
+<pre><code>    classpath group: 'com.tunebrains.beta', name: 'releaseupload',
+            version: '1.0-SNAPSHOT'
+} }
+</code></pre>
+
+<p>```</p>
+
 <p>In app level <strong>build.gradle</strong></p>
 
 <p>Apply plugin:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;com.tunebrains.beta-release-upload&#39;
-</code></pre></div>
+
+<p><code>
+apply plugin: 'com.tunebrains.beta-release-upload'
+</code></p>
+
 <p>Its time for write some code.</p>
 
 <p>We will add custom tasks <strong>betaDebug</strong> and <strong>betaRelease</strong> to upload debug and release apks.</p>
@@ -376,10 +396,13 @@ dependencies {
 <span class="o">}</span></code></pre></div>
 
 <p>To perform multipart post add apache dependencies to <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">compile &#39;org.apache.httpcomponents:httpmime:4.+&#39;
-compile &#39;commons-io:commons-io:2.+&#39;
-compile &#39;org.apache.commons:commons-compress:1.+&#39;
-</code></pre></div>
+
+<p><code>
+compile 'org.apache.httpcomponents:httpmime:4.+'
+compile 'commons-io:commons-io:2.+'
+compile 'org.apache.commons:commons-compress:1.+'
+</code></p>
+
 <p>To get resulting apk for upload we can use task field</p>
 
 <div class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="n">String</span> <span class="n">apkFilename</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="na">outputFile</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span></code></pre></div>
@@ -631,6 +654,26 @@ compile &#39;org.apache.commons:commons-compress:1.+&#39;
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -786,6 +829,26 @@ compile &#39;org.apache.commons:commons-compress:1.+&#39;
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -919,6 +982,26 @@ compile &#39;org.apache.commons:commons-compress:1.+&#39;
         
       
         
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
                   
             
                   

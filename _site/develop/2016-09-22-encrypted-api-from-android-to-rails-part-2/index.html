@@ -213,9 +213,9 @@
   </header>
 
   <article class="post-content">
-    <p>In previous <a href="/develop/2015-10-02-android-encrypted-api-with-rails/">post</a>, i&#39;ve described how to create and send encrypted with one time cypher data to server, now its time to receive this data on server side. I will not describe how to setup environment and deploy it some server.</p>
+    <p>In previous <a href="/develop/2015-10-02-android-encrypted-api-with-rails/">post</a>, i’ve described how to create and send encrypted with one time cypher data to server, now its time to receive this data on server side. I will not describe how to setup environment and deploy it some server.</p>
 
-<p>We have encrypted key in request header, and encrypted with this key our &#39;very secure data&#39; in the request body:</p>
+<p>We have encrypted key in request header, and encrypted with this key our ‘very secure data’ in the request body:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">x_api</span> <span class="o">=</span> <span class="c1"># get header with encrypted key</span>
 <span class="n">raw_data</span> <span class="o">=</span> <span class="c1"># get raw data from body</span>
@@ -255,6 +255,7 @@
     <span class="n">aes</span><span class="o">.</span><span class="n">iv</span> <span class="o">=</span> <span class="n">iv</span> <span class="k">if</span> <span class="n">iv</span> <span class="o">!=</span> <span class="kp">nil</span>
     <span class="n">aes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span> <span class="o">+</span> <span class="n">aes</span><span class="o">.</span><span class="n">final</span>
   <span class="k">end</span></code></pre></div>
+
 
   </article>
   <tags>
@@ -498,6 +499,26 @@
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -618,6 +639,50 @@
                       
             
             
+            
+            
+            
+            
+            
+        
+        
+      
+        
+                  
+            
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+
+                            
+            <br/>
+            
+            
+            
+            
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+
+                            
+            <br/>
             
             
             

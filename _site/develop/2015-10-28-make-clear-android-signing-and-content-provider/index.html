@@ -217,88 +217,113 @@
 
 <p>Now its time to make it clear.</p>
 
-<p>To make it clear, i&#39;ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i&#39;ll use secured content provider based on signature level verification</p>
+<p>To make it clear, i’ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i’ll use secured content provider based on signature level verification</p>
 
 <p>Flavors config:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">productFlavors {
+
+<p><code>
+productFlavors {
     flavor2 {
-        applicationId &#39;com.tunebrains.keystoresample2&#39;
-        versionName &#39;10&#39;
+        applicationId 'com.tunebrains.keystoresample2'
+        versionName '10'
     }
     flavor1 {
-        applicationId &#39;com.tunebrains.keystoresample1&#39;
-        versionName &#39;10&#39;
+        applicationId 'com.tunebrains.keystoresample1'
+        versionName '10'
     }
 }
-</code></pre></div>
+</code></p>
+
 <p>Generate our keystore with multiple aliases:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">keytool -genkey -v -keystore release_key.keystore -alias flavor1 -keyalg RSA -keysize 2048 -validity 10000
-</code></pre></div>
+
+<p><code>
+keytool -genkey -v -keystore release_key.keystore -alias flavor1 -keyalg RSA -keysize 2048 -validity 10000
+</code></p>
+
 <p>Add another alias to the keystore</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -keysize 2048 -validity 10000
-</code></pre></div>
+
+<p><code>
+keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -keysize 2048 -validity 10000
+</code></p>
+
 <p>Configure two signing configs:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">signingConfigs {
+
+<p><code>
+signingConfigs {
     Flavor1 {
-        storeFile file(&quot;release_key.keystore&quot;)
-        storePassword &quot;password&quot;
-        keyAlias &quot;flavor1&quot;
-        keyPassword &quot;password1&quot;
+        storeFile file("release_key.keystore")
+        storePassword "password"
+        keyAlias "flavor1"
+        keyPassword "password1"
     }
     Flavor2 {
-        storeFile file(&quot;release_key.keystore&quot;)
-        storePassword &quot;password&quot;
-        keyAlias &quot;flavor2&quot;
-        keyPassword &quot;password2&quot;
+        storeFile file("release_key.keystore")
+        storePassword "password"
+        keyAlias "flavor2"
+        keyPassword "password2"
     }
 }
-</code></pre></div>
+</code></p>
+
 <p>Configure release signing for both flavors:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">productFlavors {
+
+<p><code>
+productFlavors {
     flavor1 {
-        applicationId &#39;com.tunebrains.keystoresample1&#39;
-        versionName &#39;10&#39;        
+        applicationId 'com.tunebrains.keystoresample1'
+        versionName '10'        
         signingConfig signingConfigs.Flavor1
     }
     flavor2 {
-        applicationId &#39;com.tunebrains.keystoresample2&#39;
-        versionName &#39;10&#39;        
+        applicationId 'com.tunebrains.keystoresample2'
+        versionName '10'        
         signingConfig signingConfigs.Flavor2
     }
 }
-</code></pre></div>
+</code></p>
+
 <p>Each flavor has its own content provider, which is secured by signature level permission</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;permission android:name=&quot;${applicationId}.permission&quot;
-                android:protectionLevel=&quot;signature&quot;/&gt;
+
+<p><code>
+&lt;permission android:name="${applicationId}.permission"
+                android:protectionLevel="signature"/&gt;
 &lt;provider
-    android:exported=&quot;true&quot;
-    android:authorities=&quot;${applicationId}.provider&quot;
-    android:name=&quot;.ContentProviderSecured&quot;
-    android:permission=&quot;${applicationId}.permission&quot;&gt;
+    android:exported="true"
+    android:authorities="${applicationId}.provider"
+    android:name=".ContentProviderSecured"
+    android:permission="${applicationId}.permission"&gt;
 &lt;/provider&gt;
-</code></pre></div>
+</code></p>
+
 <p>Code for content provider is quite simple, it just return empty <strong>MatrixCursor</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{&quot;key&quot;});    
+
+<p><code>
+public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{"key"});    
     return lMatrixCursor;
 }
-</code></pre></div>
+</code></p>
+
 <p>Flavor2 will try to get access to Flavor1 content provider</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Cursor c = null;
+
+<p><code>
+Cursor c = null;
 try {
-    c = getContentResolver().query(Uri.parse(&quot;content://&quot; + &quot;com.tunebrains.keystoresample1&quot; + &quot;/query&quot;), null, null, null, null);
-    Log.d(&quot;Result&quot;, &quot;&quot; + c.getCount());
+    c = getContentResolver().query(Uri.parse("content://" + "com.tunebrains.keystoresample1" + "/query"), null, null, null, null);
+    Log.d("Result", "" + c.getCount());
 }catch (Exception e){
-    Log.d(&quot;Result&quot;, &quot;Cannot access provider&quot;);
+    Log.d("Result", "Cannot access provider");
 }finally {
     if (c!=null){
         c.close();
     }
 }
-</code></pre></div>
+</code></p>
+
 <p>Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with <strong>Flavor2</strong> signingConfig.</p>
 
-<p>Code is available on <span><a href="https://github.com/timoshenkoav/KeystoreSample" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
+<p>Code is available on <span><a href="https://github.com/timoshenkoav/KeystoreSample" class="ga-link" data-link-type="" target="_blank">GitHub</a></span></p>
+
 
   </article>
   <tags>
@@ -540,6 +565,26 @@ try {
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -656,6 +701,26 @@ try {
         
       
         
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
                   
             
                   

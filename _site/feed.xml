@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 22 Sep 2016 23:39:27 +0200</pubDate>
-    <lastBuildDate>Thu, 22 Sep 2016 23:39:27 +0200</lastBuildDate>
+    <pubDate>Wed, 03 May 2017 14:15:59 +0200</pubDate>
+    <lastBuildDate>Wed, 03 May 2017 14:15:59 +0200</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -15,39 +15,41 @@
 
 &lt;p&gt;To solve this we need to send the data to our server encrypted.&lt;/p&gt;
 
-&lt;p&gt;It&amp;#39;s nice to encrypt it so even if someone sniff the traffic they will not be able to decrypt contents.&lt;/p&gt;
+&lt;p&gt;It’s nice to encrypt it so even if someone sniff the traffic they will not be able to decrypt contents.&lt;/p&gt;
 
 &lt;p&gt;To provide such encryption we can use asymmetric algorithm like RSA, public key is stored inside the android application and used to encrypt the data sent to remote server, private key is stored on servicer side and used to decrypt the data.&lt;/p&gt;
 
 &lt;p&gt;But the problem with asymmetric algorithm is that generaly they can encrypt data length up to key size, so for RSA its 4096 bits, which is not good in our case, as our logs can be much longer.&lt;/p&gt;
 
-&lt;p&gt;Symmetric algorithms, like AES can encrypt practically unlimited ammount of data, but as the same key is used to encrypt and decrypt information, it&amp;#39;s easy to stole data while transmissing to server if one has access to app code, which is true for Android applications. &lt;/p&gt;
+&lt;p&gt;Symmetric algorithms, like AES can encrypt practically unlimited ammount of data, but as the same key is used to encrypt and decrypt information, it’s easy to stole data while transmissing to server if one has access to app code, which is true for Android applications. &lt;/p&gt;
 
 &lt;p&gt;The often used solution is:&lt;/p&gt;
 
 &lt;p&gt;On Client Side:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Generate random AES key ( e.g 256 bits long)&lt;/li&gt;
-&lt;li&gt;Encrypt body with AES using generated key&lt;/li&gt;
-&lt;li&gt;Encrypt key with RSA using stored public key&lt;/li&gt;
-&lt;li&gt;Send encrypted key along with encrypted body&lt;/li&gt;
+  &lt;li&gt;Generate random AES key ( e.g 256 bits long)&lt;/li&gt;
+  &lt;li&gt;Encrypt body with AES using generated key&lt;/li&gt;
+  &lt;li&gt;Encrypt key with RSA using stored public key&lt;/li&gt;
+  &lt;li&gt;Send encrypted key along with encrypted body&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;On Server Side&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Decrypt key with RSA private key to get plain AES key&lt;/li&gt;
-&lt;li&gt;Decrypt body with plain AES key&lt;/li&gt;
-&lt;li&gt;Handle the request&lt;/li&gt;
+  &lt;li&gt;Decrypt key with RSA private key to get plain AES key&lt;/li&gt;
+  &lt;li&gt;Decrypt body with plain AES key&lt;/li&gt;
+  &lt;li&gt;Handle the request&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Lets start from the client side:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Generate random AES key&lt;/li&gt;
+  &lt;li&gt;Generate random AES key&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static final int AES_KEY_SIZE = 256 / 8;
+
+&lt;p&gt;&lt;code&gt;
+public static final int AES_KEY_SIZE = 256 / 8;
 public static String randomKey(int len) {
     Random generator = new Random();
     StringBuilder randomStringBuilder = new StringBuilder();
@@ -59,22 +61,25 @@ public static String randomKey(int len) {
     }
     return randomStringBuilder.toString();
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;Encrypt data with AES&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
+&lt;/code&gt;&lt;/p&gt;
 
-    SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), &amp;quot;AES&amp;quot;);
-    Cipher cipher = Cipher.getInstance(&amp;quot;AES&amp;quot;);
-    cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-    byte[] encrypted = cipher.doFinal(plain.getBytes());
-    return encrypted;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
-&lt;li&gt;Encrypt key using RSA&lt;/li&gt;
+  &lt;li&gt;Encrypt data with AES&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;```
+public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
+            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), &quot;AES&quot;);
+Cipher cipher = Cipher.getInstance(&quot;AES&quot;);
+cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+byte[] encrypted = cipher.doFinal(plain.getBytes());
+return encrypted; } ```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Encrypt key using RSA&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;To generate RSA key-pair we can simply use great online service: &lt;a href=&quot;http://travistidwell.com/jsencrypt/demo/&quot;&gt;Generate Key Online&lt;/a&gt;&lt;/p&gt;
@@ -82,41 +87,51 @@ public static String randomKey(int len) {
 &lt;p&gt;We can store public key either in assets/resources/plain string&lt;/p&gt;
 
 &lt;p&gt;To unify reading key we can use InputStream as source, so it can be FileInputStream, ByteArrayInputStream or any other source:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
+
+&lt;p&gt;&lt;code&gt;
+public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
     String lStringKey = read(pInputStream);
     String lRawString = stripKeyHeaders(lStringKey);
     return base64(lRawString);
 }
 public static String stripKeyHeaders(String key) {
     StringBuilder strippedKey = new StringBuilder();
-    String lines[] = key.split(&amp;quot;\n&amp;quot;);
+    String lines[] = key.split(&quot;\n&quot;);
     for (String line : lines) {
-        if (!line.contains(&amp;quot;PRIVATE KEY&amp;quot;) &amp;amp;&amp;amp; !line.contains(&amp;quot;PUBLIC KEY&amp;quot;) &amp;amp;&amp;amp; !TextUtils.isEmpty(line.trim())) {
+        if (!line.contains(&quot;PRIVATE KEY&quot;) &amp;amp;&amp;amp; !line.contains(&quot;PUBLIC KEY&quot;) &amp;amp;&amp;amp; !TextUtils.isEmpty(line.trim())) {
             strippedKey.append(line.trim());
         }
     }
     return strippedKey.toString().trim();
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Using public key, we can encrypt data&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
+
+&lt;p&gt;&lt;code&gt;
+public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
     X509EncodedKeySpec spec = new X509EncodedKeySpec(pKey);
-    KeyFactory kf = KeyFactory.getInstance(&amp;quot;RSA&amp;quot;);
+    KeyFactory kf = KeyFactory.getInstance(&quot;RSA&quot;);
     PublicKey publicKey = kf.generatePublic(spec);
-    Cipher cipher = Cipher.getInstance(&amp;quot;RSA/ECB/PKCS1Padding&amp;quot;);
+    Cipher cipher = Cipher.getInstance(&quot;RSA/ECB/PKCS1Padding&quot;);
     cipher.init(Cipher.ENCRYPT_MODE, publicKey);
     byte []encryptedBytes = cipher.doFinal(plain);
     return encryptedBytes;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Now we have everything encrypted and we can send data to our API. Body will be send as base64 request body, encrypted key - as request header.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
+
+&lt;p&gt;&lt;code&gt;
+byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
 String lAESKey =  randomKey(AES_KEY_SIZE);      
 String lEncryptedKey = Base64.encode(RSAEncrypt(lAESKey, lAESKey), 0);
 String lEncryptedBody = Base64.encode(AESEncrypt(body, lAESKey), 0);
-post(&amp;quot;http://api-domain.com&amp;quot;, lEncryptedBody, lEncryptedKey);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+post(&quot;http://api-domain.com&quot;, lEncryptedBody, lEncryptedKey);
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;a href=&quot;/develop/2016-09-22-encrypted-api-from-android-to-rails-part-2/&quot;&gt;Part 2&lt;/a&gt;&lt;/p&gt;
+
 </description>
         <pubDate>Fri, 02 Oct 2015 19:54:00 +0200</pubDate>
         <link>http://localhost:4000/develop/2015-10-02-android-encrypted-api-with-rails/</link>
@@ -137,14 +152,16 @@ post(&amp;quot;http://api-domain.com&amp;quot;, lEncryptedBody, lEncryptedKey);
 &lt;p&gt;After reading couple of articles, i end up with this solution:&lt;/p&gt;
 
 &lt;p&gt;Create &lt;code&gt;signs.gradle&lt;/code&gt; under project folder:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;def fillDefaults(signingConfig) {
+
+&lt;p&gt;```
+def fillDefaults(signingConfig) {
     signingConfig.storeFile = null
-    signingConfig.storePassword = &amp;#39;&amp;#39;
-    signingConfig.keyAlias = &amp;#39;&amp;#39;
-    signingConfig.keyPassword = &amp;#39;&amp;#39;
+    signingConfig.storePassword = ‘’
+    signingConfig.keyAlias = ‘’
+    signingConfig.keyPassword = ‘’
 }
 def setupSigning(name) {
-    def signingProperties = &amp;quot;${name}.info&amp;quot;
+    def signingProperties = “${name}.info”
     def signingKeys = [
             storeFile    : { x -&amp;gt; file(x) },
             storePassword: { x -&amp;gt; x },
@@ -152,86 +169,106 @@ def setupSigning(name) {
             keyPassword  : { x -&amp;gt; x },
     ]
     // Find signing.properties in project root, or in $HOME/.gradle
-    def f = [&amp;quot;${projectDir}/certs/${signingProperties}&amp;quot;].find { file(it).exists() }
+    def f = [”${projectDir}/certs/${signingProperties}”].find { file(it).exists() }
     if (f) {
-        println &amp;quot;Loading signing properties from ${f}&amp;quot;
+        println “Loading signing properties from ${f}”
         def props = new Properties()
-        props.load(new FileInputStream(f))
+        props.load(new FileInputStream(f))&lt;/p&gt;
 
-        // For each property apply it to the release signing config
-        signingKeys.any { k, fn -&amp;gt;
-            if (!props.containsKey(k)) {
-                println &amp;quot;Missing property ${k}&amp;quot;
-                fillDefaults(android.signingConfigs[name])
-                return true
-            } else {
-                android.signingConfigs[name][k] = fn(props[k]);
-            }
-            return
+&lt;pre&gt;&lt;code&gt;    // For each property apply it to the release signing config
+    signingKeys.any { k, fn -&amp;gt;
+        if (!props.containsKey(k)) {
+            println &quot;Missing property ${k}&quot;
+            fillDefaults(android.signingConfigs[name])
+            return true
+        } else {
+            android.signingConfigs[name][k] = fn(props[k]);
         }
-        println android.signingConfigs[name]
-    } else {
-        println &amp;quot;Missing ${signingProperties} file&amp;quot;
-        fillDefaults(android.signingConfigs[name])
+        return
     }
-}
-ext {
-    setupSigning = this.&amp;amp;setupSigning
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Apply it in project &lt;code&gt;build.gradle&lt;/code&gt; in the beggining of the file&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply from: &amp;#39;signs.gradle&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Add callbacks when &lt;code&gt;signingConfigs&lt;/code&gt; and &lt;code&gt;productFlavors&lt;/code&gt; is added:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;android.signingConfigs.whenObjectAdded { signing -&amp;gt;
-    setupSigning(signing.name)
-}
+    println android.signingConfigs[name]
+} else {
+    println &quot;Missing ${signingProperties} file&quot;
+    fillDefaults(android.signingConfigs[name])
+} } ext {
+setupSigning = this.&amp;amp;setupSigning } ```
+&lt;/code&gt;&lt;/pre&gt;
 
-android.productFlavors.whenObjectAdded { flavor -&amp;gt;
+&lt;p&gt;Apply it in project &lt;code&gt;build.gradle&lt;/code&gt; in the beggining of the file&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+apply from: &#39;signs.gradle&#39;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Add callbacks when &lt;code&gt;signingConfigs&lt;/code&gt; and &lt;code&gt;productFlavors&lt;/code&gt; is added:&lt;/p&gt;
+
+&lt;p&gt;```
+android.signingConfigs.whenObjectAdded { signing -&amp;gt;
+    setupSigning(signing.name)
+}&lt;/p&gt;
+
+&lt;p&gt;android.productFlavors.whenObjectAdded { flavor -&amp;gt;
     flavor.signingConfig = android.signingConfigs[flavor.name]
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+```&lt;/p&gt;
+
 &lt;p&gt;The first will call our function with added signing name&lt;/p&gt;
 
 &lt;p&gt;The second will set &lt;code&gt;signingConfig&lt;/code&gt; for flavor based on loaded config&lt;/p&gt;
 
-&lt;p&gt;Keystore information is stored in files named &lt;code&gt;&amp;lt;flavor_name&amp;gt;.info&lt;/code&gt; under &lt;code&gt;certs&lt;/code&gt; folder under project subfolder. The format of this file is often used to storing `signed.properties&amp;#39;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;storeFile=certs/&amp;lt;filename&amp;gt;
-storePassword=&amp;#39;&amp;#39;
-keyAlias=&amp;#39;&amp;#39;
-keyPassword=&amp;#39;&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Usage&lt;/h2&gt;
+&lt;p&gt;Keystore information is stored in files named &lt;code&gt;&amp;lt;flavor_name&amp;gt;.info&lt;/code&gt; under &lt;code&gt;certs&lt;/code&gt; folder under project subfolder. The format of this file is often used to storing `signed.properties’&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;
+storeFile=certs/&amp;lt;filename&amp;gt;
+storePassword=&#39;&#39;
+keyAlias=&#39;&#39;
+keyPassword=&#39;&#39;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
 
 &lt;p&gt;Add flavor configuration&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
-    app1 {    
-        applicationId &amp;#39;com.sample.app1&amp;#39;   
-    }
+
+&lt;p&gt;&lt;code&gt;
+productFlavors {
+	app1 {    
+	    applicationId &#39;com.sample.app1&#39;   
+	}
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Register signing config with the same name as flavor&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;signingConfigs {
-    app1
+
+&lt;p&gt;&lt;code&gt;
+signingConfigs {
+	app1
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Create &lt;code&gt;app1.info&lt;/code&gt; file under &lt;code&gt;certs&lt;/code&gt; directory with information about the keystore.&lt;/p&gt;
 
 &lt;p&gt;Build. Enjoy.&lt;/p&gt;
 
-&lt;h2&gt;ToDo&lt;/h2&gt;
+&lt;h2 id=&quot;todo&quot;&gt;ToDo&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Remove requirement to put &lt;code&gt;signingConfig&lt;/code&gt; with flavor name. It should do this automatically when flavor is registered&lt;/li&gt;
+  &lt;li&gt;Remove requirement to put &lt;code&gt;signingConfig&lt;/code&gt; with flavor name. It should do this automatically when flavor is registered&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2&gt;References&lt;/h2&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;span&gt;&lt;a href=&quot;http://saulmm.github.io/squeezing-gradle-builds&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;Squeezing your Gradle builds&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;span&gt;&lt;a href=&quot;http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;Building Multiple Editions of an Android App with Gradle&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;span&gt;&lt;a href=&quot;http://zserge.com/blog/android-signing.html&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;HOW TO SIGN RELEASE APK WITH GRADLE&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;span&gt;&lt;a href=&quot;http://saulmm.github.io/squeezing-gradle-builds&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;Squeezing your Gradle builds&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;span&gt;&lt;a href=&quot;http://blog.robustastudio.com/mobile-development/android/building-multiple-editions-of-android-app-gradle/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;Building Multiple Editions of an Android App with Gradle&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;span&gt;&lt;a href=&quot;http://zserge.com/blog/android-signing.html&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;HOW TO SIGN RELEASE APK WITH GRADLE&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
+
 </description>
         <pubDate>Fri, 02 Oct 2015 13:11:35 +0200</pubDate>
         <link>http://localhost:4000/develop/2015-10-02-gradle-multi-flavors-signing/</link>
@@ -247,11 +284,11 @@ keyPassword=&amp;#39;&amp;#39;
     
       <item>
         <title>Welcome</title>
-        <description>&lt;div class=&#39;avatar&#39;&gt;
-&lt;img src=&#39;https://gravatar.com/userimage/18991598/d52e7a5def139e3df3b98ab9ccf2b261.jpeg?size=500&#39;/&gt;
+        <description>&lt;div class=&quot;avatar&quot;&gt;
+&lt;img src=&quot;https://gravatar.com/userimage/18991598/d52e7a5def139e3df3b98ab9ccf2b261.jpeg?size=500&quot; /&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Having a lot of fun with work, i always store list of my achievements and new topics i am interested in &lt;strong&gt;Evernote&lt;/strong&gt; as a list, and information about them as notes. After almost a year using this technique i realized that is not so good way. Thats why i&amp;#39;ve created this blog on &lt;strong&gt;GitHub Pages&lt;/strong&gt; to check if its convenient for me to write articles (and as additional way to get some level up, as i haven&amp;#39;t wrote articles describing by life/work before) about my thoughts/work etc. &lt;/p&gt;
+&lt;p&gt;Having a lot of fun with work, i always store list of my achievements and new topics i am interested in &lt;strong&gt;Evernote&lt;/strong&gt; as a list, and information about them as notes. After almost a year using this technique i realized that is not so good way. Thats why i’ve created this blog on &lt;strong&gt;GitHub Pages&lt;/strong&gt; to check if its convenient for me to write articles (and as additional way to get some level up, as i haven’t wrote articles describing by life/work before) about my thoughts/work etc. &lt;/p&gt;
 
 &lt;p&gt;Main purpose of this is to describe some technical things i learn,faced up while developing Android/RoR applications. But sometimes i will also post something about living in Montenegro. &lt;/p&gt;
 
@@ -269,37 +306,55 @@ keyPassword=&amp;#39;&amp;#39;
     
       <item>
         <title>Android UsageStatsManager sample</title>
-        <description>&lt;p&gt;Google has deprecated the function &amp;quot;getRecentTasks&amp;quot; of &amp;quot;ActivityManager&amp;quot; class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that &amp;quot;locks&amp;quot; access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.&lt;/p&gt;
+        <description>&lt;p&gt;Google has deprecated the function “getRecentTasks” of “ActivityManager” class. Now all it does is to get the list of apps that the current app has opened. But if you are writing app that “locks” access to specific apps with password or any other protection methods, you still need to be able to get top most activity/package to react accordingly to user changing current app and for example show your overlay.&lt;/p&gt;
 
-&lt;p&gt;Google introduces UsageStatsManager in api 21, which can replace &amp;quot;getRecentTasks&amp;quot; for new versions.&lt;/p&gt;
+&lt;p&gt;Google introduces UsageStatsManager in api 21, which can replace “getRecentTasks” for new versions.&lt;/p&gt;
 
-&lt;p&gt;I&amp;#39;ve created sample project demonstrating how to use this api.&lt;/p&gt;
+&lt;p&gt;I’ve created sample project demonstrating how to use this api.&lt;/p&gt;
 
 &lt;p&gt;First of all you need to declare permission in AndroidManifest.xml&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;lt;uses-permission android:name=&amp;quot;android.permission.PACKAGE_USAGE_STATS&amp;quot;
-                     tools:ignore=&amp;quot;ProtectedPermissions&amp;quot;/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;uses-permission android:name=&quot;android.permission.PACKAGE_USAGE_STATS&quot; tools:ignore=&quot;ProtectedPermissions&quot; /&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
 &lt;p&gt;Adding  &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;tools:ignoe=&amp;quot;ProtectedPermissions&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;```
+tools:ignoe=”ProtectedPermissions”&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
 &lt;p&gt;will disable warning that permission is system level and will not be granted to third-party apps. However, declaring the permission implies intention to use the API and the user of the device can grant permission through the Settings application.&lt;/p&gt;
 
 &lt;p&gt;So we need to check if our app was granted this permission&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private boolean hasPermission() {
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;private boolean hasPermission() {
     AppOpsManager appOps = (AppOpsManager)
                 getSystemService(Context.APP_OPS_SERVICE);
     int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
             android.os.Process.myUid(), getPackageName());
     return mode == AppOpsManager.MODE_ALLOWED;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
 &lt;p&gt;and if no, ask user to enable it&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;startActivityForResult(
+
+&lt;p&gt;&lt;code&gt;
+startActivityForResult(
     new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 
         MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;We are launching settings activity to allow app to get usage stats, its not android M default way to deal with permissions, we need to check result in onActivityResult&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;@Override
+
+&lt;p&gt;&lt;code&gt;
+@Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode){
         case MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS:
@@ -311,21 +366,28 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             break;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;In this sample if user did not grant permission we will ask again while permission is not granted. In real application, its better to tell user why do we need this permission and turn off functionality if permission was not granted.&lt;/p&gt;
 
 &lt;p&gt;After the permission was eventually granted, we can query information about last active packages&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;UsageStatsManager lUsageStatsManager = 
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;UsageStatsManager lUsageStatsManager = 
     (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-List&amp;lt;UsageStats&amp;gt; lUsageStatsList = 
+List&lt;usagestats&gt; lUsageStatsList = 
     lUsageStatsManager.queryUsageStats(
         UsageStatsManager.INTERVAL_DAILY, 
         System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
-        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout &lt;span&gt;&lt;a href=&quot;https://developer.android.com/reference/android/app/usage/UsageStatsManager.html&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;official documentation&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));&lt;/usagestats&gt;&lt;/p&gt;
 
-&lt;p&gt;Full source code for this article is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/USMSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout &lt;span&gt;&lt;a href=&quot;https://developer.android.com/reference/android/app/usage/UsageStatsManager.html&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;official documentation&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Full source code for this article is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/USMSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+
 </description>
         <pubDate>Tue, 20 Oct 2015 19:41:00 +0200</pubDate>
         <link>http://localhost:4000/develop/2015-10-20-usage-stats-manager-sample/</link>
@@ -343,88 +405,113 @@ List&amp;lt;UsageStats&amp;gt; lUsageStatsList =
 
 &lt;p&gt;Now its time to make it clear.&lt;/p&gt;
 
-&lt;p&gt;To make it clear, i&amp;#39;ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i&amp;#39;ll use secured content provider based on signature level verification&lt;/p&gt;
+&lt;p&gt;To make it clear, i’ve created sample app with multiple flavours. Each flavour can be installed on device, and they does not run in the same process, so fingerprint of keystored should be different, can we do this using aliases? Lets check. To make sure everything works, i’ll use secured content provider based on signature level verification&lt;/p&gt;
 
 &lt;p&gt;Flavors config:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
+
+&lt;p&gt;&lt;code&gt;
+productFlavors {
     flavor2 {
-        applicationId &amp;#39;com.tunebrains.keystoresample2&amp;#39;
-        versionName &amp;#39;10&amp;#39;
+        applicationId &#39;com.tunebrains.keystoresample2&#39;
+        versionName &#39;10&#39;
     }
     flavor1 {
-        applicationId &amp;#39;com.tunebrains.keystoresample1&amp;#39;
-        versionName &amp;#39;10&amp;#39;
+        applicationId &#39;com.tunebrains.keystoresample1&#39;
+        versionName &#39;10&#39;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Generate our keystore with multiple aliases:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;keytool -genkey -v -keystore release_key.keystore -alias flavor1 -keyalg RSA -keysize 2048 -validity 10000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;
+keytool -genkey -v -keystore release_key.keystore -alias flavor1 -keyalg RSA -keysize 2048 -validity 10000
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Add another alias to the keystore&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -keysize 2048 -validity 10000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;
+keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -keysize 2048 -validity 10000
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Configure two signing configs:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;signingConfigs {
+
+&lt;p&gt;&lt;code&gt;
+signingConfigs {
     Flavor1 {
-        storeFile file(&amp;quot;release_key.keystore&amp;quot;)
-        storePassword &amp;quot;password&amp;quot;
-        keyAlias &amp;quot;flavor1&amp;quot;
-        keyPassword &amp;quot;password1&amp;quot;
+        storeFile file(&quot;release_key.keystore&quot;)
+        storePassword &quot;password&quot;
+        keyAlias &quot;flavor1&quot;
+        keyPassword &quot;password1&quot;
     }
     Flavor2 {
-        storeFile file(&amp;quot;release_key.keystore&amp;quot;)
-        storePassword &amp;quot;password&amp;quot;
-        keyAlias &amp;quot;flavor2&amp;quot;
-        keyPassword &amp;quot;password2&amp;quot;
+        storeFile file(&quot;release_key.keystore&quot;)
+        storePassword &quot;password&quot;
+        keyAlias &quot;flavor2&quot;
+        keyPassword &quot;password2&quot;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Configure release signing for both flavors:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;productFlavors {
+
+&lt;p&gt;&lt;code&gt;
+productFlavors {
     flavor1 {
-        applicationId &amp;#39;com.tunebrains.keystoresample1&amp;#39;
-        versionName &amp;#39;10&amp;#39;        
+        applicationId &#39;com.tunebrains.keystoresample1&#39;
+        versionName &#39;10&#39;        
         signingConfig signingConfigs.Flavor1
     }
     flavor2 {
-        applicationId &amp;#39;com.tunebrains.keystoresample2&amp;#39;
-        versionName &amp;#39;10&amp;#39;        
+        applicationId &#39;com.tunebrains.keystoresample2&#39;
+        versionName &#39;10&#39;        
         signingConfig signingConfigs.Flavor2
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Each flavor has its own content provider, which is secured by signature level permission&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;lt;permission android:name=&amp;quot;${applicationId}.permission&amp;quot;
-                android:protectionLevel=&amp;quot;signature&amp;quot;/&amp;gt;
+
+&lt;p&gt;&lt;code&gt;
+&amp;lt;permission android:name=&quot;${applicationId}.permission&quot;
+                android:protectionLevel=&quot;signature&quot;/&amp;gt;
 &amp;lt;provider
-    android:exported=&amp;quot;true&amp;quot;
-    android:authorities=&amp;quot;${applicationId}.provider&amp;quot;
-    android:name=&amp;quot;.ContentProviderSecured&amp;quot;
-    android:permission=&amp;quot;${applicationId}.permission&amp;quot;&amp;gt;
+    android:exported=&quot;true&quot;
+    android:authorities=&quot;${applicationId}.provider&quot;
+    android:name=&quot;.ContentProviderSecured&quot;
+    android:permission=&quot;${applicationId}.permission&quot;&amp;gt;
 &amp;lt;/provider&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Code for content provider is quite simple, it just return empty &lt;strong&gt;MatrixCursor&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{&amp;quot;key&amp;quot;});    
+
+&lt;p&gt;&lt;code&gt;
+public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{&quot;key&quot;});    
     return lMatrixCursor;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Flavor2 will try to get access to Flavor1 content provider&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Cursor c = null;
+
+&lt;p&gt;&lt;code&gt;
+Cursor c = null;
 try {
-    c = getContentResolver().query(Uri.parse(&amp;quot;content://&amp;quot; + &amp;quot;com.tunebrains.keystoresample1&amp;quot; + &amp;quot;/query&amp;quot;), null, null, null, null);
-    Log.d(&amp;quot;Result&amp;quot;, &amp;quot;&amp;quot; + c.getCount());
+    c = getContentResolver().query(Uri.parse(&quot;content://&quot; + &quot;com.tunebrains.keystoresample1&quot; + &quot;/query&quot;), null, null, null, null);
+    Log.d(&quot;Result&quot;, &quot;&quot; + c.getCount());
 }catch (Exception e){
-    Log.d(&amp;quot;Result&amp;quot;, &amp;quot;Cannot access provider&amp;quot;);
+    Log.d(&quot;Result&quot;, &quot;Cannot access provider&quot;);
 }finally {
     if (c!=null){
         c.close();
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with &lt;strong&gt;Flavor2&lt;/strong&gt; signingConfig.&lt;/p&gt;
 
-&lt;p&gt;Code is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Code is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/KeystoreSample&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+
 </description>
         <pubDate>Wed, 28 Oct 2015 14:17:35 +0100</pubDate>
         <link>http://localhost:4000/develop/2015-10-28-make-clear-android-signing-and-content-provider/</link>
@@ -441,27 +528,27 @@ try {
       <item>
         <title>Track outbound links to GA on jekyll</title>
         <description>&lt;ol&gt;
-&lt;li&gt;Add jQuery to your jekyll blog if its not there yet. I am adding it to &lt;strong&gt;_includes/head.html&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Add jQuery to your jekyll blog if its not there yet. I am adding it to &lt;strong&gt;_includes/head.html&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;//code.jquery.com/jquery-1.11.3.min.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;script&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;//code.jquery.com/jquery-migrate-1.2.1.min.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;Create additional include where we will make our magick. I did this in &lt;strong&gt;&lt;em&gt;includes/google&lt;/em&gt;_analytics.html&lt;/strong&gt;. &lt;/li&gt;
+  &lt;li&gt;Create additional include where we will make our magick. I did this in &lt;strong&gt;_includes/google__analytics.html&lt;/strong&gt;. &lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ready&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.ga-link&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ga&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;undefined&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;ga&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;send&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,{&lt;/span&gt;
-                &lt;span class=&quot;nx&quot;&gt;hitType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;event&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;nx&quot;&gt;eventCategory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;nx&quot;&gt;eventAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;outbound&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;nx&quot;&gt;eventLabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;href&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;          
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+	&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;.ga-link&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ga&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;undefined&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+			&lt;span class=&quot;nx&quot;&gt;ga&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;send&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,{&lt;/span&gt;
+				&lt;span class=&quot;nx&quot;&gt;hitType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;event&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+				&lt;span class=&quot;nx&quot;&gt;eventCategory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+				&lt;span class=&quot;nx&quot;&gt;eventAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;outbound&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+				&lt;span class=&quot;nx&quot;&gt;eventLabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;href&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+			&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;	  		
+	  	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;)};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;File with this code is included in &lt;em&gt;default.html&lt;/em&gt; &lt;/p&gt;
@@ -469,7 +556,7 @@ try {
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;google_analytics.html&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt; Add &lt;strong&gt;class=&amp;#39;ga-link&amp;#39;&lt;/strong&gt; to all links you want to track to google analytics.&lt;/li&gt;
+  &lt;li&gt;Add &lt;strong&gt;class=’ga-link’&lt;/strong&gt; to all links you want to track to google analytics.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://github.com/timoshenkoav&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;ga-link&amp;#39;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;target=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;_blank&amp;#39;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -481,9 +568,10 @@ try {
 &lt;p&gt;Now if i want to have such link i can use:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-liquid&quot; data-lang=&quot;liquid&quot;&gt;&lt;span class=&quot;p&quot;&gt;{%&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;ga_link.html&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;
-    title=&amp;quot;GitHub&amp;quot; 
-    url=&amp;quot;https://github.com&amp;quot; 
+	title=&amp;quot;GitHub&amp;quot; 
+	url=&amp;quot;https://github.com&amp;quot; 
 %}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 </description>
         <pubDate>Fri, 13 Nov 2015 23:25:00 +0100</pubDate>
         <link>http://localhost:4000/develop/2015-11-13-track-outbound-links-on-jekyll/</link>
@@ -501,9 +589,9 @@ try {
         <title>Display RecyclerView sections like Android Lollipop contacts application</title>
         <description>&lt;p&gt;One of my projects require to display sticky headers like Android Contacts app do on Android Lollipop.&lt;/p&gt;
 
-&lt;p&gt;After some time of investigation i&amp;#39;ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.&lt;/p&gt;
+&lt;p&gt;After some time of investigation i’ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.&lt;/p&gt;
 
-&lt;p&gt;I&amp;#39;ll start implementation from describing how to get sections index for loaded list of contacts.&lt;/p&gt;
+&lt;p&gt;I’ll start implementation from describing how to get sections index for loaded list of contacts.&lt;/p&gt;
 
 &lt;p&gt;Here is simple model class to store contact information fetched from ContentProvider.&lt;/p&gt;
 
@@ -519,7 +607,7 @@ try {
 
 &lt;p&gt;Its quite simple, as everything we need to showcast is contact name.&lt;/p&gt;
 
-&lt;p&gt;To build section index we need sort our list of contacts by name alphabetically. I&amp;#39;ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.&lt;/p&gt;
+&lt;p&gt;To build section index we need sort our list of contacts by name alphabetically. I’ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.&lt;/p&gt;
 
 &lt;p&gt;When we have our sorted contacts list, we can fill section index&lt;/p&gt;
 
@@ -545,8 +633,8 @@ try {
 &lt;p&gt;In result we got some variables that can be used for section headers&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;mMapIndex - map of contact name uppercased first character and index of first contact in list&lt;/li&gt;
-&lt;li&gt;mSectionList - list of all sections sorter alphabetically&lt;/li&gt;
+  &lt;li&gt;mMapIndex - map of contact name uppercased first character and index of first contact in list&lt;/li&gt;
+  &lt;li&gt;mSectionList - list of all sections sorter alphabetically&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Now, when we have sections, we can start displaying contacts in Views. Item layout has TextView to display contact name, and section title to display section when required.&lt;/p&gt;
@@ -618,9 +706,10 @@ try {
 The main logic is to have &lt;strong&gt;TextView&lt;/strong&gt; with the same style as section title item in item list and show/hide appropriate TextView in the item and animate TextView in the Activity. 
 This solution is not fully completed, and may have some issues under some unexpected circumstances, but as its opensourced you can easily create issue or submit your pull request.&lt;/p&gt;
 
-&lt;p&gt;You can find complete source code on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/RecyclerViewSections&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;You can find complete source code on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/RecyclerViewSections&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;Enjoy!&lt;/p&gt;
+
 </description>
         <pubDate>Fri, 11 Dec 2015 17:30:00 +0100</pubDate>
         <link>http://localhost:4000/develop/2015-12-11-recycler-view-sections-contacts-lollipop/</link>
@@ -642,10 +731,10 @@ This solution is not fully completed, and may have some issues under some unexpe
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;attr&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TitleText&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;format=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;reference|string&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Apply this attribute to Activity&amp;#39;s theme&lt;/p&gt;
+&lt;p&gt;Apply this attribute to Activity’s theme&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;style&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;AppTheme&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;parent=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Theme.AppCompat.Light.DarkActionBar&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;        
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;item&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TitleText&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;@string/app_name&lt;span class=&quot;nt&quot;&gt;&amp;lt;/item&amp;gt;&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;lt;item&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TitleText&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;@string/app_name&lt;span class=&quot;nt&quot;&gt;&amp;lt;/item&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Read this attribute in activity and set TextView text.&lt;/p&gt;
@@ -660,7 +749,8 @@ This solution is not fully completed, and may have some issues under some unexpe
     &lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Full source code for this article is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/ActivityAttributes&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Full source code for this article is available on &lt;span&gt;&lt;a href=&quot;https://github.com/timoshenkoav/ActivityAttributes&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;GitHub&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+
 </description>
         <pubDate>Mon, 04 Jan 2016 19:52:00 +0100</pubDate>
         <link>http://localhost:4000/develop/2016-01-04-read-custom-attributes-from-activity/</link>
@@ -678,13 +768,13 @@ This solution is not fully completed, and may have some issues under some unexpe
 
 &lt;p&gt;They communicate on different parts of living in foreign country: selling goods, transfer between cities, renting a car and a lot more.&lt;/p&gt;
 
-&lt;p&gt;Quite fast i&amp;#39;ve tired constantly refreshing facebook page waiting for some interested post with goods and services i need, and thought about app to watch for some keywords that it can find in group and notify my.&lt;/p&gt;
+&lt;p&gt;Quite fast i’ve tired constantly refreshing facebook page waiting for some interested post with goods and services i need, and thought about app to watch for some keywords that it can find in group and notify my.&lt;/p&gt;
 
-&lt;p&gt;Thats how &amp;quot;Watch My Groups&amp;quot; was born.&lt;/p&gt;
+&lt;p&gt;Thats how “Watch My Groups” was born.&lt;/p&gt;
 
 &lt;p&gt;As i have a lot of tasks on my main job, application development was quite slow, before one guy in one of facebook groups asked if there is such app. If someone other need it, app was finished quite fast.&lt;/p&gt;
 
-&lt;p&gt;Its available on Google Play and you can find it using this &lt;span&gt;&lt;a href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blog&amp;pcampaignid=blog&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;link&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Its available on Google Play and you can find it using this &lt;span&gt;&lt;a href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;amp;utm_source=blog&amp;amp;utm_source=global_co&amp;amp;utm_medium=prtnr&amp;amp;utm_content=Mar2515&amp;amp;utm_campaign=blog&amp;amp;pcampaignid=blog&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;link&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;Now it can search only through open facebook groups due to limitation on facebook API, but if there is some admins of closed groups, it will be technically possible to implement closed group search for other users.&lt;/p&gt;
 
@@ -696,17 +786,17 @@ This solution is not fully completed, and may have some issues under some unexpe
 
 &lt;p&gt;Start typing group name and select group from autocomplete dropdown:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen2.png&quot; style=&quot;width: 190px;&quot;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen2.png&quot; style=&quot;width: 190px;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;And fill the term you want to subscribe to&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen3.png&quot; style=&quot;width: 190px;&quot;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen3.png&quot; style=&quot;width: 190px;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;When app found some posts you are looking for you can see them on the &amp;quot;Founds&amp;quot; tab&lt;/p&gt;
+&lt;p&gt;When app found some posts you are looking for you can see them on the “Founds” tab&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen4.png&quot; style=&quot;width: 190px;&quot;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/watchmygroups/Screen4.png&quot; style=&quot;width: 190px;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a class=&quot;ga-link&quot; data-link-type=&quot;googleplay&quot; target=&#39;_blank&#39; href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;utm_source=blog&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=blog&amp;pcampaignid=blog&quot;&gt;&lt;img alt=&quot;Get it on Google Play&quot; style=&quot;width:100px;&quot; src=&quot;https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&quot;ga-link&quot; data-link-type=&quot;googleplay&quot; target=&quot;_blank&quot; href=&quot;https://play.google.com/store/apps/details?id=com.tunebrains.watchmygroups&amp;amp;utm_source=blog&amp;amp;utm_source=global_co&amp;amp;utm_medium=prtnr&amp;amp;utm_content=Mar2515&amp;amp;utm_campaign=blog&amp;amp;pcampaignid=blog&quot;&gt;&lt;img alt=&quot;Get it on Google Play&quot; style=&quot;width:100px;&quot; src=&quot;https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Appreciate any feedback and propositions.&lt;/p&gt;
 </description>
@@ -726,42 +816,49 @@ This solution is not fully completed, and may have some issues under some unexpe
         <title>Android Gradle plugin sample</title>
         <description>&lt;p&gt;Plugin will upload apk to distribution system after building release artifact.&lt;/p&gt;
 
-&lt;h3&gt;Create Project&lt;/h3&gt;
+&lt;h3 id=&quot;create-project&quot;&gt;Create Project&lt;/h3&gt;
 
-&lt;p&gt;In the gradle folder, copy &lt;strong&gt;samples&lt;/strong&gt;-&amp;gt;&lt;strong&gt;customPlugin&lt;/strong&gt;-&amp;gt;&lt;strong&gt;plugin&lt;/strong&gt; to your work directory. Gradle distribution can be downloaded &lt;span&gt;&lt;a href=&quot;http://gradle.org/gradle-download/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&#39;_blank&#39;&gt;here&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;In the gradle folder, copy &lt;strong&gt;samples&lt;/strong&gt;-&amp;gt;&lt;strong&gt;customPlugin&lt;/strong&gt;-&amp;gt;&lt;strong&gt;plugin&lt;/strong&gt; to your work directory. Gradle distribution can be downloaded &lt;span&gt;&lt;a href=&quot;http://gradle.org/gradle-download/&quot; class=&quot;ga-link&quot; data-link-type=&quot;&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
 
-&lt;h3&gt;build.gradle&lt;/h3&gt;
+&lt;h3 id=&quot;buildgradle&quot;&gt;build.gradle&lt;/h3&gt;
 
 &lt;p&gt;Change build.gradle to this strusture&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;groovy&amp;#39;
 
-dependencies {
+&lt;p&gt;```
+apply plugin: ‘groovy’&lt;/p&gt;
+
+&lt;p&gt;dependencies {
     compile gradleApi()
-    compile localGroovy()
+    compile localGroovy()&lt;/p&gt;
 
-    compile &amp;#39;com.android.tools.build:gradle:0.14.0&amp;#39;
-}
+&lt;pre&gt;&lt;code&gt;compile &#39;com.android.tools.build:gradle:0.14.0&#39; }
+&lt;/code&gt;&lt;/pre&gt;
 
-apply plugin: &amp;#39;maven&amp;#39;
+&lt;p&gt;apply plugin: ‘maven’&lt;/p&gt;
 
-repositories {
+&lt;p&gt;repositories {
     mavenCentral()
-}
+}&lt;/p&gt;
 
-dependencies {
-    testCompile &amp;#39;junit:junit:4.12&amp;#39;
-}
+&lt;p&gt;dependencies {
+    testCompile ‘junit:junit:4.12’
+}&lt;/p&gt;
 
-group = &amp;#39;com.tunebrains.beta&amp;#39;
-version = &amp;#39;1.0-SNAPSHOT&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;Configure plugin and deploy to local folder&lt;/h3&gt;
+&lt;p&gt;group = ‘com.tunebrains.beta’
+version = ‘1.0-SNAPSHOT’&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;h3 id=&quot;configure-plugin-and-deploy-to-local-folder&quot;&gt;Configure plugin and deploy to local folder&lt;/h3&gt;
 
 &lt;p&gt;Rename and change plugin description file under &lt;strong&gt;src&lt;/strong&gt;-&amp;gt;&lt;strong&gt;main&lt;/strong&gt;-&amp;gt;&lt;strong&gt;resources&lt;/strong&gt;-&amp;gt;&lt;strong&gt;META-INF&lt;/strong&gt;-&amp;gt;&lt;strong&gt;gradle-plugins&lt;/strong&gt; folder&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;File Name:&lt;/strong&gt; &lt;em&gt;com.tunebrains.beta-gradle-beta-upload.properties&lt;/em&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;
+implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Create groovy class &lt;strong&gt;com.tunebrains.beta.gradle.UploadApkPlugin&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;tunebrains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beta&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;gradle&lt;/span&gt;
@@ -777,40 +874,50 @@ version = &amp;#39;1.0-SNAPSHOT&amp;#39;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Specify folder to deploy plugin&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;uploadArchives {
+
+&lt;p&gt;&lt;code&gt;
+uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: &amp;quot;file:///Users/alex/Projects/Tutorials/repo&amp;quot;)
+            repository(url: &quot;file:///Users/alex/Projects/Tutorials/repo&quot;)
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Execute gradle tast to upload archive. Refresh gradle task if required.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg&quot;/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg&quot; /&gt;&lt;/p&gt;
 
-&lt;h3&gt;Apply plugin in your Android project.&lt;/h3&gt;
+&lt;h3 id=&quot;apply-plugin-in-your-android-project&quot;&gt;Apply plugin in your Android project.&lt;/h3&gt;
 
 &lt;p&gt;In top level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;buildscript {
+
+&lt;p&gt;```
+buildscript {
     repositories {
-        //...
+        //…
         maven {
-            url uri(&amp;#39;file:///Users/alex/Projects/Tutorials/repo&amp;#39;)
+            url uri(‘file:///Users/alex/Projects/Tutorials/repo’)
         }
     }
-    dependencies {
+    dependencies {&lt;/p&gt;
 
-        classpath group: &amp;#39;com.tunebrains.beta&amp;#39;, name: &amp;#39;releaseupload&amp;#39;,
-                version: &amp;#39;1.0-SNAPSHOT&amp;#39;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;    classpath group: &#39;com.tunebrains.beta&#39;, name: &#39;releaseupload&#39;,
+            version: &#39;1.0-SNAPSHOT&#39;
+} }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
 &lt;p&gt;In app level &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;Apply plugin:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;apply plugin: &amp;#39;com.tunebrains.beta-release-upload&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;
+apply plugin: &#39;com.tunebrains.beta-release-upload&#39;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;Its time for write some code.&lt;/p&gt;
 
 &lt;p&gt;We will add custom tasks &lt;strong&gt;betaDebug&lt;/strong&gt; and &lt;strong&gt;betaRelease&lt;/strong&gt; to upload debug and release apks.&lt;/p&gt;
@@ -836,10 +943,13 @@ version = &amp;#39;1.0-SNAPSHOT&amp;#39;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;To perform multipart post add apache dependencies to &lt;strong&gt;build.gradle&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;compile &amp;#39;org.apache.httpcomponents:httpmime:4.+&amp;#39;
-compile &amp;#39;commons-io:commons-io:2.+&amp;#39;
-compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;
+compile &#39;org.apache.httpcomponents:httpmime:4.+&#39;
+compile &#39;commons-io:commons-io:2.+&#39;
+compile &#39;org.apache.commons:commons-compress:1.+&#39;
+&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;To get resulting apk for upload we can use task field&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-groovy&quot; data-lang=&quot;groovy&quot;&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apkFilename&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;outputFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -875,7 +985,6 @@ compile &amp;#39;org.apache.commons:commons-compress:1.+&amp;#39;
     &lt;span class=&quot;n&quot;&gt;DefaultHttpClient&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;httpClient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DefaultHttpClient&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;httpClient&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
- 
 
 &lt;p&gt;In result of evecution &lt;em&gt;uploadApk&lt;/em&gt; we got the resulting json object of parsed server response. And can for example print to console url where you can find the build.&lt;/p&gt;
 

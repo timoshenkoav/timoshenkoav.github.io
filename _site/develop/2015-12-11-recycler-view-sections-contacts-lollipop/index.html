@@ -215,9 +215,9 @@
   <article class="post-content">
     <p>One of my projects require to display sticky headers like Android Contacts app do on Android Lollipop.</p>
 
-<p>After some time of investigation i&#39;ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.</p>
+<p>After some time of investigation i’ve found simple way to archive this looks and feel. Now its quite naive and requires a lot of improvement, but its quite usable.</p>
 
-<p>I&#39;ll start implementation from describing how to get sections index for loaded list of contacts.</p>
+<p>I’ll start implementation from describing how to get sections index for loaded list of contacts.</p>
 
 <p>Here is simple model class to store contact information fetched from ContentProvider.</p>
 
@@ -233,7 +233,7 @@
 
 <p>Its quite simple, as everything we need to showcast is contact name.</p>
 
-<p>To build section index we need sort our list of contacts by name alphabetically. I&#39;ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.</p>
+<p>To build section index we need sort our list of contacts by name alphabetically. I’ll skip this part, as its quite straight forward, if you want go deep, checkout github link down this post.</p>
 
 <p>When we have our sorted contacts list, we can fill section index</p>
 
@@ -259,8 +259,8 @@
 <p>In result we got some variables that can be used for section headers</p>
 
 <ul>
-<li>mMapIndex - map of contact name uppercased first character and index of first contact in list</li>
-<li>mSectionList - list of all sections sorter alphabetically</li>
+  <li>mMapIndex - map of contact name uppercased first character and index of first contact in list</li>
+  <li>mSectionList - list of all sections sorter alphabetically</li>
 </ul>
 
 <p>Now, when we have sections, we can start displaying contacts in Views. Item layout has TextView to display contact name, and section title to display section when required.</p>
@@ -332,9 +332,10 @@
 The main logic is to have <strong>TextView</strong> with the same style as section title item in item list and show/hide appropriate TextView in the item and animate TextView in the Activity. 
 This solution is not fully completed, and may have some issues under some unexpected circumstances, but as its opensourced you can easily create issue or submit your pull request.</p>
 
-<p>You can find complete source code on <span><a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" data-link-type="" target='_blank'>GitHub</a></span></p>
+<p>You can find complete source code on <span><a href="https://github.com/timoshenkoav/RecyclerViewSections" class="ga-link" data-link-type="" target="_blank">GitHub</a></span></p>
 
 <p>Enjoy!</p>
+
 
   </article>
   <tags>
@@ -580,6 +581,26 @@ This solution is not fully completed, and may have some issues under some unexpe
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -696,6 +717,26 @@ This solution is not fully completed, and may have some issues under some unexpe
         
       
         
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
                   
             
                   

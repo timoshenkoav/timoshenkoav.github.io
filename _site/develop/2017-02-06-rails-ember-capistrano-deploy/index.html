@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Rails+Ember-cli Capistrano deploy</title>
+
+	<link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/develop/2017-02-06-rails-ember-capistrano-deploy/">
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/assets/scripts/bootstrap/bootstrap.min.js"></script>
+
+    <!--PhotoSwipe -->
+    <link rel="stylesheet" href="/assets/scripts/photoswipe/photoswipe.css"></script>
+    <link rel="stylesheet" href="/assets/scripts/photoswipe/default-skin/default-skin.css"></script>
+    <script src="/assets/scripts/photoswipe/photoswipe.min.js"></script>
+    <script src="/assets/scripts/photoswipe/photoswipe-ui-default.min.js"></script>
+
+</head>
+
+
+  
+  <script>
+
+
+
+	$(document).ready(function(){
+		$('.ga-link').on('click', function(){
+			if (typeof(ga)!=="undefined"){
+				ga('send',{
+					hitType: 'event',
+					eventCategory: 'click',
+					eventAction: $(this).data('link-type')||'outbound',
+					eventLabel: $(this).attr('href')
+				});
+		  		
+		  	}
+		});
+		$('.subscribe').on('click', function(){
+			if (typeof(ga)!=="undefined"){
+				ga('send',{
+					hitType: 'event',
+					eventCategory: 'click',
+					eventAction: 'subscribe'
+				});
+			}
+		});
+	});
+  
+</script>
+  
+  
+  <meta property="og:url"                content="http://localhost:4000/develop/2017-02-06-rails-ember-capistrano-deploy/" />
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="Rails+Ember-cli Capistrano deploy" />
+<meta property="og:description"        content="Deployer rails + ember app with capistano" />
+<meta property="fb:app_id"			   content="1658794294405529"/>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1658794294405529',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+  <meta property="description"                content="Deployer rails + ember app with capistano" />
+
+  <script src="//load.sumome.com/" data-sumo-site-id="0b92bd58a0af51a51868377c6e12afea55f26e7b938fdb7a184f877671f26b35" async="async"></script>
+  <body>  
+    <div class="container">
+    <div class="row">
+      <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/">Alex's Blog</a>
+
+    <nav class="site-nav">
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+            
+            <a class="page-link" href="/develop/">Develop</a>
+            
+          
+        
+        
+          
+            
+            <a class="page-link" href="/poland/">Poland</a>
+            
+          
+        
+        
+          
+            
+            <a class="page-link" href="/about/">About</a>
+            
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+        
+          
+        
+    </nav>
+
+  </div>
+
+</header>
+
+    </div>
+    <div class="page-content row">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Rails+Ember-cli Capistrano deploy</h1>
+    <p class="post-meta">Feb 6, 2017</p>
+  </header>
+
+  <article class="post-content">
+    <p>I. Server Setup</p>
+
+<ol>
+  <li>Create deployer account on server</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">adduser deployer</code></pre></div>
+
+<ol start="2">
+  <li>Add user to sudo group</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">gpasswd -a deployer sudo</code></pre></div>
+
+<ol start="3">
+  <li>Add ability to execute sudo without password</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">visudo</code></pre></div>
+
+<p>Add and save</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">deployer <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span> NOPASSWD: ALL</code></pre></div>
+
+<ol start="4">
+  <li>Add Public Key Authentication (On local machine)</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ssh-copy-id -i PATH_TO_KEY deployer@SERVER_IP</code></pre></div>
+
+<ol start="5">
+  <li>Disable password based ssh login</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">nano /etc/ssh/sshd_config</code></pre></div>
+
+<p>Update following lines</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ChallengeResponseAuthentication</span> <span class="n">no</span>
+<span class="no">PasswordAuthentication</span> <span class="n">no</span>
+<span class="no">UsePAM</span> <span class="n">no</span></code></pre></div>
+
+<p>Restart sshd daemon</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">service sshd restart</code></pre></div>
+
+<ol start="6">
+  <li>Create dirs</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mkdir /www
+chown deployer:deployer /www</code></pre></div>
+
+<p>II. Deploy config</p>
+
+<ol start="1">
+  <li>Install gems</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">&#39;capistrano&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 3.4.0&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;capistrano-rails&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;capistrano-bundler&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;capistrano-deploytags&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;rvm1-capistrano3&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+  <span class="n">gem</span> <span class="s1">&#39;capistrano-nginx-unicorn&#39;</span><span class="p">,</span> <span class="ss">github</span><span class="p">:</span> <span class="s1">&#39;timoshenkoav/capistrano-nginx-unicorn&#39;</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle install
+bundle <span class="nb">exec </span>cap install</code></pre></div>
+
+<ol start="2">
+  <li>Configure deploy.rb</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">lock</span> <span class="s1">&#39;3.4.0&#39;</span>
+
+<span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s1">&#39;APPLICATION_NAME&#39;</span>
+<span class="n">set</span> <span class="ss">:repo_url</span><span class="p">,</span> <span class="s1">&#39;APPLICATION_GIT_URL&#39;</span>
+
+<span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;master&#39;</span>
+
+<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s2">&quot;/var/www/</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:application</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span> <span class="ss">:git</span>
+
+<span class="n">set</span> <span class="ss">:linked_files</span><span class="p">,</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:linked_files</span><span class="p">,</span> <span class="o">[]</span><span class="p">)</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;config/database.yml&#39;</span><span class="p">,</span> <span class="s1">&#39;config/application.yml&#39;</span><span class="p">)</span>
+
+<span class="n">set</span> <span class="ss">:linked_dirs</span><span class="p">,</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:linked_dirs</span><span class="p">,</span> <span class="o">[]</span><span class="p">)</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="s1">&#39;tmp/pids&#39;</span><span class="p">,</span> <span class="s1">&#39;tmp/cache&#39;</span><span class="p">,</span> <span class="s1">&#39;tmp/sockets&#39;</span><span class="p">,</span> <span class="s1">&#39;vendor/bundle&#39;</span><span class="p">,</span> <span class="s1">&#39;public/system&#39;</span><span class="p">,</span> <span class="s1">&#39;public/uploads&#39;</span><span class="p">,</span> <span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+
+<span class="n">set</span> <span class="ss">:rvm1_type</span><span class="p">,</span> <span class="ss">:user</span>
+<span class="n">set</span> <span class="ss">:rvm1_alias_name</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:application</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">set</span> <span class="ss">:rvm1_ruby</span><span class="p">,</span> <span class="s1">&#39;RUBY_VERSION&#39;</span>
+<span class="n">set</span> <span class="ss">:rvm1_ruby_version</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_ruby</span><span class="p">)</span><span class="si">}</span><span class="s2">@</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_alias_name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">set</span> <span class="ss">:keep_releases</span><span class="p">,</span> <span class="mi">2</span>
+<span class="n">namespace</span> <span class="ss">:setup</span> <span class="k">do</span>
+  <span class="n">task</span> <span class="ss">:create_env</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+      <span class="n">execute</span> <span class="ss">:mkdir</span><span class="p">,</span> <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config&quot;</span>
+      <span class="n">ask</span><span class="p">(</span><span class="ss">:env_file</span><span class="p">,</span> <span class="s1">&#39;File to get env&#39;</span><span class="p">)</span>
+      <span class="n">upload!</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:env_file</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config/application.yml&quot;</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+  <span class="n">task</span> <span class="ss">:create_db</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+      <span class="n">execute</span> <span class="ss">:mkdir</span><span class="p">,</span> <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config&quot;</span>
+      <span class="n">ask</span><span class="p">(</span><span class="ss">:env_file</span><span class="p">,</span> <span class="s1">&#39;File to get database.yml&#39;</span><span class="p">)</span>
+      <span class="n">upload!</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:env_file</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config/database.yml&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">task</span> <span class="ss">:create_secrets</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
+      <span class="n">execute</span> <span class="ss">:mkdir</span><span class="p">,</span> <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config&quot;</span>
+      <span class="n">ask</span><span class="p">(</span><span class="ss">:env_file</span><span class="p">,</span> <span class="s1">&#39;File to get secrets.yml&#39;</span><span class="p">)</span>
+      <span class="n">upload!</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:env_file</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config/secrets.yml&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">namespace</span> <span class="ss">:app</span> <span class="k">do</span>
+  <span class="n">task</span> <span class="ss">:update_rvm_key</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">execute</span> <span class="ss">:gpg</span><span class="p">,</span> <span class="s1">&#39;--keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3&#39;</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">before</span> <span class="s1">&#39;rvm1:install:rvm&#39;</span><span class="p">,</span> <span class="s1">&#39;app:update_rvm_key&#39;</span></code></pre></div>
+
+<p>2.1 Configure Capfile</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;capistrano/setup&#39;</span>
+
+<span class="nb">require</span> <span class="s1">&#39;capistrano/deploy&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;rvm1/capistrano3&#39;</span>
+
+<span class="nb">require</span> <span class="s1">&#39;capistrano/nginx_unicorn&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;capistrano/bundler&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;capistrano/rails/assets&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;capistrano/rails/migrations&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;capistrano/monit&#39;</span>
+<span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;lib/capistrano/tasks/*.rake&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">import</span> <span class="n">r</span> <span class="p">}</span></code></pre></div>
+
+<ol start="3">
+  <li>Configure config/deploy/production.rb</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">role</span> <span class="ss">:app</span><span class="p">,</span> <span class="sx">%w(SERVER_IP)</span>
+<span class="n">role</span> <span class="ss">:web</span><span class="p">,</span> <span class="sx">%w(SERVER_IP)</span>
+<span class="n">role</span> <span class="ss">:db</span><span class="p">,</span> <span class="sx">%w(SERVER_IP)</span>
+<span class="n">role</span> <span class="ss">:worker</span><span class="p">,</span> <span class="sx">%w(SERVER_IP)</span>
+
+<span class="n">set</span> <span class="ss">:rails_env</span><span class="p">,</span> <span class="s1">&#39;production&#39;</span>
+
+<span class="n">set</span> <span class="ss">:ssh_options</span><span class="p">,</span> <span class="p">{</span>
+    <span class="ss">user</span><span class="p">:</span> <span class="s1">&#39;deployer&#39;</span><span class="p">,</span>
+    <span class="ss">keys</span><span class="p">:</span> <span class="sx">%w(PATH_TO_USER_KEY)</span><span class="p">,</span>
+    <span class="ss">forward_agent</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+    <span class="ss">auth_methods</span><span class="p">:</span> <span class="sx">%w(publickey)</span>
+<span class="p">}</span>
+
+<span class="c1">#NGINX</span>
+<span class="n">set</span> <span class="ss">:templates_path</span><span class="p">,</span> <span class="s1">&#39;config/deploy/templates&#39;</span>
+<span class="n">set</span> <span class="ss">:nginx_config_name</span><span class="p">,</span> <span class="s1">&#39;NGINX_CONFIG_FILE_NAME&#39;</span>
+<span class="n">set</span> <span class="ss">:nginx_server_name</span><span class="p">,</span> <span class="s1">&#39;NGINX_SERVER_NAME&#39;</span>
+<span class="n">set</span> <span class="ss">:nginx_pid</span><span class="p">,</span> <span class="s1">&#39;/run/nginx.pid&#39;</span>
+
+<span class="n">set</span> <span class="ss">:nginx_config_path</span><span class="p">,</span> <span class="s1">&#39;/etc/nginx/sites-available&#39;</span>
+
+<span class="n">set</span> <span class="ss">:unicorn_workers</span><span class="p">,</span> <span class="mi">2</span>
+<span class="n">set</span> <span class="ss">:unicorn_user</span><span class="p">,</span> <span class="s1">&#39;deployer&#39;</span>
+<span class="n">set</span> <span class="ss">:unicorn_log</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/log/unicorn.log&quot;</span>
+<span class="n">set</span> <span class="ss">:unicorn_config</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/config/unicorn.rb&quot;</span>
+<span class="n">set</span> <span class="ss">:unicorn_pid</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_path</span><span class="si">}</span><span class="s2">/tmp/pids/unicorn.pid&quot;</span>
+<span class="n">set</span> <span class="ss">:unicorn_sock</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/tmp/sockets/unicorn.sock&quot;</span></code></pre></div>
+
+<ol start="4">
+  <li>Configure server templates</li>
+</ol>
+
+<p>4.1 deploy/templates/unicorn.rb.erb</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">working_directory</span> <span class="s2">&quot;&lt;%= current_path %&gt;&quot;</span>
+<span class="n">pid</span> <span class="s2">&quot;&lt;%= fetch(:unicorn_pid) %&gt;&quot;</span>
+<span class="n">stderr_path</span> <span class="s2">&quot;&lt;%= fetch(:unicorn_log) %&gt;&quot;</span>
+<span class="n">stdout_path</span> <span class="s2">&quot;&lt;%= fetch(:unicorn_log) %&gt;&quot;</span>
+
+<span class="n">listen</span> <span class="s2">&quot;&lt;%= fetch(:unicorn_sock) %&gt;&quot;</span>
+<span class="n">worker_processes</span> <span class="o">&lt;</span><span class="sx">%= fetch(:unicorn_workers) %&gt;</span>
+<span class="sx">timeout 600</span>
+
+<span class="sx">preload_app true</span>
+
+<span class="sx">before_exec do |server|</span>
+<span class="sx">  ENV[&quot;BUNDLE_GEMFILE&quot;] =</span> <span class="s2">&quot;&lt;%= current_path %&gt;/Gemfile&quot;</span>
+<span class="k">end</span>
+
+<span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1"># Disconnect since the database connection will not carry over</span>
+  <span class="k">if</span> <span class="n">defined?</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Quit the old unicorn process</span>
+  <span class="n">old_pid</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">server</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="ss">:pid</span><span class="o">]</span><span class="si">}</span><span class="s2">.oldbin&quot;</span>
+  <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">server</span><span class="o">.</span><span class="n">pid</span> <span class="o">!=</span> <span class="n">old_pid</span>
+    <span class="k">begin</span>
+      <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="s2">&quot;QUIT&quot;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+    <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">,</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span>
+      <span class="c1"># someone else did our job for us</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Resque</span><span class="p">)</span>
+    <span class="no">Resque</span><span class="o">.</span><span class="n">redis</span><span class="o">.</span><span class="n">quit</span>
+  <span class="k">end</span>
+
+  <span class="nb">sleep</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1"># Start up the database connection again in the worker</span>
+  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
+  <span class="k">end</span>
+
+  <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Resque</span><span class="p">)</span>
+    <span class="no">Resque</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="s1">&#39;localhost:6379&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>4.2 deploy/templates/unicorn_init.rb</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#!/bin/bash</span>
+<span class="c1">### BEGIN INIT INFO</span>
+<span class="c1"># Provides: unicorn</span>
+<span class="c1"># Required-Start: $remote_fs $syslog</span>
+<span class="c1"># Required-Stop: $remote_fs $syslog</span>
+<span class="c1"># Default-Start: 2 3 4 5</span>
+<span class="c1"># Default-Stop: 0 1 6</span>
+<span class="c1"># Short-Description: Manage unicorn server</span>
+<span class="c1"># Description: Start, stop, restart unicorn server for a specific application.</span>
+<span class="c1">### END INIT INFO</span>
+<span class="n">set</span> <span class="o">-</span><span class="n">e</span>
+
+<span class="c1"># Feel free to change any of the following variables for your app:</span>
+<span class="no">TIMEOUT</span><span class="o">=</span><span class="err">$</span><span class="p">{</span><span class="no">TIMEOUT</span><span class="o">-</span><span class="mi">60</span><span class="p">}</span>
+<span class="no">APP_ROOT</span><span class="o">=&lt;</span><span class="sx">%= current_path %&gt;</span>
+<span class="sx">PID=</span><span class="o">&lt;</span><span class="sx">%= fetch(:unicorn_pid) %&gt;</span>
+
+<span class="sx"># rvm</span>
+<span class="sx">CMD=</span><span class="s2">&quot;cd &lt;%= current_path %&gt;; rvm &lt;%= fetch(:rvm1_ruby_version) %&gt; do bundle exec unicorn -D -c &lt;%= fetch(:unicorn_config) %&gt; -E &lt;%= fetch(:rails_env) %&gt;&quot;</span>
+
+<span class="no">AS_USER</span><span class="o">=&lt;</span><span class="sx">%= fetch(:unicorn_user) %&gt;</span>
+<span class="sx">set -u</span>
+
+<span class="sx">OLD_PIN=</span><span class="s2">&quot;$PID.oldbin&quot;</span>
+
+<span class="n">sig</span> <span class="p">()</span> <span class="p">{</span>
+<span class="nb">test</span> <span class="o">-</span><span class="n">s</span> <span class="s2">&quot;$PID&quot;</span> <span class="o">&amp;&amp;</span> <span class="n">kill</span> <span class="o">-</span><span class="vg">$1</span> <span class="sb">`cat $PID`</span>
+<span class="p">}</span>
+
+<span class="n">oldsig</span> <span class="p">()</span> <span class="p">{</span>
+<span class="nb">test</span> <span class="o">-</span><span class="n">s</span> <span class="vg">$OLD_PIN</span> <span class="o">&amp;&amp;</span> <span class="n">kill</span> <span class="o">-</span><span class="vg">$1</span> <span class="sb">`cat $OLD_PIN`</span>
+<span class="p">}</span>
+
+<span class="n">run</span> <span class="p">()</span> <span class="p">{</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$(id -un)&quot;</span> <span class="o">=</span> <span class="s2">&quot;$AS_USER&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+<span class="nb">eval</span> <span class="vg">$1</span>
+<span class="k">else</span>
+<span class="n">su</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;$1&quot;</span> <span class="o">-</span> <span class="vg">$AS_USER</span>
+<span class="n">fi</span>
+<span class="p">}</span>
+
+<span class="k">case</span> <span class="s2">&quot;$1&quot;</span> <span class="k">in</span>
+<span class="n">start</span><span class="p">)</span>
+<span class="n">sig</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;Already running&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="mi">0</span>
+<span class="n">run</span> <span class="s2">&quot;$CMD&quot;</span>
+<span class="p">;;</span>
+<span class="n">stop</span><span class="p">)</span>
+<span class="n">sig</span> <span class="no">QUIT</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="mi">0</span>
+<span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;Not running&quot;</span>
+<span class="p">;;</span>
+<span class="n">force</span><span class="o">-</span><span class="n">stop</span><span class="p">)</span>
+<span class="n">sig</span> <span class="no">TERM</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="mi">0</span>
+<span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;Not running&quot;</span>
+<span class="p">;;</span>
+<span class="n">restart</span><span class="o">|</span><span class="n">reload</span><span class="p">)</span>
+<span class="n">sig</span> <span class="no">USR2</span> <span class="o">&amp;&amp;</span> <span class="n">echo</span> <span class="n">reloaded</span> <span class="no">OK</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="mi">0</span>
+<span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;Couldn&#39;t reload, starting &#39;$CMD&#39; instead&quot;</span>
+<span class="n">run</span> <span class="s2">&quot;$CMD&quot;</span>
+<span class="p">;;</span>
+<span class="n">upgrade</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">sig</span> <span class="no">USR2</span> <span class="o">&amp;&amp;</span> <span class="nb">sleep</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">sig</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">oldsig</span> <span class="no">QUIT</span>
+<span class="k">then</span>
+<span class="n">n</span><span class="o">=</span><span class="vg">$TIMEOUT</span>
+<span class="k">while</span> <span class="nb">test</span> <span class="o">-</span><span class="n">s</span> <span class="vg">$OLD_PIN</span> <span class="o">&amp;&amp;</span> <span class="nb">test</span> <span class="vg">$n</span> <span class="o">-</span><span class="n">ge</span> <span class="mi">0</span>
+<span class="k">do</span>
+<span class="nb">printf</span> <span class="s1">&#39;.&#39;</span> <span class="o">&amp;&amp;</span> <span class="nb">sleep</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">n</span><span class="o">=</span><span class="err">$</span><span class="p">((</span> <span class="vg">$n</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">))</span>
+<span class="n">done</span>
+<span class="n">echo</span>
+
+<span class="k">if</span> <span class="nb">test</span> <span class="vg">$n</span> <span class="o">-</span><span class="n">lt</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nb">test</span> <span class="o">-</span><span class="n">s</span> <span class="vg">$OLD_PIN</span>
+<span class="k">then</span>
+<span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;$OLD_PIN still exists after $TIMEOUT seconds&quot;</span>
+<span class="nb">exit</span> <span class="mi">1</span>
+<span class="n">fi</span>
+<span class="nb">exit</span> <span class="mi">0</span>
+<span class="n">fi</span>
+<span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;Couldn&#39;t upgrade, starting &#39;$CMD&#39; instead&quot;</span>
+<span class="n">run</span> <span class="s2">&quot;$CMD&quot;</span>
+<span class="p">;;</span>
+<span class="n">reopen</span><span class="o">-</span><span class="n">logs</span><span class="p">)</span>
+<span class="n">sig</span> <span class="no">USR1</span>
+<span class="p">;;</span>
+<span class="o">*</span><span class="p">)</span>
+<span class="n">echo</span> <span class="o">&gt;&amp;</span><span class="mi">2</span> <span class="s2">&quot;Usage: $0</span>
+<span class="s2">&lt;start|stop|restart|upgrade|force-stop|reopen-logs&gt;&quot;</span>
+<span class="nb">exit</span> <span class="mi">1</span>
+<span class="p">;;</span>
+<span class="n">esac</span></code></pre></div>
+
+<p>4.3 deploy/templates/nginx_conf.erb</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">upstream unicorn_&lt;%<span class="o">=</span> fetch<span class="o">(</span>:nginx_config_name<span class="o">)</span> %&gt; <span class="o">{</span>
+server unix:&lt;%<span class="o">=</span> fetch<span class="o">(</span>:unicorn_sock<span class="o">)</span> %&gt; <span class="nv">fail_timeout</span><span class="o">=</span>0<span class="p">;</span>
+<span class="o">}</span>
+
+
+server <span class="o">{</span>
+
+listen 80<span class="p">;</span>
+
+client_max_body_size 4G<span class="p">;</span>
+keepalive_timeout 10<span class="p">;</span>
+
+error_page <span class="m">500</span> <span class="m">502</span> <span class="m">504</span> /500.html<span class="p">;</span>
+error_page <span class="m">503</span> @503<span class="p">;</span>
+
+server_name &lt;%<span class="o">=</span> fetch<span class="o">(</span>:nginx_server_name<span class="o">)</span> %&gt;<span class="p">;</span>
+root &lt;%<span class="o">=</span> current_path %&gt;/public<span class="p">;</span>
+try_files <span class="nv">$uri</span>/index.html <span class="nv">$uri</span> @unicorn_&lt;%<span class="o">=</span> fetch<span class="o">(</span>:nginx_config_name<span class="o">)</span> %&gt;<span class="p">;</span>
+
+gzip              on<span class="p">;</span>
+gzip_http_version 1.0<span class="p">;</span>
+gzip_disable      <span class="s2">&quot;MSIE [1-6]\.(?!.*SV1)&quot;</span><span class="p">;</span>
+gzip_buffers <span class="m">4</span> 16k<span class="p">;</span>
+gzip_comp_level 2<span class="p">;</span>
+gzip_min_length 0<span class="p">;</span>
+gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json<span class="p">;</span>
+gzip_proxied any<span class="p">;</span>
+
+location @unicorn_&lt;%<span class="o">=</span> fetch<span class="o">(</span>:nginx_config_name<span class="o">)</span> %&gt; <span class="o">{</span>
+proxy_set_header X-Forwarded-For <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+proxy_set_header Host <span class="nv">$http_host</span><span class="p">;</span>
+proxy_redirect off<span class="p">;</span>
+add_header Access-Control-Allow-Origin *<span class="p">;</span>
+proxy_pass http://unicorn_&lt;%<span class="o">=</span> fetch<span class="o">(</span>:nginx_config_name<span class="o">)</span> %&gt;<span class="p">;</span>
+<span class="c"># limit_req zone=one;</span>
+access_log &lt;%<span class="o">=</span> shared_path %&gt;/log/nginx.access.log<span class="p">;</span>
+error_log &lt;%<span class="o">=</span> shared_path %&gt;/log/nginx.error.log<span class="p">;</span>
+<span class="o">}</span>
+
+location ^~ /assets/ <span class="o">{</span>
+gzip_static on<span class="p">;</span>
+expires max<span class="p">;</span>
+add_header Cache-Control public<span class="p">;</span>
+add_header Access-Control-Allow-Origin *<span class="p">;</span>
+<span class="o">}</span>
+
+<span class="nv">location</span> <span class="o">=</span> /50x.html <span class="o">{</span>
+root html<span class="p">;</span>
+<span class="o">}</span>
+
+<span class="nv">location</span> <span class="o">=</span> /404.html <span class="o">{</span>
+root html<span class="p">;</span>
+<span class="o">}</span>
+
+location @503 <span class="o">{</span>
+error_page <span class="nv">405</span> <span class="o">=</span> /system/maintenance.html<span class="p">;</span>
+<span class="k">if</span> <span class="o">(</span>-f <span class="nv">$document_root</span>/system/maintenance.html<span class="o">)</span> <span class="o">{</span>
+rewrite ^<span class="o">(</span>.*<span class="o">)</span><span class="nv">$ </span>/system/maintenance.html <span class="nb">break</span><span class="p">;</span>
+<span class="o">}</span>
+rewrite ^<span class="o">(</span>.*<span class="o">)</span><span class="nv">$ </span>/503.html <span class="nb">break</span><span class="p">;</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="nv">$request_method</span> !~ ^<span class="o">(</span>GET<span class="p">|</span>HEAD<span class="p">|</span>PUT<span class="p">|</span>POST<span class="p">|</span>DELETE<span class="p">|</span>OPTIONS<span class="p">|</span>PATCH<span class="o">)</span><span class="nv">$ </span><span class="o">){</span>
+<span class="k">return</span> 405<span class="p">;</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">(</span>-f <span class="nv">$document_root</span>/system/maintenance.html<span class="o">)</span> <span class="o">{</span>
+<span class="k">return</span> 503<span class="p">;</span>
+<span class="o">}</span>
+
+<span class="o">}</span></code></pre></div>
+
+<ol start="5">
+  <li>Deploy setup</li>
+</ol>
+
+<p>5.1 Install RVM and ruby</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production rvm1:install:rvm
+ bundle <span class="nb">exec </span>cap production rvm1:install:ruby</code></pre></div>
+
+<p>5.2 Create gemset</p>
+
+<p>Edit file lib/capistrano/tasks/create_gemset.rake</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">namespace</span> <span class="ss">:gemset</span> <span class="k">do</span>
+  <span class="n">desc</span> <span class="s2">&quot;Create an gemset for the given&quot;</span>
+  <span class="n">task</span> <span class="ss">:create</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_roles</span><span class="p">,</span> <span class="ss">:all</span><span class="p">))</span> <span class="k">do</span>
+      <span class="n">within</span> <span class="n">fetch</span><span class="p">(</span><span class="ss">:release_path</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">execute</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_auto_script_path</span><span class="p">)</span><span class="si">}</span><span class="s2">/rvm-auto.sh&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;rvm&quot;</span><span class="p">,</span> <span class="s2">&quot;ruby-</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_ruby</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;do&#39;</span><span class="p">,</span><span class="s1">&#39;rvm&#39;</span><span class="p">,</span><span class="s1">&#39;gemset&#39;</span><span class="p">,</span><span class="s1">&#39;create&#39;</span><span class="p">,</span>
+          <span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_alias_name</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">before</span> <span class="ss">:create</span><span class="p">,</span> <span class="s1">&#39;deploy:updating&#39;</span>
+  <span class="n">before</span> <span class="ss">:create</span><span class="p">,</span> <span class="s1">&#39;rvm1:hook&#39;</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production gemset:create</code></pre></div>
+
+<p>5.3 Create alias</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production rvm1:alias:create</code></pre></div>
+
+<p>5.4 Install Bundler</p>
+
+<p>Edit file lib/capistrano/tasks/install_bundle.rake</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">namespace</span> <span class="ss">:bundle</span> <span class="k">do</span>
+  <span class="n">desc</span> <span class="s2">&quot;Create an gemset for the given&quot;</span>
+  <span class="n">task</span> <span class="ss">:install</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_roles</span><span class="p">,</span> <span class="ss">:all</span><span class="p">))</span> <span class="k">do</span>
+      <span class="n">within</span> <span class="n">release_path</span> <span class="k">do</span>
+        <span class="n">execute</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_auto_script_path</span><span class="p">)</span><span class="si">}</span><span class="s2">/rvm-auto.sh&quot;</span><span class="p">,</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:rvm1_ruby_version</span><span class="p">),</span> <span class="s2">&quot;gem&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;bundler&quot;</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  <span class="n">before</span> <span class="ss">:install</span><span class="p">,</span> <span class="s1">&#39;deploy:updating&#39;</span>
+  <span class="n">before</span> <span class="ss">:install</span><span class="p">,</span> <span class="s1">&#39;rvm1:hook&#39;</span>
+<span class="k">end</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production bundle:install</code></pre></div>
+
+<p>5.5 Push config and env</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production setup:create_env
+ bundle <span class="nb">exec </span>cap production setup:create_db
+ bundle <span class="nb">exec </span>cap production setup:create_secrets</code></pre></div>
+
+<p>5.6 Edit copied application.yml, database.yml and secrets.yml for on server</p>
+
+<ol start="6">
+  <li>Install nginx and postgres</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get install nginx postgresql postgresql-contrib libpq-dev</code></pre></div>
+
+<ol start="7">
+  <li>Create postgres user</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo -u postgres createuser -s appname
+sudo -u postgres psql
+<span class="se">\p</span>assword appname
+CREATE DATABASE DB_NAME owner appname<span class="p">;</span>
+<span class="se">\q</span></code></pre></div>
+
+<ol start="8">
+  <li>Deploy nginx and capistrano configuration</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production nginx:setup
+bundle <span class="nb">exec </span>cap production unicorn:setup_initializer
+bundle <span class="nb">exec </span>cap production unicorn:setup_app_config</code></pre></div>
+
+<ol start="9">
+  <li>Install requirements for ember</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt-get install nodejs nodejs-legacy npm
+npm install -g bower</code></pre></div>
+
+<ol start="10">
+  <li>Deploy</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production deploy</code></pre></div>
+
+<ol start="11">
+  <li>Start</li>
+</ol>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">bundle <span class="nb">exec </span>cap production unicorn:start</code></pre></div>
+
+
+  </article>
+  <tags>
+	  
+	  	<span class="label label-default">ember</span>  	
+	  
+	  	<span class="label label-default">rails</span>  	
+	  	
+  </tags>    
+  <readmore>
+    Read More...
+    <br>        
+    
+    
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+
+                            
+            <br/>
+            
+            
+            
+            
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+    
+    
+      
+        
+                  
+            
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2015-10-02-android-encrypted-api-with-rails/" class="ga-link" data-link-type="related" target='_blank'>Encrypted API from android to rails</a></span>
+
+                            
+            <br/>
+            
+            
+            
+            
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2016-09-22-encrypted-api-from-android-to-rails-part-2/" class="ga-link" data-link-type="related" target='_blank'>Encrypted API from android to rails part 2</a></span>
+
+                            
+            <br/>
+            
+            
+            
+            
+            
+        
+        
+      
+        
+                  
+            
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+
+                            
+            <br/>
+            
+            
+            
+            
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+                      
+            
+            
+            
+            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+
+                            
+            <br/>
+            
+            
+            
+            
+            
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+    
+    
+  </readmore>
+  <comments>
+    
+  </comments>
+</div>
+                  
+      </div>
+
+    </div>      
+    <div class="row">
+      <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Alex's Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Alex's Blog</li>
+          <li><a href="mailto:thick.tav@gmail.com">thick.tav@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/timoshenkoav" class='ga-link' target='_blank'>
+              <span class="icon  icon--github">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+                </svg>
+              </span>
+
+              <span class="username">timoshenkoav</span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/timoshenko_av" class='ga-link' target='_blank'>
+              <span class="icon  icon--twitter">
+                <svg viewBox="0 0 16 16">
+                  <path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                  c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+                </svg>
+              </span>
+
+              <span class="username">timoshenko_av</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col  footer-col-3">
+        <p class="text"></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+    </div>
+    </div>
+    
+  </body>
+
+</html>

@@ -214,33 +214,44 @@
 
   <article class="post-content">
     <ol>
-<li>Create VpnService class</li>
+  <li>Create VpnService class</li>
 </ol>
-<div class="highlight"><pre><code class="language-text" data-lang="text">public class VpnConnectionBlocker extends VpnService {
 
-}
-</code></pre></div>
+<p>```
+public class VpnConnectionBlocker extends VpnService {</p>
+
+<p>}
+```</p>
+
 <ol>
-<li>Register it in AndroidManifest.xml</li>
+  <li>Register it in AndroidManifest.xml</li>
 </ol>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;service android:name=&quot;.VpnConnectionBlocker&quot;
-         android:permission=&quot;android.permission.BIND_VPN_SERVICE&quot;&gt;
+
+<p><code>
+&lt;service android:name=".VpnConnectionBlocker"
+         android:permission="android.permission.BIND_VPN_SERVICE"&gt;
     &lt;intent-filter&gt;
-        &lt;action android:name=&quot;android.net.VpnService&quot;/&gt;
+        &lt;action android:name="android.net.VpnService"/&gt;
     &lt;/intent-filter&gt;
 &lt;/service&gt;
-</code></pre></div>
+</code></p>
+
 <ol>
-<li>Request VPN service to start</li>
+  <li>Request VPN service to start</li>
 </ol>
-<div class="highlight"><pre><code class="language-text" data-lang="text">private static final int REQUEST_VPN = 0x10;
+
+<p><code>
+private static final int REQUEST_VPN = 0x10;
 //...
 startActivityForResult(VpnConnectionBlocker.prepare(MainActivity.this), REQUEST_VPN);
-</code></pre></div>
+</code></p>
+
 <ol>
-<li>Handle user action and start VPN service</li>
+  <li>Handle user action and start VPN service</li>
 </ol>
-<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
+
+<p><code>
+@Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode){
         case REQUEST_VPN:
@@ -250,7 +261,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             break;
     }
 }
-</code></pre></div>
+</code></p>
+
+
   </article>
   <tags>
 	  
@@ -496,6 +509,26 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -605,6 +638,26 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         
       
         
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
                   
             
                   

@@ -215,42 +215,49 @@
   <article class="post-content">
     <p>Plugin will upload apk to distribution system after building release artifact.</p>
 
-<h3>Create Project</h3>
+<h3 id="create-project">Create Project</h3>
 
-<p>In the gradle folder, copy <strong>samples</strong>-&gt;<strong>customPlugin</strong>-&gt;<strong>plugin</strong> to your work directory. Gradle distribution can be downloaded <span><a href="http://gradle.org/gradle-download/" class="ga-link" data-link-type="" target='_blank'>here</a></span></p>
+<p>In the gradle folder, copy <strong>samples</strong>-&gt;<strong>customPlugin</strong>-&gt;<strong>plugin</strong> to your work directory. Gradle distribution can be downloaded <span><a href="http://gradle.org/gradle-download/" class="ga-link" data-link-type="" target="_blank">here</a></span></p>
 
-<h3>build.gradle</h3>
+<h3 id="buildgradle">build.gradle</h3>
 
 <p>Change build.gradle to this strusture</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;groovy&#39;
 
-dependencies {
+<p>```
+apply plugin: ‘groovy’</p>
+
+<p>dependencies {
     compile gradleApi()
-    compile localGroovy()
+    compile localGroovy()</p>
 
-    compile &#39;com.android.tools.build:gradle:0.14.0&#39;
-}
+<pre><code>compile 'com.android.tools.build:gradle:0.14.0' }
+</code></pre>
 
-apply plugin: &#39;maven&#39;
+<p>apply plugin: ‘maven’</p>
 
-repositories {
+<p>repositories {
     mavenCentral()
-}
+}</p>
 
-dependencies {
-    testCompile &#39;junit:junit:4.12&#39;
-}
+<p>dependencies {
+    testCompile ‘junit:junit:4.12’
+}</p>
 
-group = &#39;com.tunebrains.beta&#39;
-version = &#39;1.0-SNAPSHOT&#39;
-</code></pre></div>
-<h3>Configure plugin and deploy to local folder</h3>
+<p>group = ‘com.tunebrains.beta’
+version = ‘1.0-SNAPSHOT’</p>
+
+<p>```</p>
+
+<h3 id="configure-plugin-and-deploy-to-local-folder">Configure plugin and deploy to local folder</h3>
 
 <p>Rename and change plugin description file under <strong>src</strong>-&gt;<strong>main</strong>-&gt;<strong>resources</strong>-&gt;<strong>META-INF</strong>-&gt;<strong>gradle-plugins</strong> folder</p>
 
 <p><strong>File Name:</strong> <em>com.tunebrains.beta-gradle-beta-upload.properties</em></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
-</code></pre></div>
+
+<p><code>
+implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
+</code></p>
+
 <p>Create groovy class <strong>com.tunebrains.beta.gradle.UploadApkPlugin</strong></p>
 
 <div class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">tunebrains</span><span class="o">.</span><span class="na">beta</span><span class="o">.</span><span class="na">gradle</span>
@@ -266,40 +273,50 @@ version = &#39;1.0-SNAPSHOT&#39;
 <span class="o">}</span></code></pre></div>
 
 <p>Specify folder to deploy plugin</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">uploadArchives {
+
+<p><code>
+uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: &quot;file:///Users/alex/Projects/Tutorials/repo&quot;)
+            repository(url: "file:///Users/alex/Projects/Tutorials/repo")
         }
     }
 }
-</code></pre></div>
+</code></p>
+
 <p>Execute gradle tast to upload archive. Refresh gradle task if required.</p>
 
-<p><img src="http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg"/></p>
+<p><img src="http://localhost:4000/assets/gradle_plugin_upload/upload_archive.jpg" /></p>
 
-<h3>Apply plugin in your Android project.</h3>
+<h3 id="apply-plugin-in-your-android-project">Apply plugin in your Android project.</h3>
 
 <p>In top level <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">buildscript {
+
+<p>```
+buildscript {
     repositories {
-        //...
+        //…
         maven {
-            url uri(&#39;file:///Users/alex/Projects/Tutorials/repo&#39;)
+            url uri(‘file:///Users/alex/Projects/Tutorials/repo’)
         }
     }
-    dependencies {
+    dependencies {</p>
 
-        classpath group: &#39;com.tunebrains.beta&#39;, name: &#39;releaseupload&#39;,
-                version: &#39;1.0-SNAPSHOT&#39;
-    }
-}
-</code></pre></div>
+<pre><code>    classpath group: 'com.tunebrains.beta', name: 'releaseupload',
+            version: '1.0-SNAPSHOT'
+} }
+</code></pre>
+
+<p>```</p>
+
 <p>In app level <strong>build.gradle</strong></p>
 
 <p>Apply plugin:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">apply plugin: &#39;com.tunebrains.beta-release-upload&#39;
-</code></pre></div>
+
+<p><code>
+apply plugin: 'com.tunebrains.beta-release-upload'
+</code></p>
+
 <p>Its time for write some code.</p>
 
 <p>We will add custom tasks <strong>betaDebug</strong> and <strong>betaRelease</strong> to upload debug and release apks.</p>
@@ -325,10 +342,13 @@ version = &#39;1.0-SNAPSHOT&#39;
 <span class="o">}</span></code></pre></div>
 
 <p>To perform multipart post add apache dependencies to <strong>build.gradle</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">compile &#39;org.apache.httpcomponents:httpmime:4.+&#39;
-compile &#39;commons-io:commons-io:2.+&#39;
-compile &#39;org.apache.commons:commons-compress:1.+&#39;
-</code></pre></div>
+
+<p><code>
+compile 'org.apache.httpcomponents:httpmime:4.+'
+compile 'commons-io:commons-io:2.+'
+compile 'org.apache.commons:commons-compress:1.+'
+</code></p>
+
 <p>To get resulting apk for upload we can use task field</p>
 
 <div class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="n">String</span> <span class="n">apkFilename</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="na">outputFile</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span></code></pre></div>
@@ -364,7 +384,6 @@ compile &#39;org.apache.commons:commons-compress:1.+&#39;
     <span class="n">DefaultHttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultHttpClient</span><span class="o">()</span>
     <span class="k">return</span> <span class="n">httpClient</span>
 <span class="o">}</span></code></pre></div>
- 
 
 <p>In result of evecution <em>uploadApk</em> we got the resulting json object of parsed server response. And can for example print to console url where you can find the build.</p>
 
@@ -610,6 +629,26 @@ compile &#39;org.apache.commons:commons-compress:1.+&#39;
         
                   
             
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
         
         
       
@@ -738,6 +777,26 @@ compile &#39;org.apache.commons:commons-compress:1.+&#39;
         
       
         
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
+        
+        
+      
+        
+                  
+            
+                  
+            
                   
             
                   
