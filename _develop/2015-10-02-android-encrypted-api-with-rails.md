@@ -41,7 +41,7 @@ Lets start from the client side:
 
 - Generate random AES key
 
-```
+{%highlight java%}
 public static final int AES_KEY_SIZE = 256 / 8;
 public static String randomKey(int len) {
     Random generator = new Random();
@@ -54,12 +54,12 @@ public static String randomKey(int len) {
     }
     return randomStringBuilder.toString();
 }
-```
+{%endhighlight%}
 
 
 - Encrypt data with AES
 
-```
+{%highlight java%}
 public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {
 
@@ -69,7 +69,7 @@ public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAl
     byte[] encrypted = cipher.doFinal(plain.getBytes());
     return encrypted;
 }
-```
+{%endhighlight%}
 
 - Encrypt key using RSA
 
@@ -80,7 +80,7 @@ We can store public key either in assets/resources/plain string
 
 To unify reading key we can use InputStream as source, so it can be FileInputStream, ByteArrayInputStream or any other source:
 
-```
+{%highlight java%}
 public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
     String lStringKey = read(pInputStream);
     String lRawString = stripKeyHeaders(lStringKey);
@@ -96,12 +96,12 @@ public static String stripKeyHeaders(String key) {
     }
     return strippedKey.toString().trim();
 }
-```
+{%endhighlight%}
 
 Using public key, we can encrypt data
 
 
-```
+{%highlight java%}
 public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
     X509EncodedKeySpec spec = new X509EncodedKeySpec(pKey);
     KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -111,17 +111,17 @@ public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPa
     byte []encryptedBytes = cipher.doFinal(plain);
     return encryptedBytes;
 }
-```
+{%endhighlight%}
 
 Now we have everything encrypted and we can send data to our API. Body will be send as base64 request body, encrypted key - as request header.
 
-```
+{%highlight java%}
 byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
 String lAESKey =  randomKey(AES_KEY_SIZE);      
 String lEncryptedKey = Base64.encode(RSAEncrypt(lAESKey, lAESKey), 0);
 String lEncryptedBody = Base64.encode(AESEncrypt(body, lAESKey), 0);
 post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
-```
+{%endhighlight%}
 
 
 <a href="/develop/2016-09-22-encrypted-api-from-android-to-rails-part-2/">Part 2</a>

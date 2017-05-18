@@ -219,64 +219,61 @@
 
 <p>Create <code>signs.gradle</code> under project folder:</p>
 
-<p>```
-def fillDefaults(signingConfig) {
-    signingConfig.storeFile = null
-    signingConfig.storePassword = ‘’
-    signingConfig.keyAlias = ‘’
-    signingConfig.keyPassword = ‘’
-}
-def setupSigning(name) {
-    def signingProperties = “${name}.info”
-    def signingKeys = [
-            storeFile    : { x -&gt; file(x) },
-            storePassword: { x -&gt; x },
-            keyAlias     : { x -&gt; x },
-            keyPassword  : { x -&gt; x },
-    ]
-    // Find signing.properties in project root, or in $HOME/.gradle
-    def f = [”${projectDir}/certs/${signingProperties}”].find { file(it).exists() }
-    if (f) {
-        println “Loading signing properties from ${f}”
-        def props = new Properties()
-        props.load(new FileInputStream(f))</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">fillDefaults</span><span class="o">(</span><span class="n">signingConfig</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">signingConfig</span><span class="o">.</span><span class="n">storeFile</span> <span class="k">=</span> <span class="kc">null</span>
+    <span class="n">signingConfig</span><span class="o">.</span><span class="n">storePassword</span> <span class="k">=</span> <span class="err">&#39;&#39;</span>
+    <span class="n">signingConfig</span><span class="o">.</span><span class="n">keyAlias</span> <span class="k">=</span> <span class="err">&#39;&#39;</span>
+    <span class="n">signingConfig</span><span class="o">.</span><span class="n">keyPassword</span> <span class="k">=</span> <span class="err">&#39;&#39;</span>
+<span class="o">}</span>
+<span class="k">def</span> <span class="n">setupSigning</span><span class="o">(</span><span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">signingProperties</span> <span class="k">=</span> <span class="s">&quot;${name}.info&quot;</span>
+    <span class="k">def</span> <span class="n">signingKeys</span> <span class="k">=</span> <span class="o">[</span>
+            <span class="kt">storeFile</span>    <span class="kt">:</span> <span class="o">{</span> <span class="kt">x</span> <span class="kt">-&gt;</span> <span class="kt">file</span><span class="o">(</span><span class="kt">x</span><span class="o">)</span> <span class="o">}</span>,
+            <span class="kt">storePassword:</span> <span class="o">{</span> <span class="kt">x</span> <span class="kt">-&gt;</span> <span class="kt">x</span> <span class="o">}</span>,
+            <span class="kt">keyAlias</span>     <span class="kt">:</span> <span class="o">{</span> <span class="kt">x</span> <span class="kt">-&gt;</span> <span class="kt">x</span> <span class="o">}</span>,
+            <span class="kt">keyPassword</span>  <span class="kt">:</span> <span class="o">{</span> <span class="kt">x</span> <span class="kt">-&gt;</span> <span class="kt">x</span> <span class="o">}</span>,
+    <span class="o">]</span>
+    <span class="c1">// Find signing.properties in project root, or in $HOME/.gradle</span>
+    <span class="k">def</span> <span class="n">f</span> <span class="k">=</span> <span class="o">[</span><span class="err">&quot;</span><span class="kt">$</span><span class="o">{</span><span class="kt">projectDir</span><span class="o">}</span><span class="kt">/certs/$</span><span class="o">{</span><span class="kt">signingProperties</span><span class="o">}</span><span class="err">&quot;</span><span class="o">].</span><span class="n">find</span> <span class="o">{</span> <span class="n">file</span><span class="o">(</span><span class="n">it</span><span class="o">).</span><span class="n">exists</span><span class="o">()</span> <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">f</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">println</span> <span class="s">&quot;Loading signing properties from ${f}&quot;</span>
+        <span class="k">def</span> <span class="n">props</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Properties</span><span class="o">()</span>
+        <span class="n">props</span><span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="n">f</span><span class="o">))</span>
 
-<pre><code>    // For each property apply it to the release signing config
-    signingKeys.any { k, fn -&gt;
-        if (!props.containsKey(k)) {
-            println "Missing property ${k}"
-            fillDefaults(android.signingConfigs[name])
-            return true
-        } else {
-            android.signingConfigs[name][k] = fn(props[k]);
-        }
-        return
-    }
-    println android.signingConfigs[name]
-} else {
-    println "Missing ${signingProperties} file"
-    fillDefaults(android.signingConfigs[name])
-} } ext {
-setupSigning = this.&amp;setupSigning } ```
-</code></pre>
+        <span class="c1">// For each property apply it to the release signing config</span>
+        <span class="n">signingKeys</span><span class="o">.</span><span class="n">any</span> <span class="o">{</span> <span class="n">k</span><span class="o">,</span> <span class="n">fn</span> <span class="o">-&gt;</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">props</span><span class="o">.</span><span class="n">containsKey</span><span class="o">(</span><span class="n">k</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">println</span> <span class="s">&quot;Missing property ${k}&quot;</span>
+                <span class="n">fillDefaults</span><span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="n">signingConfigs</span><span class="o">[</span><span class="kt">name</span><span class="o">])</span>
+                <span class="k">return</span> <span class="kc">true</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">android</span><span class="o">.</span><span class="n">signingConfigs</span><span class="o">[</span><span class="kt">name</span><span class="o">][</span><span class="kt">k</span><span class="o">]</span> <span class="k">=</span> <span class="n">fn</span><span class="o">(</span><span class="n">props</span><span class="o">[</span><span class="kt">k</span><span class="o">]);</span>
+            <span class="o">}</span>
+            <span class="k">return</span>
+        <span class="o">}</span>
+        <span class="n">println</span> <span class="n">android</span><span class="o">.</span><span class="n">signingConfigs</span><span class="o">[</span><span class="kt">name</span><span class="o">]</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">println</span> <span class="s">&quot;Missing ${signingProperties} file&quot;</span>
+        <span class="n">fillDefaults</span><span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="n">signingConfigs</span><span class="o">[</span><span class="kt">name</span><span class="o">])</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">ext</span> <span class="o">{</span>
+    <span class="n">setupSigning</span> <span class="k">=</span> <span class="k">this</span><span class="o">.&amp;</span><span class="n">setupSigning</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Apply it in project <code>build.gradle</code> in the beggining of the file</p>
 
-<p><code>
-apply from: 'signs.gradle'
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">apply</span> <span class="n">from</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">signs.gradle</span><span class="err">&#39;</span></code></pre></div>
 
 <p>Add callbacks when <code>signingConfigs</code> and <code>productFlavors</code> is added:</p>
 
-<p>```
-android.signingConfigs.whenObjectAdded { signing -&gt;
-    setupSigning(signing.name)
-}</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">android</span><span class="o">.</span><span class="n">signingConfigs</span><span class="o">.</span><span class="n">whenObjectAdded</span> <span class="o">{</span> <span class="n">signing</span> <span class="o">-&gt;</span>
+    <span class="n">setupSigning</span><span class="o">(</span><span class="n">signing</span><span class="o">.</span><span class="n">name</span><span class="o">)</span>
+<span class="o">}</span>
 
-<p>android.productFlavors.whenObjectAdded { flavor -&gt;
-    flavor.signingConfig = android.signingConfigs[flavor.name]
-}
-```</p>
+<span class="n">android</span><span class="o">.</span><span class="n">productFlavors</span><span class="o">.</span><span class="n">whenObjectAdded</span> <span class="o">{</span> <span class="n">flavor</span> <span class="o">-&gt;</span>
+    <span class="n">flavor</span><span class="o">.</span><span class="n">signingConfig</span> <span class="k">=</span> <span class="n">android</span><span class="o">.</span><span class="n">signingConfigs</span><span class="o">[</span><span class="kt">flavor.name</span><span class="o">]</span>
+<span class="o">}</span></code></pre></div>
 
 <p>The first will call our function with added signing name</p>
 
@@ -284,32 +281,29 @@ android.signingConfigs.whenObjectAdded { signing -&gt;
 
 <p>Keystore information is stored in files named <code>&lt;flavor_name&gt;.info</code> under <code>certs</code> folder under project subfolder. The format of this file is often used to storing `signed.properties’</p>
 
-<p><code>
-storeFile=certs/&lt;filename&gt;
-storePassword=''
-keyAlias=''
-keyPassword=''
-</code></p>
+<div class="highlight"><pre><code class="language-ini" data-lang="ini"><span class="na">storeFile</span><span class="o">=</span><span class="s">certs/&lt;filename&gt;</span>
+
+<span class="na">storePassword</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+
+<span class="na">keyAlias</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+
+<span class="na">keyPassword</span><span class="o">=</span><span class="s">&#39;&#39;</span></code></pre></div>
 
 <h2 id="usage">Usage</h2>
 
 <p>Add flavor configuration</p>
 
-<p><code>
-productFlavors {
-	app1 {    
-	    applicationId 'com.sample.app1'   
-	}
-}
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">productFlavors</span> <span class="o">{</span>
+	<span class="n">app1</span> <span class="o">{</span>    
+	    <span class="n">applicationId</span> <span class="-Symbol">&#39;com</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">app1</span><span class="err">&#39;</span>   
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Register signing config with the same name as flavor</p>
 
-<p><code>
-signingConfigs {
-	app1
-}
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">signingConfigs</span> <span class="o">{</span>
+	<span class="n">app1</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Create <code>app1.info</code> file under <code>certs</code> directory with information about the keystore.</p>
 
@@ -599,7 +593,7 @@ signingConfigs {
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-05-18-tetra-card-master-released/" class="ga-link" data-link-type="related" target='_blank'>Tetra Card Master Game released</a></span>
 
                             
             <br/>

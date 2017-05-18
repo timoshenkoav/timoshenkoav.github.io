@@ -221,75 +221,57 @@
 
 <p>First of all you need to declare permission in AndroidManifest.xml</p>
 
-<p>```</p>
-
-<uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.PACKAGE_USAGE_STATS&quot;</span>
+                     <span class="na">tools:ignore=</span><span class="s">&quot;ProtectedPermissions&quot;</span><span class="nt">/&gt;</span></code></pre></div>
 
 <p>Adding  </p>
 
-<p>```
-tools:ignoe=”ProtectedPermissions”</p>
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml">tools:ignore=&quot;ProtectedPermissions&quot;</code></pre></div>
 
 <p>will disable warning that permission is system level and will not be granted to third-party apps. However, declaring the permission implies intention to use the API and the user of the device can grant permission through the Settings application.</p>
 
 <p>So we need to check if our app was granted this permission</p>
 
-<p>```</p>
-
-<p>private boolean hasPermission() {
-    AppOpsManager appOps = (AppOpsManager)
-                getSystemService(Context.APP_OPS_SERVICE);
-    int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-            android.os.Process.myUid(), getPackageName());
-    return mode == AppOpsManager.MODE_ALLOWED;
-}</p>
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">hasPermission</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">AppOpsManager</span> <span class="n">appOps</span> <span class="o">=</span> <span class="o">(</span><span class="n">AppOpsManager</span><span class="o">)</span>
+                <span class="n">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">APP_OPS_SERVICE</span><span class="o">);</span>
+    <span class="kt">int</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">appOps</span><span class="o">.</span><span class="na">checkOpNoThrow</span><span class="o">(</span><span class="n">AppOpsManager</span><span class="o">.</span><span class="na">OPSTR_GET_USAGE_STATS</span><span class="o">,</span>
+            <span class="n">android</span><span class="o">.</span><span class="na">os</span><span class="o">.</span><span class="na">Process</span><span class="o">.</span><span class="na">myUid</span><span class="o">(),</span> <span class="n">getPackageName</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">AppOpsManager</span><span class="o">.</span><span class="na">MODE_ALLOWED</span><span class="o">;</span>
+<span class="o">}</span></code></pre></div>
 
 <p>and if no, ask user to enable it</p>
 
-<p><code>
-startActivityForResult(
-    new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 
-        MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">startActivityForResult</span><span class="o">(</span>
+    <span class="k">new</span> <span class="nf">Intent</span><span class="o">(</span><span class="n">Settings</span><span class="o">.</span><span class="na">ACTION_USAGE_ACCESS_SETTINGS</span><span class="o">),</span> 
+        <span class="n">MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS</span><span class="o">);</span></code></pre></div>
 
 <p>We are launching settings activity to allow app to get usage stats, its not android M default way to deal with permissions, we need to check result in onActivityResult</p>
 
-<p><code>
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    switch (requestCode){
-        case MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS:
-            if (hasPermission()){
-                getStats();
-            }else{
-                requestPermission();
-            }
-            break;
-    }
-}
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">switch</span> <span class="o">(</span><span class="n">requestCode</span><span class="o">){</span>
+        <span class="k">case</span> <span class="nl">MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS:</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">hasPermission</span><span class="o">()){</span>
+                <span class="n">getStats</span><span class="o">();</span>
+            <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+                <span class="n">requestPermission</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">break</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>In this sample if user did not grant permission we will ask again while permission is not granted. In real application, its better to tell user why do we need this permission and turn off functionality if permission was not granted.</p>
 
 <p>After the permission was eventually granted, we can query information about last active packages</p>
 
-<p>```</p>
-
-<p>UsageStatsManager lUsageStatsManager = 
-    (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
-List<usagestats> lUsageStatsList = 
-    lUsageStatsManager.queryUsageStats(
-        UsageStatsManager.INTERVAL_DAILY, 
-        System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
-        System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));</usagestats></p>
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">UsageStatsManager</span> <span class="n">lUsageStatsManager</span> <span class="o">=</span> 
+    <span class="o">(</span><span class="n">UsageStatsManager</span><span class="o">)</span> <span class="n">getSystemService</span><span class="o">(</span><span class="n">Context</span><span class="o">.</span><span class="na">USAGE_STATS_SERVICE</span><span class="o">);</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">UsageStats</span><span class="o">&gt;</span> <span class="n">lUsageStatsList</span> <span class="o">=</span> 
+    <span class="n">lUsageStatsManager</span><span class="o">.</span><span class="na">queryUsageStats</span><span class="o">(</span>
+        <span class="n">UsageStatsManager</span><span class="o">.</span><span class="na">INTERVAL_DAILY</span><span class="o">,</span> 
+        <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()-</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">DAYS</span><span class="o">.</span><span class="na">toMillis</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()+</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">DAYS</span><span class="o">.</span><span class="na">toMillis</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span></code></pre></div>
 
 <p>There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout <span><a href="https://developer.android.com/reference/android/app/usage/UsageStatsManager.html" class="ga-link" data-link-type="" target="_blank">official documentation</a></span></p>
 
@@ -557,7 +539,7 @@ List<usagestats> lUsageStatsList =
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-05-18-tetra-card-master-released/" class="ga-link" data-link-type="related" target='_blank'>Tetra Card Master Game released</a></span>
 
                             
             <br/>

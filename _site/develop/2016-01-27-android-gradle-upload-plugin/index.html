@@ -223,30 +223,27 @@
 
 <p>Change build.gradle to this strusture</p>
 
-<p>```
-apply plugin: ‘groovy’</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">apply</span> <span class="n">plugin</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">groovy</span><span class="err">&#39;</span>
 
-<p>dependencies {
-    compile gradleApi()
-    compile localGroovy()</p>
+<span class="kt">dependencies</span> <span class="o">{</span>
+    <span class="kt">compile</span> <span class="kt">gradleApi</span><span class="o">()</span>
+    <span class="kt">compile</span> <span class="kt">localGroovy</span><span class="o">()</span>
 
-<pre><code>compile 'com.android.tools.build:gradle:0.14.0' }
-</code></pre>
+    <span class="kt">compile</span> <span class="err">&#39;</span><span class="kt">com.android.tools.build:gradle:</span><span class="err">0</span><span class="kt">.</span><span class="err">14</span><span class="kt">.</span><span class="err">0&#39;</span>
+<span class="o">}</span>
 
-<p>apply plugin: ‘maven’</p>
+<span class="kt">apply</span> <span class="kt">plugin:</span> <span class="err">&#39;</span><span class="kt">maven</span><span class="err">&#39;</span>
 
-<p>repositories {
-    mavenCentral()
-}</p>
+<span class="kt">repositories</span> <span class="o">{</span>
+    <span class="kt">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
 
-<p>dependencies {
-    testCompile ‘junit:junit:4.12’
-}</p>
+<span class="kt">dependencies</span> <span class="o">{</span>
+    <span class="kt">testCompile</span> <span class="err">&#39;</span><span class="kt">junit:junit:</span><span class="err">4</span><span class="kt">.</span><span class="err">12&#39;</span>
+<span class="o">}</span>
 
-<p>group = ‘com.tunebrains.beta’
-version = ‘1.0-SNAPSHOT’</p>
-
-<p>```</p>
+<span class="kt">group</span> <span class="o">=</span> <span class="-Symbol">&#39;com</span><span class="o">.</span><span class="n">tunebrains</span><span class="o">.</span><span class="n">beta</span><span class="err">&#39;</span>
+<span class="n">version</span> <span class="k">=</span> <span class="err">&#39;</span><span class="mf">1.0</span><span class="o">-</span><span class="nc">SNAPSHOT</span><span class="err">&#39;</span></code></pre></div>
 
 <h3 id="configure-plugin-and-deploy-to-local-folder">Configure plugin and deploy to local folder</h3>
 
@@ -254,9 +251,7 @@ version = ‘1.0-SNAPSHOT’</p>
 
 <p><strong>File Name:</strong> <em>com.tunebrains.beta-gradle-beta-upload.properties</em></p>
 
-<p><code>
-implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
-</code></p>
+<div class="highlight"><pre><code class="language-ini" data-lang="ini"><span class="na">implementation-class</span><span class="o">=</span><span class="s">com.tunebrains.beta.gradle.UploadApkPlugin</span></code></pre></div>
 
 <p>Create groovy class <strong>com.tunebrains.beta.gradle.UploadApkPlugin</strong></p>
 
@@ -274,15 +269,13 @@ implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
 
 <p>Specify folder to deploy plugin</p>
 
-<p><code>
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "file:///Users/alex/Projects/Tutorials/repo")
-        }
-    }
-}
-</code></p>
+<div class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="n">uploadArchives</span> <span class="o">{</span>
+    <span class="n">repositories</span> <span class="o">{</span>
+        <span class="n">mavenDeployer</span> <span class="o">{</span>
+            <span class="n">repository</span><span class="o">(</span><span class="nl">url:</span> <span class="s2">&quot;file:///Users/alex/Projects/Tutorials/repo&quot;</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Execute gradle tast to upload archive. Refresh gradle task if required.</p>
 
@@ -292,30 +285,25 @@ uploadArchives {
 
 <p>In top level <strong>build.gradle</strong></p>
 
-<p>```
-buildscript {
-    repositories {
-        //…
-        maven {
-            url uri(‘file:///Users/alex/Projects/Tutorials/repo’)
-        }
-    }
-    dependencies {</p>
-
-<pre><code>    classpath group: 'com.tunebrains.beta', name: 'releaseupload',
-            version: '1.0-SNAPSHOT'
-} }
-</code></pre>
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">buildscript</span> <span class="o">{</span>
+    <span class="n">repositories</span> <span class="o">{</span>
+        <span class="c1">//...</span>
+        <span class="n">maven</span> <span class="o">{</span>
+            <span class="n">url</span> <span class="n">uri</span><span class="o">(</span><span class="-Symbol">&#39;file</span><span class="o">:///</span><span class="nc">Users</span><span class="o">/</span><span class="n">alex</span><span class="o">/</span><span class="nc">Projects</span><span class="o">/</span><span class="nc">Tutorials</span><span class="o">/</span><span class="n">repo</span><span class="err">&#39;</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">dependencies</span> <span class="o">{</span>
+        
+        <span class="n">classpath</span> <span class="n">group</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">com.tunebrains.beta</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">releaseupload</span><span class="err">&#39;</span><span class="o">,</span>
+                <span class="n">version</span><span class="k">:</span> <span class="err">&#39;1</span><span class="kt">.</span><span class="err">0</span><span class="kt">-SNAPSHOT</span><span class="err">&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>In app level <strong>build.gradle</strong></p>
 
 <p>Apply plugin:</p>
 
-<p><code>
-apply plugin: 'com.tunebrains.beta-release-upload'
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">apply</span> <span class="n">plugin</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">com.tunebrains.beta-release-upload</span><span class="err">&#39;</span></code></pre></div>
 
 <p>Its time for write some code.</p>
 
@@ -343,11 +331,9 @@ apply plugin: 'com.tunebrains.beta-release-upload'
 
 <p>To perform multipart post add apache dependencies to <strong>build.gradle</strong></p>
 
-<p><code>
-compile 'org.apache.httpcomponents:httpmime:4.+'
-compile 'commons-io:commons-io:2.+'
-compile 'org.apache.commons:commons-compress:1.+'
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">compile</span> <span class="-Symbol">&#39;org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">httpcomponents</span><span class="k">:</span><span class="kt">httpmime:</span><span class="err">4</span><span class="kt">.+</span><span class="err">&#39;</span>
+<span class="kt">compile</span> <span class="err">&#39;</span><span class="kt">commons-io:commons-io:</span><span class="err">2</span><span class="kt">.+</span><span class="err">&#39;</span>
+<span class="kt">compile</span> <span class="err">&#39;</span><span class="kt">org.apache.commons:commons-compress:</span><span class="err">1</span><span class="kt">.+</span><span class="err">&#39;</span></code></pre></div>
 
 <p>To get resulting apk for upload we can use task field</p>
 
@@ -652,7 +638,7 @@ compile 'org.apache.commons:commons-compress:1.+'
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-05-18-tetra-card-master-released/" class="ga-link" data-link-type="related" target='_blank'>Tetra Card Master Game released</a></span>
 
                             
             <br/>

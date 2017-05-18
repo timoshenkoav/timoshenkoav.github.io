@@ -221,18 +221,16 @@
 
 <p>Flavors config:</p>
 
-<p><code>
-productFlavors {
-    flavor2 {
-        applicationId 'com.tunebrains.keystoresample2'
-        versionName '10'
-    }
-    flavor1 {
-        applicationId 'com.tunebrains.keystoresample1'
-        versionName '10'
-    }
-}
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">productFlavors</span> <span class="o">{</span>
+    <span class="n">flavor2</span> <span class="o">{</span>
+        <span class="n">applicationId</span> <span class="-Symbol">&#39;com</span><span class="o">.</span><span class="n">tunebrains</span><span class="o">.</span><span class="n">keystoresample2</span><span class="err">&#39;</span>
+        <span class="n">versionName</span> <span class="err">&#39;</span><span class="mi">10</span><span class="err">&#39;</span>
+    <span class="o">}</span>
+    <span class="n">flavor1</span> <span class="o">{</span>
+        <span class="n">applicationId</span> <span class="-Symbol">&#39;com</span><span class="o">.</span><span class="n">tunebrains</span><span class="o">.</span><span class="n">keystoresample1</span><span class="err">&#39;</span>
+        <span class="n">versionName</span> <span class="err">&#39;</span><span class="mi">10</span><span class="err">&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Generate our keystore with multiple aliases:</p>
 
@@ -248,77 +246,67 @@ keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -ke
 
 <p>Configure two signing configs:</p>
 
-<p><code>
-signingConfigs {
-    Flavor1 {
-        storeFile file("release_key.keystore")
-        storePassword "password"
-        keyAlias "flavor1"
-        keyPassword "password1"
-    }
-    Flavor2 {
-        storeFile file("release_key.keystore")
-        storePassword "password"
-        keyAlias "flavor2"
-        keyPassword "password2"
-    }
-}
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">signingConfigs</span> <span class="o">{</span>
+    <span class="nc">Flavor1</span> <span class="o">{</span>
+        <span class="n">storeFile</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;release_key.keystore&quot;</span><span class="o">)</span>
+        <span class="n">storePassword</span> <span class="s">&quot;password&quot;</span>
+        <span class="n">keyAlias</span> <span class="s">&quot;flavor1&quot;</span>
+        <span class="n">keyPassword</span> <span class="s">&quot;password1&quot;</span>
+    <span class="o">}</span>
+    <span class="nc">Flavor2</span> <span class="o">{</span>
+        <span class="n">storeFile</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;release_key.keystore&quot;</span><span class="o">)</span>
+        <span class="n">storePassword</span> <span class="s">&quot;password&quot;</span>
+        <span class="n">keyAlias</span> <span class="s">&quot;flavor2&quot;</span>
+        <span class="n">keyPassword</span> <span class="s">&quot;password2&quot;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Configure release signing for both flavors:</p>
 
-<p><code>
-productFlavors {
-    flavor1 {
-        applicationId 'com.tunebrains.keystoresample1'
-        versionName '10'        
-        signingConfig signingConfigs.Flavor1
-    }
-    flavor2 {
-        applicationId 'com.tunebrains.keystoresample2'
-        versionName '10'        
-        signingConfig signingConfigs.Flavor2
-    }
-}
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">productFlavors</span> <span class="o">{</span>
+    <span class="n">flavor1</span> <span class="o">{</span>
+        <span class="n">applicationId</span> <span class="-Symbol">&#39;com</span><span class="o">.</span><span class="n">tunebrains</span><span class="o">.</span><span class="n">keystoresample1</span><span class="err">&#39;</span>
+        <span class="n">versionName</span> <span class="err">&#39;</span><span class="mi">10</span><span class="err">&#39;</span>        
+        <span class="n">signingConfig</span> <span class="n">signingConfigs</span><span class="o">.</span><span class="nc">Flavor1</span>
+    <span class="o">}</span>
+    <span class="n">flavor2</span> <span class="o">{</span>
+        <span class="n">applicationId</span> <span class="-Symbol">&#39;com</span><span class="o">.</span><span class="n">tunebrains</span><span class="o">.</span><span class="n">keystoresample2</span><span class="err">&#39;</span>
+        <span class="n">versionName</span> <span class="err">&#39;</span><span class="mi">10</span><span class="err">&#39;</span>        
+        <span class="n">signingConfig</span> <span class="n">signingConfigs</span><span class="o">.</span><span class="nc">Flavor2</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Each flavor has its own content provider, which is secured by signature level permission</p>
 
-<p><code>
-&lt;permission android:name="${applicationId}.permission"
-                android:protectionLevel="signature"/&gt;
-&lt;provider
-    android:exported="true"
-    android:authorities="${applicationId}.provider"
-    android:name=".ContentProviderSecured"
-    android:permission="${applicationId}.permission"&gt;
-&lt;/provider&gt;
-</code></p>
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;permission</span> <span class="na">android:name=</span><span class="s">&quot;${applicationId}.permission&quot;</span>
+                <span class="na">android:protectionLevel=</span><span class="s">&quot;signature&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;provider</span>
+    <span class="na">android:exported=</span><span class="s">&quot;true&quot;</span>
+    <span class="na">android:authorities=</span><span class="s">&quot;${applicationId}.provider&quot;</span>
+    <span class="na">android:name=</span><span class="s">&quot;.ContentProviderSecured&quot;</span>
+    <span class="na">android:permission=</span><span class="s">&quot;${applicationId}.permission&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/provider&gt;</span></code></pre></div>
 
 <p>Code for content provider is quite simple, it just return empty <strong>MatrixCursor</strong></p>
 
-<p><code>
-public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-    MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{"key"});    
-    return lMatrixCursor;
-}
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">Cursor</span> <span class="nf">query</span><span class="o">(</span><span class="n">Uri</span> <span class="n">uri</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">projection</span><span class="o">,</span> <span class="n">String</span> <span class="n">selection</span><span class="o">,</span> <span class="n">String</span><span class="o">[]</span> <span class="n">selectionArgs</span><span class="o">,</span> <span class="n">String</span> <span class="n">sortOrder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">MatrixCursor</span> <span class="n">lMatrixCursor</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">MatrixCursor</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">&quot;key&quot;</span><span class="o">});</span>    
+    <span class="k">return</span> <span class="n">lMatrixCursor</span><span class="o">;</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Flavor2 will try to get access to Flavor1 content provider</p>
 
-<p><code>
-Cursor c = null;
-try {
-    c = getContentResolver().query(Uri.parse("content://" + "com.tunebrains.keystoresample1" + "/query"), null, null, null, null);
-    Log.d("Result", "" + c.getCount());
-}catch (Exception e){
-    Log.d("Result", "Cannot access provider");
-}finally {
-    if (c!=null){
-        c.close();
-    }
-}
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Cursor</span> <span class="n">c</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">getContentResolver</span><span class="o">().</span><span class="na">query</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&quot;content://&quot;</span> <span class="o">+</span> <span class="s">&quot;com.tunebrains.keystoresample1&quot;</span> <span class="o">+</span> <span class="s">&quot;/query&quot;</span><span class="o">),</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;Result&quot;</span><span class="o">,</span> <span class="s">&quot;&quot;</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="na">getCount</span><span class="o">());</span>
+<span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+    <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">&quot;Result&quot;</span><span class="o">,</span> <span class="s">&quot;Cannot access provider&quot;</span><span class="o">);</span>
+<span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">c</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+        <span class="n">c</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with <strong>Flavor2</strong> signingConfig.</p>
 
@@ -588,7 +576,7 @@ try {
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-05-18-tetra-card-master-released/" class="ga-link" data-link-type="related" target='_blank'>Tetra Card Master Game released</a></span>
 
                             
             <br/>

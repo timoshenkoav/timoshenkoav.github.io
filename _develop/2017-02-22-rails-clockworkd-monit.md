@@ -7,7 +7,9 @@ tags:
 - capistrano
 - clockworkd
 - rails
+related_id: 14
 meta_description: Clockworkd with monit and capistrano
+excerpt: Clockworkd with monit and capistrano
 ---
 
 1. Add gem

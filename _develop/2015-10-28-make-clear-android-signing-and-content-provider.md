@@ -19,7 +19,7 @@ To make it clear, i've created sample app with multiple flavours. Each flavour c
 
 Flavors config:
 
-```
+{%highlight scala%}
 productFlavors {
     flavor2 {
         applicationId 'com.tunebrains.keystoresample2'
@@ -30,7 +30,7 @@ productFlavors {
         versionName '10'
     }
 }
-```
+{%endhighlight%}
 
 Generate our keystore with multiple aliases:
 
@@ -46,7 +46,7 @@ keytool -genkey -v -keystore release_key.keystore -alias flavor2 -keyalg RSA -ke
 
 Configure two signing configs:
 
-```
+{%highlight scala%}
 signingConfigs {
     Flavor1 {
         storeFile file("release_key.keystore")
@@ -61,11 +61,11 @@ signingConfigs {
         keyPassword "password2"
     }
 }
-```
+{%endhighlight%}
 
 Configure release signing for both flavors:
 
-```
+{%highlight scala%}
 productFlavors {
     flavor1 {
         applicationId 'com.tunebrains.keystoresample1'
@@ -78,11 +78,11 @@ productFlavors {
         signingConfig signingConfigs.Flavor2
     }
 }
-```
+{%endhighlight%}
 
 Each flavor has its own content provider, which is secured by signature level permission
 
-```
+{%highlight xml%}
 <permission android:name="${applicationId}.permission"
                 android:protectionLevel="signature"/>
 <provider
@@ -91,20 +91,20 @@ Each flavor has its own content provider, which is secured by signature level pe
     android:name=".ContentProviderSecured"
     android:permission="${applicationId}.permission">
 </provider>
-```
+{%endhighlight%}
 
 Code for content provider is quite simple, it just return empty **MatrixCursor**
 
-```
+{%highlight java%}
 public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     MatrixCursor lMatrixCursor = new MatrixCursor(new String[]{"key"});    
     return lMatrixCursor;
 }
-```
+{%endhighlight%}
 
 Flavor2 will try to get access to Flavor1 content provider
 
-```
+{%highlight java%}
 Cursor c = null;
 try {
     c = getContentResolver().query(Uri.parse("content://" + "com.tunebrains.keystoresample1" + "/query"), null, null, null, null);
@@ -116,7 +116,7 @@ try {
         c.close();
     }
 }
-```
+{%endhighlight%}
 
 Now its time to install both apps, and check if Flavor2 does NOT have access to Flavor1 data. And its true, everything works well as expected. To get access to Flavor1 data from Flavor2 we need to sign it with **Flavor2** signingConfig.
 

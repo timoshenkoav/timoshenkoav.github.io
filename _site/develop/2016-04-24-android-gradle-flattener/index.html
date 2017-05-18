@@ -217,39 +217,29 @@
 
 <p>To use it in you project add this to top level <strong>build.gradle</strong></p>
 
-<p>```</p>
-
-<p>buildscript {
-    repositories {
-        ///…
-        maven {
-            url uri(‘http://maven.tunebrains.com/content/repositories/android/’)
-        }
-    }
-    dependencies {
-        //…
-        classpath group: ‘com.tunebrains’, name: ‘sourcesetflattener’,
-                version: ‘0.0.1’
-    }
-}</p>
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">buildscript</span> <span class="o">{</span>
+    <span class="n">repositories</span> <span class="o">{</span>
+        <span class="c1">///...</span>
+        <span class="n">maven</span> <span class="o">{</span>
+            <span class="n">url</span> <span class="n">uri</span><span class="o">(</span><span class="-Symbol">&#39;http</span><span class="o">://</span><span class="n">maven</span><span class="o">.</span><span class="n">tunebrains</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">android</span><span class="o">/</span><span class="err">&#39;</span><span class="o">)</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">dependencies</span> <span class="o">{</span>
+        <span class="c1">//...</span>
+        <span class="n">classpath</span> <span class="n">group</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">com.tunebrains</span><span class="err">&#39;</span><span class="o">,</span> <span class="n">name</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">sourcesetflattener</span><span class="err">&#39;</span><span class="o">,</span>
+                <span class="n">version</span><span class="k">:</span> <span class="err">&#39;0</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Apply plugin in project level <strong>build.gradle</strong></p>
 
-<p>```</p>
-
-<p>apply plugin: ‘com.tunebrains.sourcesetflattener’</p>
-
-<p>```</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">apply</span> <span class="n">plugin</span><span class="k">:</span> <span class="err">&#39;</span><span class="kt">com.tunebrains.sourcesetflattener</span><span class="err">&#39;</span></code></pre></div>
 
 <p>Specify root directory to store screen related resources</p>
 
-<p><code>
-flattener{
-    root 'res-screen'
-}
-</code></p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">flattener</span><span class="o">{</span>
+    <span class="n">root</span> <span class="-Symbol">&#39;res</span><span class="o">-</span><span class="n">screen</span><span class="err">&#39;</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Sync Project with gradle files, and it will load directory structure to source set automatically.</p>
 
@@ -525,7 +515,7 @@ flattener{
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-05-18-tetra-card-master-released/" class="ga-link" data-link-type="related" target='_blank'>Tetra Card Master Game released</a></span>
 
                             
             <br/>

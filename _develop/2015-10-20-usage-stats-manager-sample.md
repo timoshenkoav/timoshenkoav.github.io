@@ -19,25 +19,25 @@ I've created sample project demonstrating how to use this api.
 
 First of all you need to declare permission in AndroidManifest.xml
 
-```
+{%highlight xml%}
 
 <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
                      tools:ignore="ProtectedPermissions"/>
 
-```
+{%endhighlight%}
 
 Adding  
 
-```
-tools:ignoe="ProtectedPermissions"
+{%highlight xml%}
+tools:ignore="ProtectedPermissions"
 
-```
+{%endhighlight%}
 
 will disable warning that permission is system level and will not be granted to third-party apps. However, declaring the permission implies intention to use the API and the user of the device can grant permission through the Settings application.
 
 So we need to check if our app was granted this permission
 
-```
+{%highlight java%}
 
 private boolean hasPermission() {
     AppOpsManager appOps = (AppOpsManager)
@@ -47,19 +47,19 @@ private boolean hasPermission() {
     return mode == AppOpsManager.MODE_ALLOWED;
 }
 
-```
+{%endhighlight%}
 
 and if no, ask user to enable it
 
-```
+{%highlight java%}
 startActivityForResult(
     new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 
         MY_PERMISSIONS_REQUEST_PACKAGE_USAGE_STATS);
-```
+{%endhighlight%}
 
 We are launching settings activity to allow app to get usage stats, its not android M default way to deal with permissions, we need to check result in onActivityResult
 
-```
+{%highlight java%}
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode){
@@ -72,13 +72,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             break;
     }
 }
-```
+{%endhighlight%}
 
 In this sample if user did not grant permission we will ask again while permission is not granted. In real application, its better to tell user why do we need this permission and turn off functionality if permission was not granted.
 
 After the permission was eventually granted, we can query information about last active packages
 
-```
+{%highlight java%}
 
 UsageStatsManager lUsageStatsManager = 
     (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
@@ -88,7 +88,7 @@ List<UsageStats> lUsageStatsList =
         System.currentTimeMillis()- TimeUnit.DAYS.toMillis(1),
         System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(1));
 
-```
+{%endhighlight%}
 
 
 There are a lot of methods in UsageStatsManager, that can be usefull for your app. Checkout {% include ga_link.html title="official documentation" url="https://developer.android.com/reference/android/app/usage/UsageStatsManager.html" %}

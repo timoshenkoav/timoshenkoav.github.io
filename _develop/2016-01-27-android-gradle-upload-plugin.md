@@ -22,7 +22,7 @@ In the gradle folder, copy **samples**->**customPlugin**->**plugin** to your wor
 
 Change build.gradle to this strusture
 
-```
+{%highlight scala%}
 apply plugin: 'groovy'
 
 dependencies {
@@ -46,7 +46,7 @@ group = 'com.tunebrains.beta'
 version = '1.0-SNAPSHOT'
 
 
-```
+{%endhighlight%}
 
 ### Configure plugin and deploy to local folder
 
@@ -54,9 +54,9 @@ Rename and change plugin description file under **src**->**main**->**resources**
 
 **File Name:** *com.tunebrains.beta-gradle-beta-upload.properties*
 
-```
+{%highlight ini%}
 implementation-class=com.tunebrains.beta.gradle.UploadApkPlugin
-```
+{%endhighlight%}
 
 Create groovy class **com.tunebrains.beta.gradle.UploadApkPlugin**
 
@@ -78,7 +78,7 @@ class UploadApkPlugin implements Plugin<Project> {
 
 Specify folder to deploy plugin
 
-```
+{%highlight groovy%}
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -86,7 +86,7 @@ uploadArchives {
         }
     }
 }
-```
+{%endhighlight%}
 
 Execute gradle tast to upload archive. Refresh gradle task if required.
 
@@ -97,7 +97,7 @@ Execute gradle tast to upload archive. Refresh gradle task if required.
 
 In top level **build.gradle**
 
-```
+{%highlight scala%}
 buildscript {
     repositories {
         //...
@@ -112,15 +112,15 @@ buildscript {
     }
 }
 
-```
+{%endhighlight%}
 
 In app level **build.gradle**
 
 Apply plugin:
 
-```
+{%highlight scala%}
 apply plugin: 'com.tunebrains.beta-release-upload'
-```
+{%endhighlight%}
 
 Its time for write some code.
 
@@ -150,11 +150,11 @@ pProject.configure(pProject) {
 
 To perform multipart post add apache dependencies to **build.gradle**
 
-```
+{%highlight scala%}
 compile 'org.apache.httpcomponents:httpmime:4.+'
 compile 'commons-io:commons-io:2.+'
 compile 'org.apache.commons:commons-compress:1.+'
-```
+{%endhighlight%}
 
 To get resulting apk for upload we can use task field
 

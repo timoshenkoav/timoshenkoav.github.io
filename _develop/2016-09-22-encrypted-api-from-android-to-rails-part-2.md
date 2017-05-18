@@ -7,6 +7,7 @@ tags:
 - rails
 related_id: 12
 meta_description: Second part of post about passing encrypted data from android client to rails server
+excerpt: Second part of post about passing encrypted data from android client to rails server
 read_more:
 - 1
 ---

@@ -16,7 +16,7 @@ Inspired by <a href="https://medium.com/google-developer-experts/android-project
 
 To use it in you project add this to top level **build.gradle**
 
-```
+{%highlight scala%}
 
 buildscript {
     repositories {
@@ -32,23 +32,23 @@ buildscript {
     }
 }
 
-```
+{%endhighlight%}
 
 Apply plugin in project level **build.gradle**
 
-```
+{%highlight scala%}
 
 apply plugin: 'com.tunebrains.sourcesetflattener'
 
-```
+{%endhighlight%}
 
 Specify root directory to store screen related resources
 
-```
+{%highlight scala%}
 flattener{
     root 'res-screen'
 }
-```
+{%endhighlight%}
 
 Sync Project with gradle files, and it will load directory structure to source set automatically.
 

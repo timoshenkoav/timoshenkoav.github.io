@@ -250,35 +250,32 @@
   <li>Generate random AES key</li>
 </ul>
 
-<p><code>
-public static final int AES_KEY_SIZE = 256 / 8;
-public static String randomKey(int len) {
-    Random generator = new Random();
-    StringBuilder randomStringBuilder = new StringBuilder();
-    int randomLength = len;
-    char tempChar;
-    for (int i = 0; i &lt; randomLength; i++) {
-        tempChar = (char) (generator.nextInt(96) + 32);
-        randomStringBuilder.append(tempChar);
-    }
-    return randomStringBuilder.toString();
-}
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">AES_KEY_SIZE</span> <span class="o">=</span> <span class="mi">256</span> <span class="o">/</span> <span class="mi">8</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">randomKey</span><span class="o">(</span><span class="kt">int</span> <span class="n">len</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Random</span> <span class="n">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Random</span><span class="o">();</span>
+    <span class="n">StringBuilder</span> <span class="n">randomStringBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">StringBuilder</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="n">randomLength</span> <span class="o">=</span> <span class="n">len</span><span class="o">;</span>
+    <span class="kt">char</span> <span class="n">tempChar</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">randomLength</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">tempChar</span> <span class="o">=</span> <span class="o">(</span><span class="kt">char</span><span class="o">)</span> <span class="o">(</span><span class="n">generator</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">96</span><span class="o">)</span> <span class="o">+</span> <span class="mi">32</span><span class="o">);</span>
+        <span class="n">randomStringBuilder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">tempChar</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">randomStringBuilder</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+<span class="o">}</span></code></pre></div>
 
 <ul>
   <li>Encrypt data with AES</li>
 </ul>
 
-<p>```
-public static byte[] AESEncrypt(final String plain, String pKey) throws NoSuchAlgorithmException, NoSuchPaddingException,
-            InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException {</p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">AESEncrypt</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">plain</span><span class="o">,</span> <span class="n">String</span> <span class="n">pKey</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">NoSuchAlgorithmException</span><span class="o">,</span> <span class="n">NoSuchPaddingException</span><span class="o">,</span>
+            <span class="n">InvalidKeyException</span><span class="o">,</span> <span class="n">IllegalBlockSizeException</span><span class="o">,</span> <span class="n">BadPaddingException</span><span class="o">,</span> <span class="n">InvalidKeySpecException</span> <span class="o">{</span>
 
-<pre><code>SecretKeySpec skeySpec = new SecretKeySpec(pKey.getBytes(), "AES");
-Cipher cipher = Cipher.getInstance("AES");
-cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-byte[] encrypted = cipher.doFinal(plain.getBytes());
-return encrypted; } ```
-</code></pre>
+    <span class="n">SecretKeySpec</span> <span class="n">skeySpec</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">SecretKeySpec</span><span class="o">(</span><span class="n">pKey</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(),</span> <span class="s">&quot;AES&quot;</span><span class="o">);</span>
+    <span class="n">Cipher</span> <span class="n">cipher</span> <span class="o">=</span> <span class="n">Cipher</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;AES&quot;</span><span class="o">);</span>
+    <span class="n">cipher</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="n">Cipher</span><span class="o">.</span><span class="na">ENCRYPT_MODE</span><span class="o">,</span> <span class="n">skeySpec</span><span class="o">);</span>
+    <span class="kt">byte</span><span class="o">[]</span> <span class="n">encrypted</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="na">doFinal</span><span class="o">(</span><span class="n">plain</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">encrypted</span><span class="o">;</span>
+<span class="o">}</span></code></pre></div>
 
 <ul>
   <li>Encrypt key using RSA</li>
@@ -290,47 +287,41 @@ return encrypted; } ```
 
 <p>To unify reading key we can use InputStream as source, so it can be FileInputStream, ByteArrayInputStream or any other source:</p>
 
-<p><code>
-public static byte[] readKeyWrapped(InputStream pInputStream) throws IOException {
-    String lStringKey = read(pInputStream);
-    String lRawString = stripKeyHeaders(lStringKey);
-    return base64(lRawString);
-}
-public static String stripKeyHeaders(String key) {
-    StringBuilder strippedKey = new StringBuilder();
-    String lines[] = key.split("\n");
-    for (String line : lines) {
-        if (!line.contains("PRIVATE KEY") &amp;&amp; !line.contains("PUBLIC KEY") &amp;&amp; !TextUtils.isEmpty(line.trim())) {
-            strippedKey.append(line.trim());
-        }
-    }
-    return strippedKey.toString().trim();
-}
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">readKeyWrapped</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">pInputStream</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">lStringKey</span> <span class="o">=</span> <span class="n">read</span><span class="o">(</span><span class="n">pInputStream</span><span class="o">);</span>
+    <span class="n">String</span> <span class="n">lRawString</span> <span class="o">=</span> <span class="n">stripKeyHeaders</span><span class="o">(</span><span class="n">lStringKey</span><span class="o">);</span>
+    <span class="k">return</span> <span class="nf">base64</span><span class="o">(</span><span class="n">lRawString</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">stripKeyHeaders</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">StringBuilder</span> <span class="n">strippedKey</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">StringBuilder</span><span class="o">();</span>
+    <span class="n">String</span> <span class="n">lines</span><span class="o">[]</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&quot;\n&quot;</span><span class="o">);</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">line</span> <span class="o">:</span> <span class="n">lines</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">line</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&quot;PRIVATE KEY&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">line</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&quot;PUBLIC KEY&quot;</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">TextUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">line</span><span class="o">.</span><span class="na">trim</span><span class="o">()))</span> <span class="o">{</span>
+            <span class="n">strippedKey</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">.</span><span class="na">trim</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">strippedKey</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">trim</span><span class="o">();</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Using public key, we can encrypt data</p>
 
-<p><code>
-public static byte[] RSAEncrypt(final byte[] plain, byte[] pKey) throws NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException, InvalidKeyException {
-    X509EncodedKeySpec spec = new X509EncodedKeySpec(pKey);
-    KeyFactory kf = KeyFactory.getInstance("RSA");
-    PublicKey publicKey = kf.generatePublic(spec);
-    Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-    cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-    byte []encryptedBytes = cipher.doFinal(plain);
-    return encryptedBytes;
-}
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">RSAEncrypt</span><span class="o">(</span><span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">plain</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">pKey</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">NoSuchPaddingException</span><span class="o">,</span> <span class="n">NoSuchAlgorithmException</span><span class="o">,</span> <span class="n">BadPaddingException</span><span class="o">,</span> <span class="n">IllegalBlockSizeException</span><span class="o">,</span> <span class="n">InvalidKeySpecException</span><span class="o">,</span> <span class="n">InvalidKeyException</span> <span class="o">{</span>
+    <span class="n">X509EncodedKeySpec</span> <span class="n">spec</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">X509EncodedKeySpec</span><span class="o">(</span><span class="n">pKey</span><span class="o">);</span>
+    <span class="n">KeyFactory</span> <span class="n">kf</span> <span class="o">=</span> <span class="n">KeyFactory</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;RSA&quot;</span><span class="o">);</span>
+    <span class="n">PublicKey</span> <span class="n">publicKey</span> <span class="o">=</span> <span class="n">kf</span><span class="o">.</span><span class="na">generatePublic</span><span class="o">(</span><span class="n">spec</span><span class="o">);</span>
+    <span class="n">Cipher</span> <span class="n">cipher</span> <span class="o">=</span> <span class="n">Cipher</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="s">&quot;RSA/ECB/PKCS1Padding&quot;</span><span class="o">);</span>
+    <span class="n">cipher</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="n">Cipher</span><span class="o">.</span><span class="na">ENCRYPT_MODE</span><span class="o">,</span> <span class="n">publicKey</span><span class="o">);</span>
+    <span class="kt">byte</span> <span class="o">[]</span><span class="n">encryptedBytes</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="na">doFinal</span><span class="o">(</span><span class="n">plain</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">encryptedBytes</span><span class="o">;</span>
+<span class="o">}</span></code></pre></div>
 
 <p>Now we have everything encrypted and we can send data to our API. Body will be send as base64 request body, encrypted key - as request header.</p>
 
-<p><code>
-byte[] lRSAKey = readKeyWrapped(getResources().openRawResource(R.raw.api_public));
-String lAESKey =  randomKey(AES_KEY_SIZE);      
-String lEncryptedKey = Base64.encode(RSAEncrypt(lAESKey, lAESKey), 0);
-String lEncryptedBody = Base64.encode(AESEncrypt(body, lAESKey), 0);
-post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
-</code></p>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">byte</span><span class="o">[]</span> <span class="n">lRSAKey</span> <span class="o">=</span> <span class="n">readKeyWrapped</span><span class="o">(</span><span class="n">getResources</span><span class="o">().</span><span class="na">openRawResource</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">raw</span><span class="o">.</span><span class="na">api_public</span><span class="o">));</span>
+<span class="n">String</span> <span class="n">lAESKey</span> <span class="o">=</span>  <span class="n">randomKey</span><span class="o">(</span><span class="n">AES_KEY_SIZE</span><span class="o">);</span>      
+<span class="n">String</span> <span class="n">lEncryptedKey</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">RSAEncrypt</span><span class="o">(</span><span class="n">lAESKey</span><span class="o">,</span> <span class="n">lAESKey</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">String</span> <span class="n">lEncryptedBody</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encode</span><span class="o">(</span><span class="n">AESEncrypt</span><span class="o">(</span><span class="n">body</span><span class="o">,</span> <span class="n">lAESKey</span><span class="o">),</span> <span class="mi">0</span><span class="o">);</span>
+<span class="n">post</span><span class="o">(</span><span class="s">&quot;http://api-domain.com&quot;</span><span class="o">,</span> <span class="n">lEncryptedBody</span><span class="o">,</span> <span class="n">lEncryptedKey</span><span class="o">);</span></code></pre></div>
 
 <p><a href="/develop/2016-09-22-encrypted-api-from-android-to-rails-part-2/">Part 2</a></p>
 
@@ -598,7 +589,7 @@ post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-05-18-tetra-card-master-released/" class="ga-link" data-link-type="related" target='_blank'>Tetra Card Master Game released</a></span>
 
                             
             <br/>
@@ -760,7 +751,7 @@ post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-02-06-rails-ember-capistrano-deploy/" class="ga-link" data-link-type="related" target='_blank'>Rails+Ember-cli Capistrano deploy</a></span>
 
                             
             <br/>
@@ -784,7 +775,7 @@ post("http://api-domain.com", lEncryptedBody, lEncryptedKey);
             
             
             
-            <span><a href="/develop/2015-10-02-welcome/" class="ga-link" data-link-type="related" target='_blank'>Welcome</a></span>
+            <span><a href="/develop/2017-02-22-rails-clockworkd-monit/" class="ga-link" data-link-type="related" target='_blank'>Rails Clockworkd gem with capistrano and monit</a></span>
 
                             
             <br/>

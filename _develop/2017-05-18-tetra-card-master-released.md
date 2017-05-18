@@ -7,6 +7,7 @@ tags:
 - game
 - tetramaster
 
+related_id: 15
 meta_description: My first game for android released
 excerpt: Tetra Card Master - my first android game released
 ---

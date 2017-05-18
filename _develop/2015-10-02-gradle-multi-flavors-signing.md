@@ -17,7 +17,7 @@ After reading couple of articles, i end up with this solution:
 
 Create `signs.gradle` under project folder:
 
-```
+{%highlight scala%}
 def fillDefaults(signingConfig) {
     signingConfig.storeFile = null
     signingConfig.storePassword = ''
@@ -59,17 +59,17 @@ def setupSigning(name) {
 ext {
     setupSigning = this.&setupSigning
 }
-```
+{%endhighlight%}
 
 Apply it in project `build.gradle` in the beggining of the file
 
-```
+{%highlight scala%}
 apply from: 'signs.gradle'
-```
+{%endhighlight%}
 
 Add callbacks when `signingConfigs` and `productFlavors` is added:
 
-```
+{%highlight scala%}
 android.signingConfigs.whenObjectAdded { signing ->
     setupSigning(signing.name)
 }
@@ -77,7 +77,7 @@ android.signingConfigs.whenObjectAdded { signing ->
 android.productFlavors.whenObjectAdded { flavor ->
     flavor.signingConfig = android.signingConfigs[flavor.name]
 }
-```
+{%endhighlight%}
 
 The first will call our function with added signing name
 
@@ -85,32 +85,36 @@ The second will set `signingConfig` for flavor based on loaded config
 
 Keystore information is stored in files named `<flavor_name>.info` under `certs` folder under project subfolder. The format of this file is often used to storing `signed.properties'
 
-```
+{%highlight ini%}
 storeFile=certs/<filename>
+
 storePassword=''
+
 keyAlias=''
+
 keyPassword=''
-```
+
+{%endhighlight%}
 
 ## Usage
 
 Add flavor configuration
 
-```
+{%highlight scala%}
 productFlavors {
 	app1 {    
 	    applicationId 'com.sample.app1'   
 	}
 }
-```
+{%endhighlight%}
 
 Register signing config with the same name as flavor
 
-```
+{%highlight scala%}
 signingConfigs {
 	app1
 }
-```
+{%endhighlight%}
 
 Create `app1.info` file under `certs` directory with information about the keystore.
 

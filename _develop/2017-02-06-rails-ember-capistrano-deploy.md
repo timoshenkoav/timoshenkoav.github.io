@@ -5,7 +5,9 @@ date:   2017-02-06 14:31:18
 tags: 
 - ember
 - rails
-meta_description: Deployer rails + ember app with capistano
+related_id: 13
+meta_description: Deploy rails + ember app with capistano
+excerpt: Deploy rails + ember app with capistano
 ---
 
 I. Server Setup
