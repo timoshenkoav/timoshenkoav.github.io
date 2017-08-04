@@ -9,9 +9,11 @@ comments: true
     <p class="post-meta">{{ page.date | date: "%b %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
   </header>
 
+  {% include inpage_ads.html %}                            
   <article class="post-content">
     {{ content }}
   </article>
+  {% include inpage_ads.html %}
   <tags>
 	  {% for tag in page.tags %}
 	  	<span class="label label-default">{{tag}}</span>  	

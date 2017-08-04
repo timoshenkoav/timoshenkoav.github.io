@@ -9,6 +9,8 @@ show_in_navigation: true
 
   <ul class="post-list">    
   	{% assign items = site.develop | sort: 'date' | reverse %}
+    {% assign random = site.time | date: "%s%N" | modulo: items.size %}
+    {% assign i = 0 %}
     {% for post in items %}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
@@ -20,6 +22,10 @@ show_in_navigation: true
           {{post.excerpt}}
         </div>
       </li>
+      {%if random == i %}
+        {% include infeed_ads.html %}                            
+      {%endif%}
+      {%assign i = i+1%}
     {% endfor %}
   </ul>
 

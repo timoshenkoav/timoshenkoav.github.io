@@ -9,9 +9,9 @@ layout: default
   <ul class="post-list">    
     {% assign items = site.documents | sort: 'date' | reverse %}
     {% for post in items %}
+
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
         <h2>
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
@@ -19,6 +19,7 @@ layout: default
           {{post.excerpt}}
         </div>
       </li>
+      {% include infeed_ads.html %}                            
     {% endfor %}
   </ul>
 
